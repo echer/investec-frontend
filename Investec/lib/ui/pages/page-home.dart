@@ -12,6 +12,7 @@ class PageHome extends StatelessWidget {
       appBar: AppBar(
         actions: [],
         title: Text('Investec - Home Page'),
+        centerTitle: true,
       ),
       drawer: Drawer(
         child: ListView(

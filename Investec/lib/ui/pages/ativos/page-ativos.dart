@@ -1,27 +1,34 @@
-import 'package:Investec/data/service/service-locator.dart';
-import 'package:Investec/ui/pages/carteira/adapter/lista-carteira-item.dart';
-import 'package:Investec/ui/pages/carteira/carteira-view-model.dart';
-import 'package:Investec/ui/pages/carteira/page-cadastro-carteira.dart';
-import 'package:Investec/ui/pages/shimmer/lista-shimmer.dart';
+import 'package:Investec/data/domain/carteira.dart';
+import 'package:Investec/ui/pages/ativos/adapter/lista-ativo-item.dart';
+import 'package:Investec/ui/pages/ativos/page-cadastro-ativo.dart';
 import 'package:flutter/material.dart';
+
+import 'package:Investec/data/service/service-locator.dart';
+import 'package:Investec/ui/pages/shimmer/lista-shimmer.dart';
 import 'package:provider/provider.dart';
 
-class PageCarteira extends StatefulWidget {
-  static const routeName = '/carteira';
+import 'ativos-view-model.dart';
+
+class PageAtivosCarteira extends StatefulWidget {
+  static const routeName = '/carteira/ativos';
+
+  final Carteira carteira;
+
+  PageAtivosCarteira(this.carteira);
 
   @override
-  _PageCarteira createState() => _PageCarteira();
+  _PageAtivosCarteira createState() => _PageAtivosCarteira();
 }
 
-class _PageCarteira extends State<PageCarteira> {
-  CarteiraViewModel model = serviceLocator<CarteiraViewModel>();
+class _PageAtivosCarteira extends State<PageAtivosCarteira> {
+  AtivosViewModel model = serviceLocator<AtivosViewModel>();
 
   bool loading = false;
 
   @override
   void initState() {
     loading = true;
-    model.list();
+    model.list(widget.carteira.id);
     super.initState();
   }
 
@@ -35,27 +42,27 @@ class _PageCarteira extends State<PageCarteira> {
             onPressed: () {},
           ),
         ],
-        title: Text('Investec - Carteiras'),
+        title: Text('Investec - Ativos: ${widget.carteira.nomeCarteira}'),
       ),
       body: SafeArea(
         child: ChangeNotifierProvider(
-          create: (context) => CarteiraViewModel(),
-          child: ChangeNotifierProvider<CarteiraViewModel>(
+          create: (context) => AtivosViewModel(),
+          child: ChangeNotifierProvider<AtivosViewModel>(
             create: (context) => model,
-            child: Consumer<CarteiraViewModel>(
+            child: Consumer<AtivosViewModel>(
               builder: (context, value, child) {
                 if (loading) {
                   loading = false;
                   return ShimmerList();
                 } else {
-                  if (model.carteiras.length > 0) {
+                  if (model.ativos.length > 0) {
                     return ListView.builder(
-                      itemCount: model.carteiras.length,
+                      itemCount: model.ativos.length,
                       itemBuilder: (context, index) {
                         return Column(
                           children: [
                             Card(
-                              child: ListaCarteiraItem(model.carteiras[index]),
+                              child: ListaAtivoItem(model.ativos[index]),
                             ),
                             Divider(
                               color: Colors.grey,
@@ -77,7 +84,7 @@ class _PageCarteira extends State<PageCarteira> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.of(context).pushNamed(PageCadastroCarteira.routeName);
+          Navigator.of(context).pushNamed(PageCadastroAtivo.routeName);
         },
         child: Icon(Icons.add),
       ),

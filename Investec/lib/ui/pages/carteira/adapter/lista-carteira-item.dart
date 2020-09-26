@@ -1,5 +1,5 @@
 import 'package:Investec/data/domain/carteira.dart';
-import 'package:Investec/ui/pages/ativos/page-carteira-ativos.dart';
+import 'package:Investec/ui/pages/ativos/page-ativos.dart';
 import 'package:Investec/ui/pages/carteira/page-cadastro-carteira.dart';
 import 'package:flutter/material.dart';
 

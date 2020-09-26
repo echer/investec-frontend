@@ -1,15 +1,20 @@
 import 'package:Investec/data/domain/carteira.dart';
 import 'package:flutter/material.dart';
 
-class PageCadastroCarteira extends StatelessWidget {
+class PageCadastroCarteira extends StatefulWidget {
   static const routeName = '/cadastro/carteira';
 
-  PageCadastroCarteira();
+  final Carteira carteira;
+
+  PageCadastroCarteira(this.carteira);
 
   @override
-  Widget build(BuildContext context) {
-    final Carteira carteira = ModalRoute.of(context).settings.arguments;
+  _PageCadastroCarteira createState() => _PageCadastroCarteira();
+}
 
+class _PageCadastroCarteira extends State<PageCadastroCarteira> {
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         actions: [
@@ -22,9 +27,9 @@ class PageCadastroCarteira extends StatelessWidget {
             onPressed: () => {},
           ),
         ],
-        title: Text(carteira == null || carteira.id.isEmpty
+        title: Text(widget.carteira == null || widget.carteira.id.isEmpty
             ? 'Investec - Nova Carteira'
-            : 'Investec - Editar: ${carteira.id}'),
+            : 'Investec - Editar: ${widget.carteira.id}'),
       ),
       body: SafeArea(
         child: Center(

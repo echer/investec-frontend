@@ -1,14 +1,20 @@
 import 'package:Investec/data/domain/carteira-ativo.dart';
 import 'package:flutter/material.dart';
 
-class PageCadastroAtivo extends StatelessWidget {
+class PageCadastroAtivo extends StatefulWidget {
   static const routeName = '/cadastro/ativo';
 
-  PageCadastroAtivo();
+  final AtivosCarteira ativo;
+
+  PageCadastroAtivo(this.ativo);
 
   @override
+  _PageCadastroAtivo createState() => _PageCadastroAtivo();
+}
+
+class _PageCadastroAtivo extends State<PageCadastroAtivo> {
+  @override
   Widget build(BuildContext context) {
-    final AtivosCarteira ativo = ModalRoute.of(context).settings.arguments;
     return Scaffold(
       appBar: AppBar(
         actions: [
@@ -21,9 +27,9 @@ class PageCadastroAtivo extends StatelessWidget {
             onPressed: () => {},
           ),
         ],
-        title: Text(ativo == null || ativo.id.isEmpty
+        title: Text(widget.ativo == null || widget.ativo.id.isEmpty
             ? 'Investec - Novo Ativo'
-            : 'Investec - Editar: ${ativo.id}'),
+            : 'Investec - Editar: ${widget.ativo.id}'),
       ),
       body: SafeArea(
         child: Center(

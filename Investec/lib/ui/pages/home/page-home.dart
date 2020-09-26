@@ -1,4 +1,4 @@
-import 'package:Investec/ui/pages/page-carteira.dart';
+import 'package:Investec/ui/pages/carteira/page-carteira.dart';
 import 'package:flutter/material.dart';
 
 class PageHome extends StatelessWidget {

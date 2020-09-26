@@ -1,6 +1,6 @@
 import 'package:Investec/data/domain/carteira.dart';
-import 'package:Investec/ui/pages/page-cadastro-carteira.dart';
-import 'package:Investec/ui/pages/page-carteira-ativos.dart';
+import 'package:Investec/ui/pages/ativos/page-carteira-ativos.dart';
+import 'package:Investec/ui/pages/carteira/page-cadastro-carteira.dart';
 import 'package:flutter/material.dart';
 
 class ListaCarteiraItem extends StatelessWidget {
@@ -12,16 +12,14 @@ class ListaCarteiraItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       title: Text(
-        'Nome: ${model.nomeCarteira}',
+        'Carteira: ${model.nomeCarteira}',
         style: TextStyle(fontWeight: FontWeight.bold),
         maxLines: 1,
         overflow: TextOverflow.ellipsis,
       ),
       subtitle: Text(
-        'Data: ${model.dtCriacao}',
+        'Saldo: R\$ ${model.saldoCarteira} \nVariação: ${model.varCarteira}% \nMeta: R\$ ${model.metaCarteira} \nData: ${model.dtCriacao}',
         style: TextStyle(fontWeight: FontWeight.normal),
-        maxLines: 3,
-        overflow: TextOverflow.ellipsis,
       ),
       trailing: IconButton(
         icon: Icon(
@@ -37,9 +35,6 @@ class ListaCarteiraItem extends StatelessWidget {
       onTap: () {
         Navigator.of(context)
             .pushNamed(PageAtivosCarteira.routeName, arguments: model);
-      },
-      onLongPress: () => {
-        //TODO EXCLUIR
       },
     );
   }

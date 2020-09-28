@@ -10,14 +10,16 @@ Future<void> main() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   setupServiceLocator();
   if (!prefs.containsKey("logged") ||
-      prefs.getString("logged").isNotEmpty ||
-      !await validKey()) {
+      prefs.getString("logged").isEmpty ||
+      !prefs.containsKey("token") ||
+      prefs.getString("token").isEmpty ||
+      !await validKey(prefs.getString("token"))) {
     runApp(LoginApp());
   } else {
     runApp(App());
   }
 }
 
-Future<bool> validKey() async {
+Future<bool> validKey(String token) async {
   return true;
 }

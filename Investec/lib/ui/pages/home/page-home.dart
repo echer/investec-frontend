@@ -1,5 +1,7 @@
+import 'package:Investec/LoginApp.dart';
 import 'package:Investec/ui/pages/carteira/page-carteira.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class PageHome extends StatelessWidget {
   static const routeName = '/';
@@ -21,14 +23,24 @@ class PageHome extends StatelessWidget {
               decoration: BoxDecoration(
                 color: Theme.of(context).primaryColor,
               ),
-              child: Text('Menu'),
+              child: Text('Investec'),
             ),
             ListTile(
               leading: Icon(Icons.money_off),
               title: Text('Minhas Carteiras'),
               onTap: () =>
                   {Navigator.of(context).pushNamed(PageCarteira.routeName)},
-            )
+            ),
+            ListTile(
+              leading: Icon(Icons.exit_to_app),
+              title: Text('Logout'),
+              onTap: () async {
+                SharedPreferences prefs = await SharedPreferences.getInstance();
+                prefs.setString("logged", "");
+                prefs.setString("token", "");
+                runApp(LoginApp());
+              },
+            ),
           ],
         ),
       ),

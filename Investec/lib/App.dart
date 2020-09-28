@@ -7,8 +7,6 @@ import 'package:flutter/material.dart';
 import 'ui/pages/ativos/page-ativos.dart';
 
 class App extends StatelessWidget {
-  static const String authorization =
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6ImRhYTdlZWFhLTQ5ODAtNDBmMS05NTUzLWFlNzllYzRlZmNhOCIsIm5iZiI6MTYwMTE2MTAzNSwiZXhwIjoxNjAxMTc5MDM1LCJpYXQiOjE2MDExNjEwMzV9.P9qkR0zpnm9CFnnC7RJUiBXEic6beZcm2TAaeHHw7GE";
   @override
   Widget build(BuildContext context) {
     return MaterialApp(

@@ -17,7 +17,7 @@ class _UsuarioAPI implements UsuarioAPI {
   String baseUrl;
 
   @override
-  list(usuario) async {
+  login(usuario) async {
     ArgumentError.checkNotNull(usuario, 'usuario');
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};

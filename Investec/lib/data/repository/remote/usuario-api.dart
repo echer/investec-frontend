@@ -1,13 +1,14 @@
 import 'package:Investec/App.dart';
-import 'package:Investec/data/domain/ativo.dart';
+import 'package:Investec/data/domain/usuario.dart';
+import 'package:Investec/data/repository/remote/dto/login.dart';
 import 'package:dio/dio.dart';
 import 'package:retrofit/retrofit.dart';
 
-part 'ativos-api.g.dart';
+part 'usuario-api.g.dart';
 
 @RestApi(baseUrl: "https://investec-backend.herokuapp.com/v1/")
-abstract class AtivosAPI {
-  factory AtivosAPI({String baseUrl}) {
+abstract class UsuarioAPI {
+  factory UsuarioAPI({String baseUrl}) {
     Dio dio = Dio();
     dio.options = BaseOptions(receiveTimeout: 5000, connectTimeout: 5000);
     dio.interceptors
@@ -17,9 +18,9 @@ abstract class AtivosAPI {
       dio.interceptors.requestLock.unlock();
       return options;
     }));
-    return _AtivosAPI(dio, baseUrl: baseUrl);
+    return _UsuarioAPI(dio, baseUrl: baseUrl);
   }
 
-  @GET("carteira/:carteira/ativos")
-  Future<List<Ativo>> list(@Path("carteira") String carteira);
+  @POST("usuario/login")
+  Future<Login> list(@Body() Usuario usuario);
 }

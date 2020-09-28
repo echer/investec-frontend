@@ -1,28 +1,25 @@
-import 'dart:convert';
 import 'package:Investec/App.dart';
 import 'package:Investec/data/domain/carteira.dart';
-import 'package:http/http.dart' as http;
+import 'package:dio/dio.dart';
+import 'package:retrofit/retrofit.dart';
 
-class CarteiraAPIImpl {
-  String endpoint = "https://investec-backend.herokuapp.com/v1/carteira";
+part 'carteira-api.g.dart';
 
-  Future<List<Carteira>> list() async {
-    final response = await http.get(
-      endpoint,
-      headers: {
-        "Authorization": "Bearer ${App.authorization}",
-      },
-    );
-
-    if (response.statusCode == 200) {
-      final Iterable json = jsonDecode(response.body);
-      final List<Carteira> list =
-          json.map((resp) => Carteira.fromJson(resp)).toList();
-      return list;
-    } else {
-      print("Error API");
-      //throw Exception('Failed process request:');
-      return [];
-    }
+@RestApi(baseUrl: "https://investec-backend.herokuapp.com/v1/")
+abstract class CarteiraAPI {
+  factory CarteiraAPI({String baseUrl}) {
+    Dio dio = Dio();
+    dio.options = BaseOptions(receiveTimeout: 5000, connectTimeout: 5000);
+    dio.interceptors
+        .add(InterceptorsWrapper(onRequest: (Options options) async {
+      dio.interceptors.requestLock.lock();
+      options.headers["Authorization"] = "Bearer ${App.authorization}";
+      dio.interceptors.requestLock.unlock();
+      return options;
+    }));
+    return _CarteiraAPI(dio, baseUrl: baseUrl);
   }
+
+  @GET("carteira")
+  Future<List<Carteira>> list();
 }

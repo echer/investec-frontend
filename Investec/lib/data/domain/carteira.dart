@@ -1,5 +1,8 @@
-import 'package:Investec/data/repository/remote/json-utils.dart';
+import 'package:json_annotation/json_annotation.dart';
 
+part 'carteira.g.dart';
+
+@JsonSerializable()
 class Carteira {
   String id;
   String nomeCarteira;
@@ -16,13 +19,7 @@ class Carteira {
       this.saldoCarteira,
       this.varCarteira});
 
-  factory Carteira.fromJson(Map<String, dynamic> json) {
-    return Carteira(
-        id: json['id'],
-        nomeCarteira: json['nomeCarteira'],
-        dtCriacao: json['dtCriacao'],
-        metaCarteira: JsonUtils.parseDouble(json['metaCarteira']),
-        saldoCarteira: JsonUtils.parseDouble(json['saldoCarteira']),
-        varCarteira: JsonUtils.parseDouble(json['varCarteira']));
-  }
+  factory Carteira.fromJson(Map<String, dynamic> json) =>
+      _$CarteiraFromJson(json);
+  Map<String, dynamic> toJson() => _$CarteiraToJson(this);
 }

@@ -1,10 +1,10 @@
-import 'package:Investec/data/domain/carteira-ativo.dart';
+import 'package:Investec/data/domain/ativo.dart';
 import 'package:flutter/material.dart';
 
 class PageCadastroAtivo extends StatefulWidget {
   static const routeName = '/cadastro/ativo';
 
-  final AtivosCarteira ativo;
+  final Ativo ativo;
 
   PageCadastroAtivo(this.ativo);
 

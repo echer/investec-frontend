@@ -1,9 +1,9 @@
-import 'package:Investec/data/domain/carteira-ativo.dart';
+import 'package:Investec/data/domain/ativo.dart';
 import 'package:Investec/ui/pages/ativos/page-cadastro-ativo.dart';
 import 'package:flutter/material.dart';
 
 class ListaAtivoItem extends StatelessWidget {
-  final AtivosCarteira model;
+  final Ativo model;
 
   ListaAtivoItem(this.model);
 

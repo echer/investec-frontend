@@ -6,7 +6,7 @@ import 'package:dio/dio.dart';
 
 class UsuarioRepository {
   Future<Login> login(Usuario usuario) async {
-    Dio dio = await serviceLocator<Dio>();
+    Dio dio = getIt<Dio>();
     UsuarioAPI api = UsuarioAPI(dio);
     return api.login(usuario);
   }

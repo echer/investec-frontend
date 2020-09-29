@@ -15,7 +15,16 @@ Login _$LoginFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$LoginToJson(Login instance) => <String, dynamic>{
-      'usuario': instance.usuario,
-      'token': instance.token,
-    };
+Map<String, dynamic> _$LoginToJson(Login instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('usuario', instance.usuario);
+  writeNotNull('token', instance.token);
+  return val;
+}

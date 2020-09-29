@@ -2,7 +2,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'ativo.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(includeIfNull: false)
 class Ativo {
   String id;
   String ticker;

@@ -5,7 +5,7 @@ import 'package:dio/dio.dart';
 
 class AtivosRepository {
   Future<List<Ativo>> list(String carteira) async {
-    Dio dio = await serviceLocator<Dio>();
+    Dio dio = getIt<Dio>();
     AtivosAPI api = AtivosAPI(dio);
     return api.list(carteira);
   }

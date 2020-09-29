@@ -18,12 +18,21 @@ Ativo _$AtivoFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$AtivoToJson(Ativo instance) => <String, dynamic>{
-      'id': instance.id,
-      'ticker': instance.ticker,
-      'pmAtivo': instance.pmAtivo,
-      'qtdAtivo': instance.qtdAtivo,
-      'stopGain': instance.stopGain,
-      'stopLoss': instance.stopLoss,
-      'vlrInvestido': instance.vlrInvestido,
-    };
+Map<String, dynamic> _$AtivoToJson(Ativo instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('id', instance.id);
+  writeNotNull('ticker', instance.ticker);
+  writeNotNull('pmAtivo', instance.pmAtivo);
+  writeNotNull('qtdAtivo', instance.qtdAtivo);
+  writeNotNull('stopGain', instance.stopGain);
+  writeNotNull('stopLoss', instance.stopLoss);
+  writeNotNull('vlrInvestido', instance.vlrInvestido);
+  return val;
+}

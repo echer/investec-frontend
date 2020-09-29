@@ -1,9 +1,11 @@
+import 'package:Investec/data/domain/carteira.dart';
 import 'package:Investec/data/service/service-locator.dart';
 import 'package:Investec/ui/pages/carteira/adapter/lista-carteira-item.dart';
 import 'package:Investec/ui/pages/carteira/carteira-view-model.dart';
 import 'package:Investec/ui/pages/carteira/page-cadastro-carteira.dart';
 import 'package:Investec/ui/pages/shimmer/lista-shimmer.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class PageCarteira extends StatefulWidget {
@@ -14,14 +16,17 @@ class PageCarteira extends StatefulWidget {
 }
 
 class _PageCarteira extends State<PageCarteira> {
-  CarteiraViewModel model = serviceLocator<CarteiraViewModel>();
+  CarteiraViewModel model = getIt<CarteiraViewModel>();
 
   bool loading = false;
 
   @override
   void initState() {
     loading = true;
-    model.list();
+    model.list().catchError((error) {
+      print(error);
+      model.notifyListeners();
+    });
     super.initState();
   }
 
@@ -39,7 +44,7 @@ class _PageCarteira extends State<PageCarteira> {
       ),
       body: SafeArea(
         child: ChangeNotifierProvider(
-          create: (context) => CarteiraViewModel(),
+          create: (context) => model,
           child: ChangeNotifierProvider<CarteiraViewModel>(
             create: (context) => model,
             child: Consumer<CarteiraViewModel>(
@@ -77,7 +82,11 @@ class _PageCarteira extends State<PageCarteira> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.of(context).pushNamed(PageCadastroCarteira.routeName);
+          DateTime now = DateTime.now();
+          Carteira carteira =
+              Carteira(dtCriacao: DateFormat('dd/MM/yyyy').format(now));
+          Navigator.of(context)
+              .pushNamed(PageCadastroCarteira.routeName, arguments: carteira);
         },
         child: Icon(Icons.add),
       ),

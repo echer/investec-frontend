@@ -2,7 +2,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'carteira.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(includeIfNull: false)
 class Carteira {
   String id;
   String nomeCarteira;

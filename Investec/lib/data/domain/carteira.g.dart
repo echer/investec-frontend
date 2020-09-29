@@ -17,11 +17,20 @@ Carteira _$CarteiraFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$CarteiraToJson(Carteira instance) => <String, dynamic>{
-      'id': instance.id,
-      'nomeCarteira': instance.nomeCarteira,
-      'dtCriacao': instance.dtCriacao,
-      'metaCarteira': instance.metaCarteira,
-      'saldoCarteira': instance.saldoCarteira,
-      'varCarteira': instance.varCarteira,
-    };
+Map<String, dynamic> _$CarteiraToJson(Carteira instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('id', instance.id);
+  writeNotNull('nomeCarteira', instance.nomeCarteira);
+  writeNotNull('dtCriacao', instance.dtCriacao);
+  writeNotNull('metaCarteira', instance.metaCarteira);
+  writeNotNull('saldoCarteira', instance.saldoCarteira);
+  writeNotNull('varCarteira', instance.varCarteira);
+  return val;
+}

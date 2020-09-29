@@ -5,8 +5,20 @@ import 'package:dio/dio.dart';
 
 class CarteiraRepository {
   Future<List<Carteira>> list() async {
-    Dio dio = await serviceLocator<Dio>();
+    Dio dio = getIt<Dio>();
     CarteiraAPI api = CarteiraAPI(dio);
     return api.list();
+  }
+
+  Future create(Carteira carteira) async {
+    Dio dio = getIt<Dio>();
+    CarteiraAPI api = CarteiraAPI(dio);
+    return api.create(carteira);
+  }
+
+  Future update(Carteira carteira) async {
+    Dio dio = getIt<Dio>();
+    CarteiraAPI api = CarteiraAPI(dio);
+    return api.update(carteira.id, carteira);
   }
 }

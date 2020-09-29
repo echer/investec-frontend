@@ -21,14 +21,17 @@ class PageAtivosCarteira extends StatefulWidget {
 }
 
 class _PageAtivosCarteira extends State<PageAtivosCarteira> {
-  AtivosViewModel model = serviceLocator<AtivosViewModel>();
+  AtivosViewModel model = getIt<AtivosViewModel>();
 
   bool loading = false;
 
   @override
   void initState() {
     loading = true;
-    model.list(widget.carteira.id);
+    model.list(widget.carteira.id).catchError((error) {
+      print(error);
+      model.notifyListeners();
+    });
     super.initState();
   }
 
@@ -46,7 +49,7 @@ class _PageAtivosCarteira extends State<PageAtivosCarteira> {
       ),
       body: SafeArea(
         child: ChangeNotifierProvider(
-          create: (context) => AtivosViewModel(),
+          create: (context) => model,
           child: ChangeNotifierProvider<AtivosViewModel>(
             create: (context) => model,
             child: Consumer<AtivosViewModel>(

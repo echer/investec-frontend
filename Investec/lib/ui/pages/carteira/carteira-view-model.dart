@@ -11,4 +11,12 @@ class CarteiraViewModel extends ChangeNotifier {
     this.carteiras = await repository.list();
     notifyListeners();
   }
+
+  Future<void> createOrUpdate(Carteira carteira) {
+    if (carteira.id.isEmpty) {
+      carteira.id = null;
+      return repository.create(carteira);
+    }
+    return repository.update(carteira);
+  }
 }

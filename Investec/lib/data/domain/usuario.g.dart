@@ -19,13 +19,22 @@ Usuario _$UsuarioFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$UsuarioToJson(Usuario instance) => <String, dynamic>{
-      'id': instance.id,
-      'nome': instance.nome,
-      'email': instance.email,
-      'cpf': instance.cpf,
-      'senha': instance.senha,
-      'fone': instance.fone,
-      'dtNascimento': instance.dtNascimento,
-      'perfilInvestidor': instance.perfilInvestidor,
-    };
+Map<String, dynamic> _$UsuarioToJson(Usuario instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('id', instance.id);
+  writeNotNull('nome', instance.nome);
+  writeNotNull('email', instance.email);
+  writeNotNull('cpf', instance.cpf);
+  writeNotNull('senha', instance.senha);
+  writeNotNull('fone', instance.fone);
+  writeNotNull('dtNascimento', instance.dtNascimento);
+  writeNotNull('perfilInvestidor', instance.perfilInvestidor);
+  return val;
+}

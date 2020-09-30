@@ -5,7 +5,9 @@ import 'package:flutter/material.dart';
 class ListaAtivoItem extends StatelessWidget {
   final Ativo model;
 
-  ListaAtivoItem(this.model);
+  final VoidCallback onCountSelected;
+
+  ListaAtivoItem(this.model, this.onCountSelected);
 
   @override
   Widget build(BuildContext context) {
@@ -28,9 +30,12 @@ class ListaAtivoItem extends StatelessWidget {
           color: Colors.green,
           size: 30,
         ),
-        onPressed: () => {
-          Navigator.of(context)
-              .pushNamed(PageCadastroAtivo.routeName, arguments: model)
+        onPressed: () async {
+          final information = await Navigator.of(context)
+              .pushNamed(PageCadastroAtivo.routeName, arguments: model);
+          if (information != null && information == "refresh") {
+            onCountSelected();
+          }
         },
       ),
       onTap: () {},

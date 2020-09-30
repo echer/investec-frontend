@@ -5,8 +5,9 @@ import 'package:flutter/material.dart';
 
 class ListaCarteiraItem extends StatelessWidget {
   final Carteira model;
+  final VoidCallback onCountSelected;
 
-  ListaCarteiraItem(this.model);
+  ListaCarteiraItem(this.model, this.onCountSelected);
 
   @override
   Widget build(BuildContext context) {
@@ -27,9 +28,12 @@ class ListaCarteiraItem extends StatelessWidget {
           color: Colors.green,
           size: 30,
         ),
-        onPressed: () => {
-          Navigator.of(context)
-              .pushNamed(PageCadastroCarteira.routeName, arguments: model)
+        onPressed: () async {
+          final information = await Navigator.of(context)
+              .pushNamed(PageCadastroCarteira.routeName, arguments: model);
+          if (information != null && information == "refresh") {
+            onCountSelected();
+          }
         },
       ),
       onTap: () {

@@ -32,6 +32,13 @@ class _PageCarteira extends State<PageCarteira> {
 
   @override
   Widget build(BuildContext context) {
+    VoidCallback onCountSelected = () async {
+      await model.list().catchError((error) {
+        print(error);
+        model.notifyListeners();
+      });
+    };
+
     return Scaffold(
       appBar: AppBar(
         actions: [
@@ -60,7 +67,10 @@ class _PageCarteira extends State<PageCarteira> {
                         return Column(
                           children: [
                             Card(
-                              child: ListaCarteiraItem(model.carteiras[index]),
+                              child: ListaCarteiraItem(
+                                model.carteiras[index],
+                                onCountSelected,
+                              ),
                             ),
                             Divider(
                               color: Colors.grey,
@@ -81,12 +91,15 @@ class _PageCarteira extends State<PageCarteira> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
+        onPressed: () async {
           DateTime now = DateTime.now();
           Carteira carteira =
               Carteira(dtCriacao: DateFormat('dd/MM/yyyy').format(now));
-          Navigator.of(context)
+          final information = await Navigator.of(context)
               .pushNamed(PageCadastroCarteira.routeName, arguments: carteira);
+          if (information != null && information == "refresh") {
+            onCountSelected();
+          }
         },
         child: Icon(Icons.add),
       ),

@@ -10,6 +10,13 @@ abstract class AtivosAPI {
     return _AtivosAPI(dio, baseUrl: baseUrl);
   }
 
-  @GET("carteira/:carteira/ativos")
+  @GET("carteira/{carteira}/ativos")
   Future<List<Ativo>> list(@Path("carteira") String carteira);
+
+  @POST("carteira/{carteira}/ativos")
+  Future create(@Path() String carteira, @Body() Ativo ativo);
+
+  @PUT("carteira/{carteira}/ativos/{id}")
+  Future update(
+      @Path() String carteira, @Path() String id, @Body() Ativo ativo);
 }

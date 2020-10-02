@@ -11,4 +11,12 @@ class AtivosViewModel extends ChangeNotifier {
     this.ativos = await repository.list(carteira);
     notifyListeners();
   }
+
+  Future<void> createOrUpdate(Ativo ativo) {
+    if (ativo.id.isEmpty) {
+      ativo.id = null;
+      return repository.create(ativo.carteiraId, ativo);
+    }
+    return repository.update(ativo.carteiraId, ativo);
+  }
 }

@@ -23,7 +23,7 @@ class _AtivosAPI implements AtivosAPI {
     final queryParameters = <String, dynamic>{};
     final _data = <String, dynamic>{};
     final Response<List<dynamic>> _result = await _dio.request(
-        'carteira/:carteira/ativos',
+        'carteira/$carteira/ativos',
         queryParameters: queryParameters,
         options: RequestOptions(
             method: 'GET',
@@ -34,6 +34,47 @@ class _AtivosAPI implements AtivosAPI {
     var value = _result.data
         .map((dynamic i) => Ativo.fromJson(i as Map<String, dynamic>))
         .toList();
+    return value;
+  }
+
+  @override
+  create(carteira, ativo) async {
+    ArgumentError.checkNotNull(carteira, 'carteira');
+    ArgumentError.checkNotNull(ativo, 'ativo');
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(ativo?.toJson() ?? <String, dynamic>{});
+    final Response _result = await _dio.request('carteira/$carteira/ativos',
+        queryParameters: queryParameters,
+        options: RequestOptions(
+            method: 'POST',
+            headers: <String, dynamic>{},
+            extra: _extra,
+            baseUrl: baseUrl),
+        data: _data);
+    final value = _result.data;
+    return value;
+  }
+
+  @override
+  update(carteira, id, ativo) async {
+    ArgumentError.checkNotNull(carteira, 'carteira');
+    ArgumentError.checkNotNull(id, 'id');
+    ArgumentError.checkNotNull(ativo, 'ativo');
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(ativo?.toJson() ?? <String, dynamic>{});
+    final Response _result = await _dio.request('carteira/$carteira/ativos/$id',
+        queryParameters: queryParameters,
+        options: RequestOptions(
+            method: 'PUT',
+            headers: <String, dynamic>{},
+            extra: _extra,
+            baseUrl: baseUrl),
+        data: _data);
+    final value = _result.data;
     return value;
   }
 }

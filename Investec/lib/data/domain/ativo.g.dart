@@ -10,6 +10,7 @@ Ativo _$AtivoFromJson(Map<String, dynamic> json) {
   return Ativo(
     id: json['id'] as String,
     ticker: json['ticker'] as String,
+    carteiraId: json['carteiraId'] as String,
     pmAtivo: (json['pmAtivo'] as num)?.toDouble(),
     qtdAtivo: (json['qtdAtivo'] as num)?.toDouble(),
     stopGain: (json['stopGain'] as num)?.toDouble(),
@@ -29,6 +30,7 @@ Map<String, dynamic> _$AtivoToJson(Ativo instance) {
 
   writeNotNull('id', instance.id);
   writeNotNull('ticker', instance.ticker);
+  writeNotNull('carteiraId', instance.carteiraId);
   writeNotNull('pmAtivo', instance.pmAtivo);
   writeNotNull('qtdAtivo', instance.qtdAtivo);
   writeNotNull('stopGain', instance.stopGain);

@@ -6,6 +6,7 @@ part 'ativo.g.dart';
 class Ativo {
   String id;
   String ticker;
+  String carteiraId;
   double pmAtivo;
   double qtdAtivo;
   double stopGain;
@@ -15,6 +16,7 @@ class Ativo {
   Ativo(
       {this.id,
       this.ticker,
+      this.carteiraId,
       this.pmAtivo,
       this.qtdAtivo,
       this.stopGain,

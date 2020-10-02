@@ -1,3 +1,4 @@
+import 'package:Investec/data/domain/ativo.dart';
 import 'package:Investec/data/domain/carteira.dart';
 import 'package:Investec/ui/pages/ativos/adapter/lista-ativo-item.dart';
 import 'package:Investec/ui/pages/ativos/page-cadastro-ativo.dart';
@@ -94,8 +95,9 @@ class _PageAtivosCarteira extends State<PageAtivosCarteira> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
+          Ativo ativo = new Ativo(carteiraId: widget.carteira.id);
           final information = await Navigator.of(context)
-              .pushNamed(PageCadastroAtivo.routeName, arguments: model);
+              .pushNamed(PageCadastroAtivo.routeName, arguments: ativo);
           if (information != null && information == "refresh") {
             onCountSelected();
           }

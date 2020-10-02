@@ -22,33 +22,18 @@ class _PageCadastroCarteira extends State<PageCadastroCarteira> {
   Widget build(BuildContext context) {
     CarteiraViewModel viewModel = getIt<CarteiraViewModel>();
 
-    TextEditingController idController = TextEditingController();
-    TextEditingController nomeController = TextEditingController();
-    TextEditingController metaController = TextEditingController();
-    TextEditingController variacaoController = TextEditingController();
-    TextEditingController saldoController = TextEditingController();
-    TextEditingController dtCriacaoController = TextEditingController();
-
-    if (widget.carteira.id != null) idController.text = widget.carteira.id;
-
-    if (widget.carteira.nomeCarteira != null)
-      nomeController.text = widget.carteira.nomeCarteira;
-
-    if (widget.carteira.metaCarteira != null)
-      metaController.text = widget.carteira.metaCarteira.toString();
-
-    if (widget.carteira.varCarteira != null)
-      variacaoController.text = widget.carteira.varCarteira.toString();
-    else
-      variacaoController.text = "0";
-
-    if (widget.carteira.saldoCarteira != null)
-      saldoController.text = widget.carteira.saldoCarteira.toString();
-    else
-      saldoController.text = "0";
-
-    if (widget.carteira.dtCriacao != null)
-      dtCriacaoController.text = widget.carteira.dtCriacao;
+    TextEditingController idController =
+        TextEditingController(text: widget.carteira.id);
+    TextEditingController nomeController =
+        TextEditingController(text: widget.carteira.nomeCarteira);
+    TextEditingController metaController =
+        TextEditingController(text: widget.carteira.metaCarteira?.toString());
+    TextEditingController variacaoController =
+        TextEditingController(text: widget.carteira.varCarteira?.toString());
+    TextEditingController saldoController =
+        TextEditingController(text: widget.carteira.saldoCarteira?.toString());
+    TextEditingController dtCriacaoController =
+        TextEditingController(text: widget.carteira.dtCriacao);
 
     return Scaffold(
       appBar: AppBar(
@@ -91,7 +76,7 @@ class _PageCadastroCarteira extends State<PageCadastroCarteira> {
         ],
         title: Text(idController.text.isEmpty
             ? 'Investec - Nova Carteira'
-            : 'Investec - Editar: ${widget.carteira.id}'),
+            : 'Investec - Editar: ${idController.text}'),
       ),
       body: SafeArea(
         child: Form(

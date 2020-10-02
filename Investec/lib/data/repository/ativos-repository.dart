@@ -9,4 +9,16 @@ class AtivosRepository {
     AtivosAPI api = AtivosAPI(dio);
     return api.list(carteira);
   }
+
+  Future create(String carteira, Ativo ativo) async {
+    Dio dio = getIt<Dio>();
+    AtivosAPI api = AtivosAPI(dio);
+    return api.create(carteira, ativo);
+  }
+
+  Future update(String carteira, Ativo ativo) async {
+    Dio dio = getIt<Dio>();
+    AtivosAPI api = AtivosAPI(dio);
+    return api.update(carteira, ativo.id, ativo);
+  }
 }

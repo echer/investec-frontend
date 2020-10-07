@@ -73,10 +73,11 @@ class _PageCadastroAtivo extends State<PageCadastroAtivo> {
               }
             },
           ),
-          IconButton(
-            icon: Icon(Icons.delete),
-            onPressed: () => {},
-          ),
+          if (idController.text.isNotEmpty)
+            IconButton(
+              icon: Icon(Icons.delete),
+              onPressed: () => {},
+            ),
         ],
         title: Text(idController.text.isEmpty
             ? 'Investec - Novo Ativo'

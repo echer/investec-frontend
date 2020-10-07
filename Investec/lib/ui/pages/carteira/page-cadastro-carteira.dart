@@ -69,10 +69,11 @@ class _PageCadastroCarteira extends State<PageCadastroCarteira> {
               }
             },
           ),
-          IconButton(
-            icon: Icon(Icons.delete),
-            onPressed: () => {},
-          ),
+          if (idController.text.isNotEmpty)
+            IconButton(
+              icon: Icon(Icons.delete),
+              onPressed: () => {},
+            ),
         ],
         title: Text(idController.text.isEmpty
             ? 'Investec - Nova Carteira'

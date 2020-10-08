@@ -19,4 +19,8 @@ class AtivosViewModel extends ChangeNotifier {
     }
     return repository.update(ativo.carteiraId, ativo);
   }
+
+  Future<void> delete(Ativo ativo) {
+    return repository.delete(ativo.carteiraId, ativo);
+  }
 }

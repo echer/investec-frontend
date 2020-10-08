@@ -17,4 +17,7 @@ abstract class CarteiraAPI {
 
   @PUT("/{id}")
   Future update(@Path() String id, @Body() Carteira carteira);
+
+  @DELETE("/{id}")
+  Future delete(@Path() String id);
 }

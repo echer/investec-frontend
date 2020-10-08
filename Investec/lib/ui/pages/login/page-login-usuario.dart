@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'page-login-form.dart';
 
 class LoginPage extends StatefulWidget {
+  static const routeName = '/usuarios';
+
   @override
   _LoginPageState createState() => _LoginPageState();
 }

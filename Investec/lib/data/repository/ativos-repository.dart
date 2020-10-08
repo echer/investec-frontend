@@ -21,4 +21,10 @@ class AtivosRepository {
     AtivosAPI api = AtivosAPI(dio);
     return api.update(carteira, ativo.id, ativo);
   }
+
+  Future delete(String carteira, Ativo ativo) async {
+    Dio dio = getIt<Dio>();
+    AtivosAPI api = AtivosAPI(dio);
+    return api.delete(carteira, ativo.id);
+  }
 }

@@ -60,15 +60,12 @@ class _PageCadastroAtivo extends State<PageCadastroAtivo> {
                     vlrInvestido: double.tryParse(vlrInvestidoController.text)
                         ?.toDouble());
 
-                await viewModel
-                    .createOrUpdate(createOrupdate)
-                    .catchError((error) {
-                  print(error);
-                  //Scaffold.of(context).showSnackBar(SnackBar(
-                  //   content: Text(
-                  //      'Não foi possível salvar a carteira: $error')))
-                }).then((value) {
+                await viewModel.createOrUpdate(createOrupdate).then((value) {
                   Navigator.pop(context, 'refresh');
+                }, onError: (e) {
+                  print(e);
+                }).catchError((error) {
+                  print(error);
                 });
               }
             },
@@ -76,7 +73,18 @@ class _PageCadastroAtivo extends State<PageCadastroAtivo> {
           if (idController.text.isNotEmpty)
             IconButton(
               icon: Icon(Icons.delete),
-              onPressed: () => {},
+              onPressed: () async {
+                Ativo obj = Ativo(
+                    id: idController.text,
+                    carteiraId: idCarteiraController.text);
+                await viewModel.delete(obj).then((value) {
+                  Navigator.pop(context, 'refresh');
+                }, onError: (e) {
+                  print(e);
+                }).catchError((error) {
+                  print(error);
+                });
+              },
             ),
         ],
         title: Text(idController.text.isEmpty

@@ -56,15 +56,12 @@ class _PageCadastroCarteira extends State<PageCadastroCarteira> {
                         double.tryParse(saldoController.text)?.toDouble(),
                     dtCriacao: dtCriacaoController.text);
 
-                await viewModel
-                    .createOrUpdate(createOrupdate)
-                    .catchError((error) {
-                  print(error);
-                  //Scaffold.of(context).showSnackBar(SnackBar(
-                  //   content: Text(
-                  //      'Não foi possível salvar a carteira: $error')))
-                }).then((value) {
+                await viewModel.createOrUpdate(createOrupdate).then((value) {
                   Navigator.pop(context, 'refresh');
+                }, onError: (e) {
+                  print(e);
+                }).catchError((error) {
+                  print(error);
                 });
               }
             },
@@ -72,7 +69,17 @@ class _PageCadastroCarteira extends State<PageCadastroCarteira> {
           if (idController.text.isNotEmpty)
             IconButton(
               icon: Icon(Icons.delete),
-              onPressed: () => {},
+              onPressed: () async {
+                Carteira obj = Carteira(id: idController.text);
+
+                await viewModel.delete(obj).then((value) {
+                  Navigator.pop(context, 'refresh');
+                }, onError: (e) {
+                  print(e);
+                }).catchError((error) {
+                  print(error);
+                });
+              },
             ),
         ],
         title: Text(idController.text.isEmpty

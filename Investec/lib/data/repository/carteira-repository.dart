@@ -21,4 +21,10 @@ class CarteiraRepository {
     CarteiraAPI api = CarteiraAPI(dio);
     return api.update(carteira.id, carteira);
   }
+
+  Future delete(Carteira carteira) async {
+    Dio dio = getIt<Dio>();
+    CarteiraAPI api = CarteiraAPI(dio);
+    return api.delete(carteira.id);
+  }
 }

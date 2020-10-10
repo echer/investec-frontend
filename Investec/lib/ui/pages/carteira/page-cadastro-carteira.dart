@@ -87,60 +87,67 @@ class _PageCadastroCarteira extends State<PageCadastroCarteira> {
             : 'Investec - Editar: ${idController.text}'),
       ),
       body: SafeArea(
-        child: Form(
-          key: _formKey,
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              children: <Widget>[
-                TextFormField(
-                  controller: idController,
-                  readOnly: true,
-                  enabled: false,
-                  decoration: InputDecoration(labelText: 'ID'),
+        child: new SingleChildScrollView(
+          child: new Column(
+            children: <Widget>[
+              Form(
+                key: _formKey,
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Column(
+                    children: <Widget>[
+                      TextFormField(
+                        controller: idController,
+                        readOnly: true,
+                        enabled: false,
+                        decoration: InputDecoration(labelText: 'ID'),
+                      ),
+                      TextFormField(
+                        controller: nomeController,
+                        decoration: InputDecoration(labelText: 'Nome'),
+                        validator: (value) {
+                          if (value.isEmpty) {
+                            return 'Informe o Nome da carteira';
+                          }
+                          return null;
+                        },
+                      ),
+                      TextFormField(
+                        controller: metaController,
+                        decoration: InputDecoration(labelText: 'Meta'),
+                        inputFormatters: [DecimalTextInputFormatter()],
+                        validator: (value) {
+                          if (value.isEmpty) {
+                            return 'Informe a meta da carteira';
+                          }
+                          return null;
+                        },
+                      ),
+                      TextFormField(
+                        controller: variacaoController,
+                        readOnly: true,
+                        enabled: false,
+                        decoration:
+                            InputDecoration(labelText: 'Variação da Carteira'),
+                      ),
+                      TextFormField(
+                        controller: saldoController,
+                        readOnly: true,
+                        enabled: false,
+                        decoration:
+                            InputDecoration(labelText: 'Saldo da Carteira'),
+                      ),
+                      TextFormField(
+                        controller: dtCriacaoController,
+                        readOnly: true,
+                        enabled: false,
+                        decoration: InputDecoration(labelText: 'Data Criação'),
+                      ),
+                    ],
+                  ),
                 ),
-                TextFormField(
-                  controller: nomeController,
-                  decoration: InputDecoration(labelText: 'Nome'),
-                  validator: (value) {
-                    if (value.isEmpty) {
-                      return 'Informe o Nome da carteira';
-                    }
-                    return null;
-                  },
-                ),
-                TextFormField(
-                  controller: metaController,
-                  decoration: InputDecoration(labelText: 'Meta'),
-                  inputFormatters: [DecimalTextInputFormatter()],
-                  validator: (value) {
-                    if (value.isEmpty) {
-                      return 'Informe a meta da carteira';
-                    }
-                    return null;
-                  },
-                ),
-                TextFormField(
-                  controller: variacaoController,
-                  readOnly: true,
-                  enabled: false,
-                  decoration:
-                      InputDecoration(labelText: 'Variação da Carteira'),
-                ),
-                TextFormField(
-                  controller: saldoController,
-                  readOnly: true,
-                  enabled: false,
-                  decoration: InputDecoration(labelText: 'Saldo da Carteira'),
-                ),
-                TextFormField(
-                  controller: dtCriacaoController,
-                  readOnly: true,
-                  enabled: false,
-                  decoration: InputDecoration(labelText: 'Data Criação'),
-                ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),

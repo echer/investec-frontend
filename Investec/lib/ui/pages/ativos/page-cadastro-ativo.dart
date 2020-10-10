@@ -93,66 +93,72 @@ class _PageCadastroAtivo extends State<PageCadastroAtivo> {
       ),
       body: SafeArea(
         child: SafeArea(
-          child: Form(
-            key: _formKey,
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                children: <Widget>[
-                  TextFormField(
-                    controller: idController,
-                    readOnly: true,
-                    enabled: false,
-                    decoration: InputDecoration(labelText: 'ID'),
+          child: new SingleChildScrollView(
+            child: new Column(
+              children: <Widget>[
+                Form(
+                  key: _formKey,
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Column(
+                      children: <Widget>[
+                        TextFormField(
+                          controller: idController,
+                          readOnly: true,
+                          enabled: false,
+                          decoration: InputDecoration(labelText: 'ID'),
+                        ),
+                        TextFormField(
+                          controller: idCarteiraController,
+                          readOnly: true,
+                          enabled: false,
+                          decoration: InputDecoration(labelText: 'ID Carteira'),
+                        ),
+                        TextFormField(
+                          controller: ticketController,
+                          decoration: InputDecoration(labelText: 'Ticket'),
+                          validator: (value) {
+                            if (value.isEmpty) {
+                              return 'Informe o Ticket do ativo';
+                            }
+                            return null;
+                          },
+                        ),
+                        TextFormField(
+                          controller: pmController,
+                          decoration: InputDecoration(labelText: 'Preço'),
+                          inputFormatters: [DecimalTextInputFormatter()],
+                          readOnly: true,
+                          enabled: false,
+                        ),
+                        TextFormField(
+                          controller: qtdController,
+                          decoration: InputDecoration(labelText: 'Quantidade'),
+                          inputFormatters: [DecimalTextInputFormatter()],
+                          readOnly: true,
+                          enabled: false,
+                        ),
+                        TextFormField(
+                          controller: vlrInvestidoController,
+                          readOnly: true,
+                          enabled: false,
+                          decoration: InputDecoration(labelText: 'Total'),
+                        ),
+                        TextFormField(
+                          controller: stopLossController,
+                          decoration: InputDecoration(labelText: 'Stop Loss'),
+                          inputFormatters: [DecimalTextInputFormatter()],
+                        ),
+                        TextFormField(
+                          controller: stopGainController,
+                          decoration: InputDecoration(labelText: 'Stop Gain'),
+                          inputFormatters: [DecimalTextInputFormatter()],
+                        ),
+                      ],
+                    ),
                   ),
-                  TextFormField(
-                    controller: idCarteiraController,
-                    readOnly: true,
-                    enabled: false,
-                    decoration: InputDecoration(labelText: 'ID Carteira'),
-                  ),
-                  TextFormField(
-                    controller: ticketController,
-                    decoration: InputDecoration(labelText: 'Ticket'),
-                    validator: (value) {
-                      if (value.isEmpty) {
-                        return 'Informe o Ticket do ativo';
-                      }
-                      return null;
-                    },
-                  ),
-                  TextFormField(
-                    controller: pmController,
-                    decoration: InputDecoration(labelText: 'Preço'),
-                    inputFormatters: [DecimalTextInputFormatter()],
-                    readOnly: true,
-                    enabled: false,
-                  ),
-                  TextFormField(
-                    controller: qtdController,
-                    decoration: InputDecoration(labelText: 'Quantidade'),
-                    inputFormatters: [DecimalTextInputFormatter()],
-                    readOnly: true,
-                    enabled: false,
-                  ),
-                  TextFormField(
-                    controller: vlrInvestidoController,
-                    readOnly: true,
-                    enabled: false,
-                    decoration: InputDecoration(labelText: 'Total'),
-                  ),
-                  TextFormField(
-                    controller: stopLossController,
-                    decoration: InputDecoration(labelText: 'Stop Loss'),
-                    inputFormatters: [DecimalTextInputFormatter()],
-                  ),
-                  TextFormField(
-                    controller: stopGainController,
-                    decoration: InputDecoration(labelText: 'Stop Gain'),
-                    inputFormatters: [DecimalTextInputFormatter()],
-                  ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         ),

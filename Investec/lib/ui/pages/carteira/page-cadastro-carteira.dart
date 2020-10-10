@@ -1,8 +1,8 @@
 import 'package:Investec/data/domain/carteira.dart';
 import 'package:Investec/data/service/service-locator.dart';
 import 'package:Investec/ui/pages/carteira/carteira-view-model.dart';
-import 'package:Investec/ui/pages/utils/decimal-input-format.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class PageCadastroCarteira extends StatefulWidget {
   static const routeName = '/cadastro/carteira';
@@ -115,7 +115,11 @@ class _PageCadastroCarteira extends State<PageCadastroCarteira> {
                       TextFormField(
                         controller: metaController,
                         decoration: InputDecoration(labelText: 'Meta'),
-                        inputFormatters: [DecimalTextInputFormatter()],
+                        inputFormatters: [
+                          FilteringTextInputFormatter.allow(
+                              RegExp(r'^(\d+)?\.?\d{0,2}')),
+                        ],
+                        keyboardType: TextInputType.number,
                         validator: (value) {
                           if (value.isEmpty) {
                             return 'Informe a meta da carteira';

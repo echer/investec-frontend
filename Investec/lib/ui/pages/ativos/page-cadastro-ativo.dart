@@ -1,8 +1,8 @@
 import 'package:Investec/data/domain/ativo.dart';
 import 'package:Investec/data/service/service-locator.dart';
 import 'package:Investec/ui/pages/ativos/ativos-view-model.dart';
-import 'package:Investec/ui/pages/utils/decimal-input-format.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class PageCadastroAtivo extends StatefulWidget {
   static const routeName = '/cadastro/ativo';
@@ -127,14 +127,22 @@ class _PageCadastroAtivo extends State<PageCadastroAtivo> {
                         TextFormField(
                           controller: pmController,
                           decoration: InputDecoration(labelText: 'Preço'),
-                          inputFormatters: [DecimalTextInputFormatter()],
+                          inputFormatters: [
+                            FilteringTextInputFormatter.allow(
+                                RegExp(r'^(\d+)?\.?\d{0,2}')),
+                          ],
+                          keyboardType: TextInputType.number,
                           readOnly: true,
                           enabled: false,
                         ),
                         TextFormField(
                           controller: qtdController,
                           decoration: InputDecoration(labelText: 'Quantidade'),
-                          inputFormatters: [DecimalTextInputFormatter()],
+                          inputFormatters: [
+                            FilteringTextInputFormatter.allow(
+                                RegExp(r'^(\d+)?\.?\d{0,2}')),
+                          ],
+                          keyboardType: TextInputType.number,
                           readOnly: true,
                           enabled: false,
                         ),
@@ -147,12 +155,20 @@ class _PageCadastroAtivo extends State<PageCadastroAtivo> {
                         TextFormField(
                           controller: stopLossController,
                           decoration: InputDecoration(labelText: 'Stop Loss'),
-                          inputFormatters: [DecimalTextInputFormatter()],
+                          inputFormatters: [
+                            FilteringTextInputFormatter.allow(
+                                RegExp(r'^(\d+)?\.?\d{0,2}')),
+                          ],
+                          keyboardType: TextInputType.number,
                         ),
                         TextFormField(
                           controller: stopGainController,
                           decoration: InputDecoration(labelText: 'Stop Gain'),
-                          inputFormatters: [DecimalTextInputFormatter()],
+                          inputFormatters: [
+                            FilteringTextInputFormatter.allow(
+                                RegExp(r'^(\d+)?\.?\d{0,2}')),
+                          ],
+                          keyboardType: TextInputType.number,
                         ),
                       ],
                     ),

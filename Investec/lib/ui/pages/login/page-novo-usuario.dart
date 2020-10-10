@@ -3,6 +3,7 @@ import 'package:Investec/data/service/service-locator.dart';
 import 'package:Investec/ui/pages/login/login-view-model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class PageCadastroUsuario extends StatefulWidget {
   static const routeName = '/cadastro/usuario';
@@ -63,6 +64,9 @@ class _PageCadastroUsuario extends State<PageCadastroUsuario> {
                         int.tryParse(perfilController.text)?.toInt());
 
                 await viewModel.createOrUpdate(createOrupdate).then((value) {
+                  var pref = getIt<SharedPreferences>();
+                  pref.setString("username", createOrupdate.email);
+                  pref.setString("password", createOrupdate.senha);
                   Navigator.pop(context, createOrupdate);
                 }, onError: (e) {
                   print(e);

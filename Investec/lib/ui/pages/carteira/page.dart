@@ -48,7 +48,7 @@ class _PageCarteira extends State<PageCarteira> {
             onPressed: () {},
           ),
         ],
-        title: Text('Investec - Carteiras'),
+        title: Text('Carteiras'),
       ),
       body: SafeArea(
         child: ChangeNotifierProvider(

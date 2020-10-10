@@ -52,7 +52,7 @@ class _PageAtivosCarteira extends State<PageAtivosCarteira> {
             onPressed: () {},
           ),
         ],
-        title: Text('Investec - Ativos: ${widget.carteira.nomeCarteira}'),
+        title: Text('Ativos: ${widget.carteira.nomeCarteira}'),
       ),
       body: SafeArea(
         child: ChangeNotifierProvider(

@@ -4,6 +4,7 @@ import 'package:Investec/data/domain/ordem.dart';
 import 'package:flutter/material.dart';
 import 'package:Investec/data/service/service-locator.dart';
 import 'package:Investec/ui/pages/shimmer/lista-shimmer.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 import 'lista-item.dart';
@@ -63,7 +64,7 @@ class _PageOrdensAtivo extends State<PageOrdensAtivo> {
             onPressed: () {},
           ),
         ],
-        title: Text('Investec - Ativos: ${widget.args.carteira.nomeCarteira}'),
+        title: Text('Ordens: ${widget.args.ativo.ticker}'),
       ),
       body: SafeArea(
         child: ChangeNotifierProvider(
@@ -106,9 +107,11 @@ class _PageOrdensAtivo extends State<PageOrdensAtivo> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
+          DateTime now = DateTime.now();
           Ordem obj = new Ordem(
               carteiraId: widget.args.carteira.id,
-              ativoId: widget.args.ativo.id);
+              ativoId: widget.args.ativo.id,
+              dtOrdem: DateFormat('dd/MM/yyyy').format(now));
           final information = await Navigator.of(context)
               .pushNamed(PageCadastroOrdem.routeName, arguments: obj);
           if (information != null && information == "refresh") {

@@ -10,18 +10,18 @@ abstract class OrdensAPI {
     return _OrdensAPI(dio, baseUrl: baseUrl);
   }
 
-  @GET("{carteira}/ativos/{ativo}/ordens")
+  @GET("/{carteira}/ativos/{ativo}/ordens")
   Future<List<Ordem>> list(@Path() String carteira, @Path() String ativo);
 
-  @POST("{carteira}/ativos/{ativo}/ordens")
+  @POST("/{carteira}/ativos/{ativo}/ordens")
   Future create(
       @Path() String carteira, @Path() String ativo, @Body() Ordem obj);
 
-  @PUT("{carteira}/ativos/{ativo}/ordens/{id}")
+  @PUT("/{carteira}/ativos/{ativo}/ordens/{id}")
   Future update(@Path() String carteira, @Path() String ativo,
       @Path() String id, @Body() Ordem obj);
 
-  @DELETE("{carteira}/ativos/{ativo}/ordens/{id}")
+  @DELETE("/{carteira}/ativos/{ativo}/ordens/{id}")
   Future delete(
       @Path() String carteira, @Path() String ativo, @Path() String id);
 }

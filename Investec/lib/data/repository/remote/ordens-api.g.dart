@@ -24,7 +24,7 @@ class _OrdensAPI implements OrdensAPI {
     final queryParameters = <String, dynamic>{};
     final _data = <String, dynamic>{};
     final Response<List<dynamic>> _result = await _dio.request(
-        '$carteira/ativos/$ativo/ordens',
+        '/$carteira/ativos/$ativo/ordens',
         queryParameters: queryParameters,
         options: RequestOptions(
             method: 'GET',
@@ -48,7 +48,7 @@ class _OrdensAPI implements OrdensAPI {
     final _data = <String, dynamic>{};
     _data.addAll(obj?.toJson() ?? <String, dynamic>{});
     final Response _result = await _dio.request(
-        '$carteira/ativos/$ativo/ordens',
+        '/$carteira/ativos/$ativo/ordens',
         queryParameters: queryParameters,
         options: RequestOptions(
             method: 'POST',
@@ -71,7 +71,7 @@ class _OrdensAPI implements OrdensAPI {
     final _data = <String, dynamic>{};
     _data.addAll(obj?.toJson() ?? <String, dynamic>{});
     final Response _result = await _dio.request(
-        '$carteira/ativos/$ativo/ordens/$id',
+        '/$carteira/ativos/$ativo/ordens/$id',
         queryParameters: queryParameters,
         options: RequestOptions(
             method: 'PUT',
@@ -92,7 +92,7 @@ class _OrdensAPI implements OrdensAPI {
     final queryParameters = <String, dynamic>{};
     final _data = <String, dynamic>{};
     final Response _result = await _dio.request(
-        '$carteira/ativos/$ativo/ordens/$id',
+        '/$carteira/ativos/$ativo/ordens/$id',
         queryParameters: queryParameters,
         options: RequestOptions(
             method: 'DELETE',

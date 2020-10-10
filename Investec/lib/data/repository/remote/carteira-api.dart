@@ -13,10 +13,10 @@ abstract class CarteiraAPI {
   Future<List<Carteira>> list();
 
   @POST("/")
-  Future create(@Body() Carteira carteira);
+  Future create(@Body() Carteira obj);
 
   @PUT("/{id}")
-  Future update(@Path() String id, @Body() Carteira carteira);
+  Future update(@Path() String id, @Body() Carteira obj);
 
   @DELETE("/{id}")
   Future delete(@Path() String id);

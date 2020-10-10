@@ -1,13 +1,13 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'ativos-api.dart';
+part of 'ordens-api.dart';
 
 // **************************************************************************
 // RetrofitGenerator
 // **************************************************************************
 
-class _AtivosAPI implements AtivosAPI {
-  _AtivosAPI(this._dio, {this.baseUrl}) {
+class _OrdensAPI implements OrdensAPI {
+  _OrdensAPI(this._dio, {this.baseUrl}) {
     ArgumentError.checkNotNull(_dio, '_dio');
     this.baseUrl ??= 'https://investec-backend.herokuapp.com/v1/carteira';
   }
@@ -17,13 +17,14 @@ class _AtivosAPI implements AtivosAPI {
   String baseUrl;
 
   @override
-  list(carteira) async {
+  list(carteira, ativo) async {
     ArgumentError.checkNotNull(carteira, 'carteira');
+    ArgumentError.checkNotNull(ativo, 'ativo');
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _data = <String, dynamic>{};
     final Response<List<dynamic>> _result = await _dio.request(
-        '/$carteira/ativos',
+        '$carteira/ativos/$ativo/ordens',
         queryParameters: queryParameters,
         options: RequestOptions(
             method: 'GET',
@@ -32,20 +33,22 @@ class _AtivosAPI implements AtivosAPI {
             baseUrl: baseUrl),
         data: _data);
     var value = _result.data
-        .map((dynamic i) => Ativo.fromJson(i as Map<String, dynamic>))
+        .map((dynamic i) => Ordem.fromJson(i as Map<String, dynamic>))
         .toList();
     return value;
   }
 
   @override
-  create(carteira, obj) async {
+  create(carteira, ativo, obj) async {
     ArgumentError.checkNotNull(carteira, 'carteira');
+    ArgumentError.checkNotNull(ativo, 'ativo');
     ArgumentError.checkNotNull(obj, 'obj');
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _data = <String, dynamic>{};
     _data.addAll(obj?.toJson() ?? <String, dynamic>{});
-    final Response _result = await _dio.request('/$carteira/ativos',
+    final Response _result = await _dio.request(
+        '$carteira/ativos/$ativo/ordens',
         queryParameters: queryParameters,
         options: RequestOptions(
             method: 'POST',
@@ -58,15 +61,17 @@ class _AtivosAPI implements AtivosAPI {
   }
 
   @override
-  update(carteira, id, obj) async {
+  update(carteira, ativo, id, obj) async {
     ArgumentError.checkNotNull(carteira, 'carteira');
+    ArgumentError.checkNotNull(ativo, 'ativo');
     ArgumentError.checkNotNull(id, 'id');
     ArgumentError.checkNotNull(obj, 'obj');
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _data = <String, dynamic>{};
     _data.addAll(obj?.toJson() ?? <String, dynamic>{});
-    final Response _result = await _dio.request('/$carteira/ativos/$id',
+    final Response _result = await _dio.request(
+        '$carteira/ativos/$ativo/ordens/$id',
         queryParameters: queryParameters,
         options: RequestOptions(
             method: 'PUT',
@@ -79,13 +84,15 @@ class _AtivosAPI implements AtivosAPI {
   }
 
   @override
-  delete(carteira, id) async {
+  delete(carteira, ativo, id) async {
     ArgumentError.checkNotNull(carteira, 'carteira');
+    ArgumentError.checkNotNull(ativo, 'ativo');
     ArgumentError.checkNotNull(id, 'id');
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _data = <String, dynamic>{};
-    final Response _result = await _dio.request('/$carteira/ativos/$id',
+    final Response _result = await _dio.request(
+        '$carteira/ativos/$ativo/ordens/$id',
         queryParameters: queryParameters,
         options: RequestOptions(
             method: 'DELETE',

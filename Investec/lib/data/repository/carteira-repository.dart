@@ -1,30 +1,38 @@
 import 'package:Investec/data/domain/carteira.dart';
 import 'package:Investec/data/repository/remote/carteira-api.dart';
-import 'package:Investec/data/service/service-locator.dart';
-import 'package:dio/dio.dart';
 
-class CarteiraRepository {
+abstract class CarteiraRepository {
+  factory CarteiraRepository(CarteiraAPI api) {
+    return _CarteiraRepository(api);
+  }
+
+  Future<List<Carteira>> list();
+
+  Future create(Carteira obj);
+
+  Future update(Carteira obj);
+
+  Future delete(Carteira obj);
+}
+
+class _CarteiraRepository implements CarteiraRepository {
+  final CarteiraAPI api;
+
+  _CarteiraRepository(this.api);
+
   Future<List<Carteira>> list() async {
-    Dio dio = getIt<Dio>();
-    CarteiraAPI api = CarteiraAPI(dio);
     return api.list();
   }
 
-  Future create(Carteira carteira) async {
-    Dio dio = getIt<Dio>();
-    CarteiraAPI api = CarteiraAPI(dio);
-    return api.create(carteira);
+  Future create(Carteira obj) async {
+    return api.create(obj);
   }
 
-  Future update(Carteira carteira) async {
-    Dio dio = getIt<Dio>();
-    CarteiraAPI api = CarteiraAPI(dio);
-    return api.update(carteira.id, carteira);
+  Future update(Carteira obj) async {
+    return api.update(obj.id, obj);
   }
 
-  Future delete(Carteira carteira) async {
-    Dio dio = getIt<Dio>();
-    CarteiraAPI api = CarteiraAPI(dio);
-    return api.delete(carteira.id);
+  Future delete(Carteira obj) async {
+    return api.delete(obj.id);
   }
 }

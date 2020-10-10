@@ -1,30 +1,38 @@
 import 'package:Investec/data/domain/ativo.dart';
 import 'package:Investec/data/repository/remote/ativos-api.dart';
-import 'package:Investec/data/service/service-locator.dart';
-import 'package:dio/dio.dart';
 
-class AtivosRepository {
+abstract class AtivosRepository {
+  factory AtivosRepository(AtivosAPI api) {
+    return _AtivosRepository(api);
+  }
+
+  Future<List<Ativo>> list(String carteira);
+
+  Future create(String carteira, Ativo obj);
+
+  Future update(String carteira, Ativo obj);
+
+  Future delete(String carteira, Ativo obj);
+}
+
+class _AtivosRepository implements AtivosRepository {
+  final AtivosAPI api;
+
+  _AtivosRepository(this.api);
+
   Future<List<Ativo>> list(String carteira) async {
-    Dio dio = getIt<Dio>();
-    AtivosAPI api = AtivosAPI(dio);
     return api.list(carteira);
   }
 
-  Future create(String carteira, Ativo ativo) async {
-    Dio dio = getIt<Dio>();
-    AtivosAPI api = AtivosAPI(dio);
-    return api.create(carteira, ativo);
+  Future create(String carteira, Ativo obj) async {
+    return api.create(carteira, obj);
   }
 
-  Future update(String carteira, Ativo ativo) async {
-    Dio dio = getIt<Dio>();
-    AtivosAPI api = AtivosAPI(dio);
-    return api.update(carteira, ativo.id, ativo);
+  Future update(String carteira, Ativo obj) async {
+    return api.update(carteira, obj.id, obj);
   }
 
-  Future delete(String carteira, Ativo ativo) async {
-    Dio dio = getIt<Dio>();
-    AtivosAPI api = AtivosAPI(dio);
-    return api.delete(carteira, ativo.id);
+  Future delete(String carteira, Ativo obj) async {
+    return api.delete(carteira, obj.id);
   }
 }

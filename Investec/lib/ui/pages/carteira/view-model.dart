@@ -3,7 +3,9 @@ import 'package:Investec/data/repository/carteira-repository.dart';
 import 'package:flutter/material.dart';
 
 class CarteiraViewModel extends ChangeNotifier {
-  CarteiraRepository repository = new CarteiraRepository();
+  CarteiraViewModel(this.repository);
+
+  final CarteiraRepository repository;
 
   List<Carteira> carteiras = List<Carteira>();
 

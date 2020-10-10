@@ -11,14 +11,13 @@ abstract class AtivosAPI {
   }
 
   @GET("/{carteira}/ativos")
-  Future<List<Ativo>> list(@Path("carteira") String carteira);
+  Future<List<Ativo>> list(@Path() String carteira);
 
   @POST("/{carteira}/ativos")
-  Future create(@Path() String carteira, @Body() Ativo ativo);
+  Future create(@Path() String carteira, @Body() Ativo obj);
 
   @PUT("/{carteira}/ativos/{id}")
-  Future update(
-      @Path() String carteira, @Path() String id, @Body() Ativo ativo);
+  Future update(@Path() String carteira, @Path() String id, @Body() Ativo obj);
 
   @DELETE("/{carteira}/ativos/{id}")
   Future delete(@Path() String carteira, @Path() String id);

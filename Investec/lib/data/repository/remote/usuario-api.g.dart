@@ -17,12 +17,12 @@ class _UsuarioAPI implements UsuarioAPI {
   String baseUrl;
 
   @override
-  login(usuario) async {
-    ArgumentError.checkNotNull(usuario, 'usuario');
+  login(obj) async {
+    ArgumentError.checkNotNull(obj, 'obj');
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _data = <String, dynamic>{};
-    _data.addAll(usuario?.toJson() ?? <String, dynamic>{});
+    _data.addAll(obj?.toJson() ?? <String, dynamic>{});
     final Response<Map<String, dynamic>> _result = await _dio.request('/login',
         queryParameters: queryParameters,
         options: RequestOptions(
@@ -36,12 +36,12 @@ class _UsuarioAPI implements UsuarioAPI {
   }
 
   @override
-  create(ativo) async {
-    ArgumentError.checkNotNull(ativo, 'ativo');
+  create(obj) async {
+    ArgumentError.checkNotNull(obj, 'obj');
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _data = <String, dynamic>{};
-    _data.addAll(ativo?.toJson() ?? <String, dynamic>{});
+    _data.addAll(obj?.toJson() ?? <String, dynamic>{});
     final Response _result = await _dio.request('/',
         queryParameters: queryParameters,
         options: RequestOptions(
@@ -55,12 +55,12 @@ class _UsuarioAPI implements UsuarioAPI {
   }
 
   @override
-  update(ativo) async {
-    ArgumentError.checkNotNull(ativo, 'ativo');
+  update(obj) async {
+    ArgumentError.checkNotNull(obj, 'obj');
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _data = <String, dynamic>{};
-    _data.addAll(ativo?.toJson() ?? <String, dynamic>{});
+    _data.addAll(obj?.toJson() ?? <String, dynamic>{});
     final Response _result = await _dio.request('/',
         queryParameters: queryParameters,
         options: RequestOptions(

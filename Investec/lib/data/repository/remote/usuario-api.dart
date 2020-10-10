@@ -11,13 +11,13 @@ abstract class UsuarioAPI {
     return _UsuarioAPI(dio, baseUrl: baseUrl);
   }
   @POST("/login")
-  Future<Login> login(@Body() Usuario usuario);
+  Future<Login> login(@Body() Usuario obj);
 
   @POST("/")
-  Future create(@Body() Usuario ativo);
+  Future create(@Body() Usuario obj);
 
   @PUT("/")
-  Future update(@Body() Usuario ativo);
+  Future update(@Body() Usuario obj);
 
   @PUT("/")
   Future delete();

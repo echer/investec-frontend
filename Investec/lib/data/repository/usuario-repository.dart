@@ -1,31 +1,39 @@
 import 'package:Investec/data/domain/usuario.dart';
 import 'package:Investec/data/repository/remote/dto/login.dart';
 import 'package:Investec/data/repository/remote/usuario-api.dart';
-import 'package:Investec/data/service/service-locator.dart';
-import 'package:dio/dio.dart';
 
-class UsuarioRepository {
-  Future<Login> login(Usuario usuario) async {
-    Dio dio = getIt<Dio>();
-    UsuarioAPI api = UsuarioAPI(dio);
-    return api.login(usuario);
+abstract class UsuarioRepository {
+  factory UsuarioRepository(UsuarioAPI api) {
+    return _UsuarioRepository(api);
   }
 
-  Future create(Usuario usuario) async {
-    Dio dio = getIt<Dio>();
-    UsuarioAPI api = UsuarioAPI(dio);
-    return api.create(usuario);
+  Future<Login> login(Usuario obj);
+
+  Future create(Usuario obj);
+
+  Future update(Usuario obj);
+
+  Future delete();
+}
+
+class _UsuarioRepository implements UsuarioRepository {
+  final UsuarioAPI api;
+
+  _UsuarioRepository(this.api);
+
+  Future<Login> login(Usuario obj) async {
+    return api.login(obj);
   }
 
-  Future update(Usuario usuario) async {
-    Dio dio = getIt<Dio>();
-    UsuarioAPI api = UsuarioAPI(dio);
-    return api.update(usuario);
+  Future create(Usuario obj) async {
+    return api.create(obj);
+  }
+
+  Future update(Usuario obj) async {
+    return api.update(obj);
   }
 
   Future delete() async {
-    Dio dio = getIt<Dio>();
-    UsuarioAPI api = UsuarioAPI(dio);
     return api.delete();
   }
 }

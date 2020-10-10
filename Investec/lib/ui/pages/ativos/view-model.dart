@@ -3,7 +3,9 @@ import 'package:Investec/data/repository/ativos-repository.dart';
 import 'package:flutter/material.dart';
 
 class AtivosViewModel extends ChangeNotifier {
-  AtivosRepository repository = new AtivosRepository();
+  final AtivosRepository repository;
+
+  AtivosViewModel(this.repository);
 
   List<Ativo> ativos = List<Ativo>();
 

@@ -36,12 +36,12 @@ class _CarteiraAPI implements CarteiraAPI {
   }
 
   @override
-  create(carteira) async {
-    ArgumentError.checkNotNull(carteira, 'carteira');
+  create(obj) async {
+    ArgumentError.checkNotNull(obj, 'obj');
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _data = <String, dynamic>{};
-    _data.addAll(carteira?.toJson() ?? <String, dynamic>{});
+    _data.addAll(obj?.toJson() ?? <String, dynamic>{});
     final Response _result = await _dio.request('/',
         queryParameters: queryParameters,
         options: RequestOptions(
@@ -55,13 +55,13 @@ class _CarteiraAPI implements CarteiraAPI {
   }
 
   @override
-  update(id, carteira) async {
+  update(id, obj) async {
     ArgumentError.checkNotNull(id, 'id');
-    ArgumentError.checkNotNull(carteira, 'carteira');
+    ArgumentError.checkNotNull(obj, 'obj');
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _data = <String, dynamic>{};
-    _data.addAll(carteira?.toJson() ?? <String, dynamic>{});
+    _data.addAll(obj?.toJson() ?? <String, dynamic>{});
     final Response _result = await _dio.request('/$id',
         queryParameters: queryParameters,
         options: RequestOptions(

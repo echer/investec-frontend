@@ -1,9 +1,10 @@
 import 'package:Investec/data/domain/usuario.dart';
 import 'package:Investec/data/service/service-locator.dart';
-import 'package:Investec/ui/pages/login/view-model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import 'view-model.dart';
 
 class PageCadastroUsuario extends StatefulWidget {
   static const routeName = '/cadastro/usuario';

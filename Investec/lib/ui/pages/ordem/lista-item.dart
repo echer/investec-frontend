@@ -1,26 +1,29 @@
-import 'package:Investec/data/domain/carteira.dart';
-import 'package:Investec/ui/pages/ativos/page.dart';
-import 'package:Investec/ui/pages/carteira/page-cadastro.dart';
+import 'package:Investec/data/domain/ordem.dart';
 import 'package:flutter/material.dart';
 
-class ListaCarteiraItem extends StatelessWidget {
-  final Carteira model;
+import 'page-cadastro.dart';
+
+class ListaOrdemItem extends StatelessWidget {
+  final Ordem model;
+
   final VoidCallback onCountSelected;
 
-  ListaCarteiraItem(this.model, this.onCountSelected);
+  ListaOrdemItem(this.model, this.onCountSelected);
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
       title: Text(
-        'Carteira: ${model.nomeCarteira}',
+        'Ordem: ${model.id}',
         style: TextStyle(fontWeight: FontWeight.bold),
         maxLines: 1,
         overflow: TextOverflow.ellipsis,
       ),
       subtitle: Text(
-        'Saldo: R\$ ${model.saldoCarteira} \nVariação: ${model.varCarteira}% \nMeta: R\$ ${model.metaCarteira} \nData: ${model.dtCriacao}',
+        '',
         style: TextStyle(fontWeight: FontWeight.normal),
+        maxLines: 3,
+        overflow: TextOverflow.ellipsis,
       ),
       trailing: IconButton(
         icon: Icon(
@@ -30,16 +33,13 @@ class ListaCarteiraItem extends StatelessWidget {
         ),
         onPressed: () async {
           final information = await Navigator.of(context)
-              .pushNamed(PageCadastroCarteira.routeName, arguments: model);
+              .pushNamed(PageCadastroOrdem.routeName, arguments: model);
           if (information != null && information == "refresh") {
             onCountSelected();
           }
         },
       ),
-      onTap: () {
-        Navigator.of(context)
-            .pushNamed(PageAtivosCarteira.routeName, arguments: model);
-      },
+      onTap: () {},
     );
   }
 }

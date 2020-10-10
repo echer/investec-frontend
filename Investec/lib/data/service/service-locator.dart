@@ -11,6 +11,7 @@ import 'package:Investec/data/service/service-locator.iconfig.dart';
 import 'package:Investec/ui/pages/ativos/view-model.dart';
 import 'package:Investec/ui/pages/carteira/view-model.dart';
 import 'package:Investec/ui/pages/login/view-model.dart';
+import 'package:Investec/ui/pages/ordem/view-model.dart';
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
@@ -22,98 +23,133 @@ final GetIt getIt = GetIt.instance;
 @injectableInit
 Future<void> configureInjection() async {
   getIt.registerSingletonAsync<SharedPreferences>(
-    () async {
-      var prefs = await SharedPreferences.getInstance();
-      return prefs;
-    },
+    () => provideSharedPref(),
   );
 
   getIt.registerSingletonAsync<Dio>(
-    () async {
-      Dio dio = Dio();
-      dio.options = BaseOptions(receiveTimeout: 5000, connectTimeout: 5000);
-      dio.interceptors.add(PrettyDioLogger(
-          requestHeader: true,
-          requestBody: true,
-          responseBody: true,
-          responseHeader: false,
-          error: true,
-          compact: true,
-          maxWidth: 5000));
-      dio.interceptors
-          .add(InterceptorsWrapper(onRequest: (Options options) async {
-        SharedPreferences prefs = getIt<SharedPreferences>();
-        String token = prefs.getString('token');
-        dio.interceptors.requestLock.lock();
-        options.headers["Authorization"] = "Bearer $token";
-        dio.interceptors.requestLock.unlock();
-        return options;
-      }));
-      return dio;
-    },
+    () => provideDio(),
     dependsOn: [SharedPreferences],
   );
 
-  getIt.registerSingletonAsync<AtivosAPI>(() async {
-    return AtivosAPI(
-      getIt<Dio>(),
-    );
-  }, dependsOn: [Dio]);
+  getIt.registerSingletonAsync<AtivosAPI>(
+    () => provideAtivoAPI(),
+    dependsOn: [Dio],
+  );
+  getIt.registerSingletonAsync<CarteiraAPI>(
+    () => provideCarteiraAPI(),
+    dependsOn: [Dio],
+  );
+  getIt.registerSingletonAsync<OrdensAPI>(
+    () => provideOrdemAPI(),
+    dependsOn: [Dio],
+  );
+  getIt.registerSingletonAsync<UsuarioAPI>(
+    () => provideUsuarioAPI(),
+    dependsOn: [Dio],
+  );
 
-  getIt.registerSingletonAsync<CarteiraAPI>(() async {
-    return CarteiraAPI(
-      getIt<Dio>(),
-    );
-  }, dependsOn: [Dio]);
-  getIt.registerSingletonAsync<OrdensAPI>(() async {
-    return OrdensAPI(
-      getIt<Dio>(),
-    );
-  }, dependsOn: [Dio]);
-  getIt.registerSingletonAsync<UsuarioAPI>(() async {
-    return UsuarioAPI(
-      getIt<Dio>(),
-    );
-  }, dependsOn: [Dio]);
+  getIt.registerSingletonAsync<AtivosRepository>(
+    () => provideAtivoRepository(),
+    dependsOn: [AtivosAPI],
+  );
+  getIt.registerSingletonAsync<CarteiraRepository>(
+      () => provideCarteiraRepository(),
+      dependsOn: [CarteiraAPI]);
+  getIt.registerSingletonAsync<OrdensRepository>(
+      () => provideOrdensRepository(),
+      dependsOn: [OrdensAPI]);
+  getIt.registerSingletonAsync<UsuarioRepository>(
+      () => provideUsuarioRepository(),
+      dependsOn: [UsuarioAPI]);
 
-  getIt.registerSingletonAsync<AtivosRepository>(() async {
-    return AtivosRepository(
-      getIt<AtivosAPI>(),
-    );
-  }, dependsOn: [AtivosAPI]);
-  getIt.registerSingletonAsync<CarteiraRepository>(() async {
-    return CarteiraRepository(
-      getIt<CarteiraAPI>(),
-    );
-  }, dependsOn: [CarteiraAPI]);
-  getIt.registerSingletonAsync<OrdensRepository>(() async {
-    return OrdensRepository(
-      getIt<OrdensAPI>(),
-    );
-  }, dependsOn: [OrdensAPI]);
-  getIt.registerSingletonAsync<UsuarioRepository>(() async {
-    return UsuarioRepository(
-      getIt<UsuarioAPI>(),
-    );
-  }, dependsOn: [UsuarioAPI]);
-
-  getIt.registerSingletonAsync<CarteiraViewModel>(() async {
+  getIt.registerFactory<CarteiraViewModel>(() {
     return CarteiraViewModel(
       getIt<CarteiraRepository>(),
     );
-  }, dependsOn: [CarteiraRepository]);
-  getIt.registerSingletonAsync<AtivosViewModel>(() async {
+  });
+  getIt.registerFactory<AtivosViewModel>(() {
     return AtivosViewModel(
       getIt<AtivosRepository>(),
     );
-  }, dependsOn: [AtivosRepository]);
-  getIt.registerSingletonAsync<LoginViewModel>(() async {
+  });
+  getIt.registerFactory<LoginViewModel>(() {
     return LoginViewModel(
       getIt<UsuarioRepository>(),
     );
-  }, dependsOn: [UsuarioRepository]);
+  });
+  getIt.registerFactory<OrdemViewModel>(() {
+    return OrdemViewModel(
+      getIt<OrdensRepository>(),
+    );
+  });
 
   $initGetIt(getIt);
 
   await getIt.allReady();
+}
+
+Future<SharedPreferences> provideSharedPref() async {
+  return await SharedPreferences.getInstance();
+}
+
+Future<Dio> provideDio() async {
+  Dio dio = Dio();
+  dio.options = BaseOptions(receiveTimeout: 5000, connectTimeout: 5000);
+  dio.interceptors.add(PrettyDioLogger(
+      requestHeader: true,
+      requestBody: true,
+      responseBody: true,
+      responseHeader: false,
+      error: true,
+      compact: true,
+      maxWidth: 5000));
+  dio.interceptors.add(InterceptorsWrapper(onRequest: (Options options) async {
+    SharedPreferences prefs = await provideSharedPref();
+    String token = prefs.getString('token');
+    dio.interceptors.requestLock.lock();
+    options.headers["Authorization"] = "Bearer $token";
+    dio.interceptors.requestLock.unlock();
+    return options;
+  }));
+  return dio;
+}
+
+Future<AtivosAPI> provideAtivoAPI() async {
+  return AtivosAPI(
+    await provideDio(),
+  );
+}
+
+Future<CarteiraAPI> provideCarteiraAPI() async {
+  return CarteiraAPI(
+    await provideDio(),
+  );
+}
+
+Future<OrdensAPI> provideOrdemAPI() async {
+  return OrdensAPI(
+    await provideDio(),
+  );
+}
+
+Future<UsuarioAPI> provideUsuarioAPI() async {
+  return UsuarioAPI(
+    await provideDio(),
+  );
+}
+
+Future<AtivosRepository> provideAtivoRepository() async {
+  return AtivosRepository(await provideAtivoAPI());
+}
+
+Future<CarteiraRepository> provideCarteiraRepository() async {
+  return CarteiraRepository(await provideCarteiraAPI());
+}
+
+Future<OrdensRepository> provideOrdensRepository() async {
+  return OrdensRepository(await provideOrdemAPI());
+}
+
+Future<UsuarioRepository> provideUsuarioRepository() async {
+  return UsuarioRepository(await provideUsuarioAPI());
 }

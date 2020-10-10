@@ -1,15 +1,16 @@
 import 'package:Investec/data/domain/carteira.dart';
 import 'package:Investec/data/service/service-locator.dart';
-import 'package:Investec/ui/pages/carteira/view-model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+
+import 'view-model.dart';
 
 class PageCadastroCarteira extends StatefulWidget {
   static const routeName = '/cadastro/carteira';
 
-  final Carteira carteira;
+  final Carteira obj;
 
-  PageCadastroCarteira(this.carteira);
+  PageCadastroCarteira(this.obj);
 
   @override
   _PageCadastroCarteira createState() => _PageCadastroCarteira();
@@ -23,17 +24,17 @@ class _PageCadastroCarteira extends State<PageCadastroCarteira> {
     CarteiraViewModel viewModel = getIt<CarteiraViewModel>();
 
     TextEditingController idController =
-        TextEditingController(text: widget.carteira.id);
+        TextEditingController(text: widget.obj.id);
     TextEditingController nomeController =
-        TextEditingController(text: widget.carteira.nomeCarteira);
+        TextEditingController(text: widget.obj.nomeCarteira);
     TextEditingController metaController =
-        TextEditingController(text: widget.carteira.metaCarteira?.toString());
+        TextEditingController(text: widget.obj.metaCarteira?.toString());
     TextEditingController variacaoController =
-        TextEditingController(text: widget.carteira.varCarteira?.toString());
+        TextEditingController(text: widget.obj.varCarteira?.toString());
     TextEditingController saldoController =
-        TextEditingController(text: widget.carteira.saldoCarteira?.toString());
+        TextEditingController(text: widget.obj.saldoCarteira?.toString());
     TextEditingController dtCriacaoController =
-        TextEditingController(text: widget.carteira.dtCriacao);
+        TextEditingController(text: widget.obj.dtCriacao);
 
     return Scaffold(
       appBar: AppBar(

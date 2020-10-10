@@ -1,7 +1,7 @@
 import 'package:Investec/data/domain/ativo.dart';
 import 'package:Investec/data/domain/carteira.dart';
+import 'package:Investec/data/domain/ordem.dart';
 import 'package:flutter/material.dart';
-
 import 'package:Investec/data/service/service-locator.dart';
 import 'package:Investec/ui/pages/shimmer/lista-shimmer.dart';
 import 'package:provider/provider.dart';
@@ -10,26 +10,35 @@ import 'lista-item.dart';
 import 'page-cadastro.dart';
 import 'view-model.dart';
 
-class PageAtivosCarteira extends StatefulWidget {
-  static const routeName = '/carteira/ativos';
+class PageOrdensAtivo extends StatefulWidget {
+  static const routeName = '/carteira/ativos/ordens';
 
-  final Carteira carteira;
+  final PageOrdensAtivoArgs args;
 
-  PageAtivosCarteira(this.carteira);
+  PageOrdensAtivo(this.args);
 
   @override
-  _PageAtivosCarteira createState() => _PageAtivosCarteira();
+  _PageOrdensAtivo createState() => _PageOrdensAtivo();
 }
 
-class _PageAtivosCarteira extends State<PageAtivosCarteira> {
-  AtivosViewModel model = getIt<AtivosViewModel>();
+class PageOrdensAtivoArgs {
+  final Carteira carteira;
+  final Ativo ativo;
+
+  PageOrdensAtivoArgs(this.carteira, this.ativo);
+}
+
+class _PageOrdensAtivo extends State<PageOrdensAtivo> {
+  OrdemViewModel model = getIt<OrdemViewModel>();
 
   bool loading = false;
 
   @override
   void initState() {
     loading = true;
-    model.list(widget.carteira.id).catchError((error) {
+    model
+        .list(widget.args.carteira.id, widget.args.ativo.id)
+        .catchError((error) {
       print(error);
       model.notifyListeners();
     });
@@ -39,7 +48,9 @@ class _PageAtivosCarteira extends State<PageAtivosCarteira> {
   @override
   Widget build(BuildContext context) {
     VoidCallback onCountSelected = () async {
-      await model.list(widget.carteira.id).catchError((error) {
+      await model
+          .list(widget.args.carteira.id, widget.args.ativo.id)
+          .catchError((error) {
         print(error);
         model.notifyListeners();
       });
@@ -52,14 +63,14 @@ class _PageAtivosCarteira extends State<PageAtivosCarteira> {
             onPressed: () {},
           ),
         ],
-        title: Text('Investec - Ativos: ${widget.carteira.nomeCarteira}'),
+        title: Text('Investec - Ativos: ${widget.args.carteira.nomeCarteira}'),
       ),
       body: SafeArea(
         child: ChangeNotifierProvider(
           create: (context) => model,
-          child: ChangeNotifierProvider<AtivosViewModel>(
+          child: ChangeNotifierProvider<OrdemViewModel>(
             create: (context) => model,
-            child: Consumer<AtivosViewModel>(
+            child: Consumer<OrdemViewModel>(
               builder: (context, value, child) {
                 if (loading) {
                   loading = false;
@@ -72,11 +83,8 @@ class _PageAtivosCarteira extends State<PageAtivosCarteira> {
                         return Column(
                           children: [
                             Card(
-                              child: ListaAtivoItem(
-                                widget.carteira,
-                                model.ativos[index],
-                                onCountSelected,
-                              ),
+                              child: ListaOrdemItem(
+                                  model.ativos[index], onCountSelected),
                             ),
                             Divider(
                               color: Colors.grey,
@@ -98,9 +106,11 @@ class _PageAtivosCarteira extends State<PageAtivosCarteira> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
-          Ativo obj = new Ativo(carteiraId: widget.carteira.id);
+          Ordem obj = new Ordem(
+              carteiraId: widget.args.carteira.id,
+              ativoId: widget.args.ativo.id);
           final information = await Navigator.of(context)
-              .pushNamed(PageCadastroAtivo.routeName, arguments: obj);
+              .pushNamed(PageCadastroOrdem.routeName, arguments: obj);
           if (information != null && information == "refresh") {
             onCountSelected();
           }

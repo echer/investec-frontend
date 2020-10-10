@@ -7,9 +7,9 @@ import 'package:flutter/services.dart';
 class PageCadastroAtivo extends StatefulWidget {
   static const routeName = '/cadastro/ativo';
 
-  final Ativo ativo;
+  final Ativo obj;
 
-  PageCadastroAtivo(this.ativo);
+  PageCadastroAtivo(this.obj);
 
   @override
   _PageCadastroAtivo createState() => _PageCadastroAtivo();
@@ -22,21 +22,21 @@ class _PageCadastroAtivo extends State<PageCadastroAtivo> {
   Widget build(BuildContext context) {
     AtivosViewModel viewModel = getIt<AtivosViewModel>();
     TextEditingController idController =
-        TextEditingController(text: widget.ativo.id);
+        TextEditingController(text: widget.obj.id);
     TextEditingController idCarteiraController =
-        TextEditingController(text: widget.ativo.carteiraId);
+        TextEditingController(text: widget.obj.carteiraId);
     TextEditingController ticketController =
-        TextEditingController(text: widget.ativo.ticker);
+        TextEditingController(text: widget.obj.ticker);
     TextEditingController pmController =
-        TextEditingController(text: widget.ativo.pmAtivo?.toString());
+        TextEditingController(text: widget.obj.pmAtivo?.toString());
     TextEditingController qtdController =
-        TextEditingController(text: widget.ativo.qtdAtivo?.toString());
+        TextEditingController(text: widget.obj.qtdAtivo?.toString());
     TextEditingController stopGainController =
-        TextEditingController(text: widget.ativo.stopGain?.toString());
+        TextEditingController(text: widget.obj.stopGain?.toString());
     TextEditingController stopLossController =
-        TextEditingController(text: widget.ativo.stopLoss?.toString());
+        TextEditingController(text: widget.obj.stopLoss?.toString());
     TextEditingController vlrInvestidoController =
-        TextEditingController(text: widget.ativo.vlrInvestido?.toString());
+        TextEditingController(text: widget.obj.vlrInvestido?.toString());
     return Scaffold(
       appBar: AppBar(
         actions: [
@@ -92,90 +92,88 @@ class _PageCadastroAtivo extends State<PageCadastroAtivo> {
             : 'Investec - Editar: ${idController.text}'),
       ),
       body: SafeArea(
-        child: SafeArea(
-          child: new SingleChildScrollView(
-            child: new Column(
-              children: <Widget>[
-                Form(
-                  key: _formKey,
-                  child: Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Column(
-                      children: <Widget>[
-                        TextFormField(
-                          controller: idController,
-                          readOnly: true,
-                          enabled: false,
-                          decoration: InputDecoration(labelText: 'ID'),
-                        ),
-                        TextFormField(
-                          controller: idCarteiraController,
-                          readOnly: true,
-                          enabled: false,
-                          decoration: InputDecoration(labelText: 'ID Carteira'),
-                        ),
-                        TextFormField(
-                          controller: ticketController,
-                          decoration: InputDecoration(labelText: 'Ticket'),
-                          validator: (value) {
-                            if (value.isEmpty) {
-                              return 'Informe o Ticket do ativo';
-                            }
-                            return null;
-                          },
-                        ),
-                        TextFormField(
-                          controller: pmController,
-                          decoration: InputDecoration(labelText: 'Preço'),
-                          inputFormatters: [
-                            FilteringTextInputFormatter.allow(
-                                RegExp(r'^(\d+)?\.?\d{0,2}')),
-                          ],
-                          keyboardType: TextInputType.number,
-                          readOnly: true,
-                          enabled: false,
-                        ),
-                        TextFormField(
-                          controller: qtdController,
-                          decoration: InputDecoration(labelText: 'Quantidade'),
-                          inputFormatters: [
-                            FilteringTextInputFormatter.allow(
-                                RegExp(r'^(\d+)?\.?\d{0,2}')),
-                          ],
-                          keyboardType: TextInputType.number,
-                          readOnly: true,
-                          enabled: false,
-                        ),
-                        TextFormField(
-                          controller: vlrInvestidoController,
-                          readOnly: true,
-                          enabled: false,
-                          decoration: InputDecoration(labelText: 'Total'),
-                        ),
-                        TextFormField(
-                          controller: stopLossController,
-                          decoration: InputDecoration(labelText: 'Stop Loss'),
-                          inputFormatters: [
-                            FilteringTextInputFormatter.allow(
-                                RegExp(r'^(\d+)?\.?\d{0,2}')),
-                          ],
-                          keyboardType: TextInputType.number,
-                        ),
-                        TextFormField(
-                          controller: stopGainController,
-                          decoration: InputDecoration(labelText: 'Stop Gain'),
-                          inputFormatters: [
-                            FilteringTextInputFormatter.allow(
-                                RegExp(r'^(\d+)?\.?\d{0,2}')),
-                          ],
-                          keyboardType: TextInputType.number,
-                        ),
-                      ],
-                    ),
+        child: new SingleChildScrollView(
+          child: new Column(
+            children: <Widget>[
+              Form(
+                key: _formKey,
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Column(
+                    children: <Widget>[
+                      TextFormField(
+                        controller: idController,
+                        readOnly: true,
+                        enabled: false,
+                        decoration: InputDecoration(labelText: 'ID'),
+                      ),
+                      TextFormField(
+                        controller: idCarteiraController,
+                        readOnly: true,
+                        enabled: false,
+                        decoration: InputDecoration(labelText: 'ID Carteira'),
+                      ),
+                      TextFormField(
+                        controller: ticketController,
+                        decoration: InputDecoration(labelText: 'Ticket'),
+                        validator: (value) {
+                          if (value.isEmpty) {
+                            return 'Informe o Ticket do ativo';
+                          }
+                          return null;
+                        },
+                      ),
+                      TextFormField(
+                        controller: pmController,
+                        decoration: InputDecoration(labelText: 'Preço'),
+                        inputFormatters: [
+                          FilteringTextInputFormatter.allow(
+                              RegExp(r'^(\d+)?\.?\d{0,2}')),
+                        ],
+                        keyboardType: TextInputType.number,
+                        readOnly: true,
+                        enabled: false,
+                      ),
+                      TextFormField(
+                        controller: qtdController,
+                        decoration: InputDecoration(labelText: 'Quantidade'),
+                        inputFormatters: [
+                          FilteringTextInputFormatter.allow(
+                              RegExp(r'^(\d+)?\.?\d{0,2}')),
+                        ],
+                        keyboardType: TextInputType.number,
+                        readOnly: true,
+                        enabled: false,
+                      ),
+                      TextFormField(
+                        controller: vlrInvestidoController,
+                        readOnly: true,
+                        enabled: false,
+                        decoration: InputDecoration(labelText: 'Total'),
+                      ),
+                      TextFormField(
+                        controller: stopLossController,
+                        decoration: InputDecoration(labelText: 'Stop Loss'),
+                        inputFormatters: [
+                          FilteringTextInputFormatter.allow(
+                              RegExp(r'^(\d+)?\.?\d{0,2}')),
+                        ],
+                        keyboardType: TextInputType.number,
+                      ),
+                      TextFormField(
+                        controller: stopGainController,
+                        decoration: InputDecoration(labelText: 'Stop Gain'),
+                        inputFormatters: [
+                          FilteringTextInputFormatter.allow(
+                              RegExp(r'^(\d+)?\.?\d{0,2}')),
+                        ],
+                        keyboardType: TextInputType.number,
+                      ),
+                    ],
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),

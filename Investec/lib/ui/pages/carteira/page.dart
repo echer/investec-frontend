@@ -1,12 +1,13 @@
 import 'package:Investec/data/domain/carteira.dart';
 import 'package:Investec/data/service/service-locator.dart';
-import 'package:Investec/ui/pages/carteira/adapter/lista-item.dart';
-import 'package:Investec/ui/pages/carteira/view-model.dart';
-import 'package:Investec/ui/pages/carteira/page-cadastro.dart';
 import 'package:Investec/ui/pages/shimmer/lista-shimmer.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+
+import 'lista-item.dart';
+import 'page-cadastro.dart';
+import 'view-model.dart';
 
 class PageCarteira extends StatefulWidget {
   static const routeName = '/carteira';
@@ -93,10 +94,10 @@ class _PageCarteira extends State<PageCarteira> {
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
           DateTime now = DateTime.now();
-          Carteira carteira =
+          Carteira obj =
               Carteira(dtCriacao: DateFormat('dd/MM/yyyy').format(now));
           final information = await Navigator.of(context)
-              .pushNamed(PageCadastroCarteira.routeName, arguments: carteira);
+              .pushNamed(PageCadastroCarteira.routeName, arguments: obj);
           if (information != null && information == "refresh") {
             onCountSelected();
           }

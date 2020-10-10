@@ -14,15 +14,15 @@ class CarteiraViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> createOrUpdate(Carteira carteira) {
-    if (carteira.id.isEmpty) {
-      carteira.id = null;
-      return repository.create(carteira);
+  Future<void> createOrUpdate(Carteira obj) {
+    if (obj.id.isEmpty) {
+      obj.id = null;
+      return repository.create(obj);
     }
-    return repository.update(carteira);
+    return repository.update(obj);
   }
 
-  Future<void> delete(Carteira carteira) {
-    return repository.delete(carteira);
+  Future<void> delete(Carteira obj) {
+    return repository.delete(obj);
   }
 }

@@ -1,14 +1,14 @@
 import 'package:Investec/data/domain/ativo.dart';
 import 'package:Investec/data/domain/carteira.dart';
-import 'package:Investec/ui/pages/ativos/adapter/lista-ativo-item.dart';
-import 'package:Investec/ui/pages/ativos/page-cadastro-ativo.dart';
+import 'package:Investec/ui/pages/ativos/adapter/lista-item.dart';
+import 'package:Investec/ui/pages/ativos/page-cadastro.dart';
 import 'package:flutter/material.dart';
 
 import 'package:Investec/data/service/service-locator.dart';
 import 'package:Investec/ui/pages/shimmer/lista-shimmer.dart';
 import 'package:provider/provider.dart';
 
-import 'ativos-view-model.dart';
+import 'view-model.dart';
 
 class PageAtivosCarteira extends StatefulWidget {
   static const routeName = '/carteira/ativos';

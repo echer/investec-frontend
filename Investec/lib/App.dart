@@ -1,10 +1,10 @@
-import 'package:Investec/ui/pages/ativos/page-cadastro-ativo.dart';
-import 'package:Investec/ui/pages/carteira/page-cadastro-carteira.dart';
-import 'package:Investec/ui/pages/carteira/page-carteira.dart';
-import 'package:Investec/ui/pages/home/page-home.dart';
+import 'package:Investec/ui/pages/ativos/page-cadastro.dart';
+import 'package:Investec/ui/pages/carteira/page-cadastro.dart';
+import 'package:Investec/ui/pages/carteira/page.dart';
+import 'package:Investec/ui/pages/home/page.dart';
 import 'package:flutter/material.dart';
 
-import 'ui/pages/ativos/page-ativos.dart';
+import 'ui/pages/ativos/page.dart';
 
 class App extends StatelessWidget {
   @override

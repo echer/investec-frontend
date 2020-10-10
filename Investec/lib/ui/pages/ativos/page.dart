@@ -1,29 +1,35 @@
+import 'package:Investec/data/domain/ativo.dart';
 import 'package:Investec/data/domain/carteira.dart';
-import 'package:Investec/data/service/service-locator.dart';
-import 'package:Investec/ui/pages/carteira/adapter/lista-carteira-item.dart';
-import 'package:Investec/ui/pages/carteira/carteira-view-model.dart';
-import 'package:Investec/ui/pages/carteira/page-cadastro-carteira.dart';
-import 'package:Investec/ui/pages/shimmer/lista-shimmer.dart';
+import 'package:Investec/ui/pages/ativos/adapter/lista-item.dart';
+import 'package:Investec/ui/pages/ativos/page-cadastro.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
+
+import 'package:Investec/data/service/service-locator.dart';
+import 'package:Investec/ui/pages/shimmer/lista-shimmer.dart';
 import 'package:provider/provider.dart';
 
-class PageCarteira extends StatefulWidget {
-  static const routeName = '/carteira';
+import 'view-model.dart';
+
+class PageAtivosCarteira extends StatefulWidget {
+  static const routeName = '/carteira/ativos';
+
+  final Carteira carteira;
+
+  PageAtivosCarteira(this.carteira);
 
   @override
-  _PageCarteira createState() => _PageCarteira();
+  _PageAtivosCarteira createState() => _PageAtivosCarteira();
 }
 
-class _PageCarteira extends State<PageCarteira> {
-  CarteiraViewModel model = getIt<CarteiraViewModel>();
+class _PageAtivosCarteira extends State<PageAtivosCarteira> {
+  AtivosViewModel model = getIt<AtivosViewModel>();
 
   bool loading = false;
 
   @override
   void initState() {
     loading = true;
-    model.list().catchError((error) {
+    model.list(widget.carteira.id).catchError((error) {
       print(error);
       model.notifyListeners();
     });
@@ -33,12 +39,11 @@ class _PageCarteira extends State<PageCarteira> {
   @override
   Widget build(BuildContext context) {
     VoidCallback onCountSelected = () async {
-      await model.list().catchError((error) {
+      await model.list(widget.carteira.id).catchError((error) {
         print(error);
         model.notifyListeners();
       });
     };
-
     return Scaffold(
       appBar: AppBar(
         actions: [
@@ -47,30 +52,28 @@ class _PageCarteira extends State<PageCarteira> {
             onPressed: () {},
           ),
         ],
-        title: Text('Investec - Carteiras'),
+        title: Text('Investec - Ativos: ${widget.carteira.nomeCarteira}'),
       ),
       body: SafeArea(
         child: ChangeNotifierProvider(
           create: (context) => model,
-          child: ChangeNotifierProvider<CarteiraViewModel>(
+          child: ChangeNotifierProvider<AtivosViewModel>(
             create: (context) => model,
-            child: Consumer<CarteiraViewModel>(
+            child: Consumer<AtivosViewModel>(
               builder: (context, value, child) {
                 if (loading) {
                   loading = false;
                   return ShimmerList();
                 } else {
-                  if (model.carteiras.length > 0) {
+                  if (model.ativos.length > 0) {
                     return ListView.builder(
-                      itemCount: model.carteiras.length,
+                      itemCount: model.ativos.length,
                       itemBuilder: (context, index) {
                         return Column(
                           children: [
                             Card(
-                              child: ListaCarteiraItem(
-                                model.carteiras[index],
-                                onCountSelected,
-                              ),
+                              child: ListaAtivoItem(
+                                  model.ativos[index], onCountSelected),
                             ),
                             Divider(
                               color: Colors.grey,
@@ -92,11 +95,9 @@ class _PageCarteira extends State<PageCarteira> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
-          DateTime now = DateTime.now();
-          Carteira carteira =
-              Carteira(dtCriacao: DateFormat('dd/MM/yyyy').format(now));
+          Ativo ativo = new Ativo(carteiraId: widget.carteira.id);
           final information = await Navigator.of(context)
-              .pushNamed(PageCadastroCarteira.routeName, arguments: carteira);
+              .pushNamed(PageCadastroAtivo.routeName, arguments: ativo);
           if (information != null && information == "refresh") {
             onCountSelected();
           }

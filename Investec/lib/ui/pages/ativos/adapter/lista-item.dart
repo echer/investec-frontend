@@ -1,5 +1,5 @@
 import 'package:Investec/data/domain/ativo.dart';
-import 'package:Investec/ui/pages/ativos/page-cadastro-ativo.dart';
+import 'package:Investec/ui/pages/ativos/page-cadastro.dart';
 import 'package:flutter/material.dart';
 
 class ListaAtivoItem extends StatelessWidget {

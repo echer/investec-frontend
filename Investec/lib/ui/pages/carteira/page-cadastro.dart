@@ -1,6 +1,6 @@
 import 'package:Investec/data/domain/carteira.dart';
 import 'package:Investec/data/service/service-locator.dart';
-import 'package:Investec/ui/pages/carteira/carteira-view-model.dart';
+import 'package:Investec/ui/pages/carteira/view-model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 

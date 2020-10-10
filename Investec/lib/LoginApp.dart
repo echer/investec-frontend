@@ -1,7 +1,7 @@
-import 'package:Investec/ui/pages/login/page-novo-usuario.dart';
+import 'package:Investec/ui/pages/login/page-cadastro.dart';
 import 'package:flutter/material.dart';
 
-import 'ui/pages/login/page-login-usuario.dart';
+import 'ui/pages/login/page.dart';
 
 class LoginApp extends StatelessWidget {
   @override

@@ -1,5 +1,5 @@
 import 'package:Investec/LoginApp.dart';
-import 'package:Investec/ui/pages/carteira/page-carteira.dart';
+import 'package:Investec/ui/pages/carteira/page.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

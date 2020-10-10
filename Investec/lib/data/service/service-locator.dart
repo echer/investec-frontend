@@ -1,8 +1,8 @@
 // 1
 import 'package:Investec/data/service/service-locator.iconfig.dart';
-import 'package:Investec/ui/pages/ativos/ativos-view-model.dart';
-import 'package:Investec/ui/pages/carteira/carteira-view-model.dart';
-import 'package:Investec/ui/pages/login/login-view-model.dart';
+import 'package:Investec/ui/pages/ativos/view-model.dart';
+import 'package:Investec/ui/pages/carteira/view-model.dart';
+import 'package:Investec/ui/pages/login/view-model.dart';
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';

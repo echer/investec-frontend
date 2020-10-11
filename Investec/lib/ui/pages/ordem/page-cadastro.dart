@@ -77,6 +77,13 @@ class _PageCadastroOrdem extends State<PageCadastroOrdem> {
                   id: idController.text,
                   carteiraId: idCarteiraController.text,
                   ativoId: idAtivoController.text,
+                  dtOrdem: dtOrdemController.text,
+                  qtdOrdem: int.tryParse(qtdOrdemController.text)?.toInt(),
+                  taxaOrdem:
+                      double.tryParse(taxaOrdemController.text)?.toDouble(),
+                  tipoOrdem: int.tryParse(tipoOrdemController.text)?.toInt(),
+                  vlrOrdem:
+                      double.tryParse(vlrOrdemController.text)?.toDouble(),
                 );
                 await viewModel.delete(obj).then((value) {
                   Navigator.pop(context, 'refresh');

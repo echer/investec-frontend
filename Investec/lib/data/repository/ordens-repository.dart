@@ -10,8 +10,6 @@ abstract class OrdensRepository {
 
   Future create(String carteira, String ativo, Ordem obj);
 
-  Future update(String carteira, String ativo, Ordem obj);
-
   Future delete(String carteira, String ativo, Ordem obj);
 }
 
@@ -26,10 +24,6 @@ class _OrdensRepository implements OrdensRepository {
 
   Future create(String carteira, String ativo, Ordem obj) async {
     return api.create(carteira, ativo, obj);
-  }
-
-  Future update(String carteira, String ativo, Ordem obj) async {
-    return api.update(carteira, ativo, obj.id, obj);
   }
 
   Future delete(String carteira, String ativo, Ordem obj) async {

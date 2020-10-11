@@ -1,4 +1,5 @@
 import 'package:Investec/data/domain/ativo.dart';
+import 'package:Investec/data/domain/carteira.dart';
 import 'package:Investec/data/service/service-locator.dart';
 import 'package:Investec/ui/pages/ativos/view-model.dart';
 import 'package:flutter/material.dart';
@@ -24,7 +25,7 @@ class _PageCadastroAtivo extends State<PageCadastroAtivo> {
     TextEditingController idController =
         TextEditingController(text: widget.obj.id);
     TextEditingController idCarteiraController =
-        TextEditingController(text: widget.obj.carteiraId);
+        TextEditingController(text: widget.obj.carteira.id);
     TextEditingController ticketController =
         TextEditingController(text: widget.obj.ticker);
     TextEditingController pmController =
@@ -49,7 +50,6 @@ class _PageCadastroAtivo extends State<PageCadastroAtivo> {
 
                 Ativo createOrupdate = Ativo(
                     id: idController.text,
-                    carteiraId: idCarteiraController.text,
                     pmAtivo: double.tryParse(pmController.text)?.toDouble(),
                     qtdAtivo: double.tryParse(qtdController.text)?.toDouble(),
                     stopGain:
@@ -60,7 +60,9 @@ class _PageCadastroAtivo extends State<PageCadastroAtivo> {
                     vlrInvestido: double.tryParse(vlrInvestidoController.text)
                         ?.toDouble());
 
-                await viewModel.createOrUpdate(createOrupdate).then((value) {
+                await viewModel
+                    .createOrUpdate(widget.obj.carteira.id, createOrupdate)
+                    .then((value) {
                   Navigator.pop(context, 'refresh');
                 }, onError: (e) {
                   print(e);
@@ -75,9 +77,10 @@ class _PageCadastroAtivo extends State<PageCadastroAtivo> {
               icon: Icon(Icons.delete),
               onPressed: () async {
                 Ativo obj = Ativo(
-                    id: idController.text,
-                    carteiraId: idCarteiraController.text);
-                await viewModel.delete(obj).then((value) {
+                  id: idController.text,
+                );
+                await viewModel.delete(widget.obj.carteira.id, obj).then(
+                    (value) {
                   Navigator.pop(context, 'refresh');
                 }, onError: (e) {
                   print(e);

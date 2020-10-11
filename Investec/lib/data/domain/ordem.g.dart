@@ -9,13 +9,16 @@ part of 'ordem.dart';
 Ordem _$OrdemFromJson(Map<String, dynamic> json) {
   return Ordem(
     id: json['id'] as String,
-    ativoId: json['ativoId'] as String,
-    carteiraId: json['carteiraId'] as String,
+    ativosCarteira: json['ativosCarteira'] == null
+        ? null
+        : Ativo.fromJson(json['ativosCarteira'] as Map<String, dynamic>),
     tipoOrdem: json['tipoOrdem'] as int,
     dtOrdem: json['dtOrdem'] as String,
     qtdOrdem: json['qtdOrdem'] as int,
     vlrOrdem: (json['vlrOrdem'] as num)?.toDouble(),
     taxaOrdem: (json['taxaOrdem'] as num)?.toDouble(),
+    totalOrdem: (json['totalOrdem'] as num)?.toDouble(),
+    totalOrdemLiquido: (json['totalOrdemLiquido'] as num)?.toDouble(),
   );
 }
 
@@ -29,12 +32,13 @@ Map<String, dynamic> _$OrdemToJson(Ordem instance) {
   }
 
   writeNotNull('id', instance.id);
-  writeNotNull('ativoId', instance.ativoId);
-  writeNotNull('carteiraId', instance.carteiraId);
+  writeNotNull('ativosCarteira', instance.ativosCarteira?.toJson());
   writeNotNull('tipoOrdem', instance.tipoOrdem);
   writeNotNull('dtOrdem', instance.dtOrdem);
   writeNotNull('qtdOrdem', instance.qtdOrdem);
   writeNotNull('vlrOrdem', instance.vlrOrdem);
   writeNotNull('taxaOrdem', instance.taxaOrdem);
+  writeNotNull('totalOrdem', instance.totalOrdem);
+  writeNotNull('totalOrdemLiquido', instance.totalOrdemLiquido);
   return val;
 }

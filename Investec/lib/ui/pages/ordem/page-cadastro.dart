@@ -23,10 +23,15 @@ class _PageCadastroOrdem extends State<PageCadastroOrdem> {
     OrdemViewModel viewModel = getIt<OrdemViewModel>();
     TextEditingController idController =
         TextEditingController(text: widget.obj.id);
-    TextEditingController idCarteiraController =
-        TextEditingController(text: widget.obj.carteiraId);
-    TextEditingController idAtivoController =
-        TextEditingController(text: widget.obj.ativoId);
+    TextEditingController idCarteiraController = TextEditingController(
+        text: widget.obj.ativosCarteira != null &&
+                widget.obj.ativosCarteira.carteira != null
+            ? widget.obj.ativosCarteira.carteira.id
+            : "");
+    TextEditingController idAtivoController = TextEditingController(
+        text: widget.obj.ativosCarteira != null
+            ? widget.obj.ativosCarteira.id
+            : "");
     TextEditingController tipoOrdemController = TextEditingController(
         text: widget.obj.tipoOrdem != null
             ? widget.obj.tipoOrdem.toString()
@@ -53,13 +58,21 @@ class _PageCadastroOrdem extends State<PageCadastroOrdem> {
                 //Scaffold.of(context).showSnackBar(
                 //   SnackBar(content: Text('Realizando cadastro aguarde...')));
 
-                Ordem createOrupdate = Ordem(
+                Ordem create = Ordem(
                   id: idController.text,
-                  carteiraId: idCarteiraController.text,
-                  ativoId: idAtivoController.text,
+                  dtOrdem: dtOrdemController.text,
+                  qtdOrdem: int.tryParse(qtdOrdemController.text)?.toInt(),
+                  taxaOrdem:
+                      double.tryParse(taxaOrdemController.text)?.toDouble(),
+                  tipoOrdem: int.tryParse(tipoOrdemController.text)?.toInt(),
+                  vlrOrdem:
+                      double.tryParse(vlrOrdemController.text)?.toDouble(),
                 );
 
-                await viewModel.createOrUpdate(createOrupdate).then((value) {
+                await viewModel
+                    .create(widget.obj.ativosCarteira.carteira.id,
+                        widget.obj.ativosCarteira.id, create)
+                    .then((value) {
                   Navigator.pop(context, 'refresh');
                 }, onError: (e) {
                   print(e);
@@ -69,31 +82,6 @@ class _PageCadastroOrdem extends State<PageCadastroOrdem> {
               }
             },
           ),
-          if (idController.text.isNotEmpty)
-            IconButton(
-              icon: Icon(Icons.delete),
-              onPressed: () async {
-                Ordem obj = Ordem(
-                  id: idController.text,
-                  carteiraId: idCarteiraController.text,
-                  ativoId: idAtivoController.text,
-                  dtOrdem: dtOrdemController.text,
-                  qtdOrdem: int.tryParse(qtdOrdemController.text)?.toInt(),
-                  taxaOrdem:
-                      double.tryParse(taxaOrdemController.text)?.toDouble(),
-                  tipoOrdem: int.tryParse(tipoOrdemController.text)?.toInt(),
-                  vlrOrdem:
-                      double.tryParse(vlrOrdemController.text)?.toDouble(),
-                );
-                await viewModel.delete(obj).then((value) {
-                  Navigator.pop(context, 'refresh');
-                }, onError: (e) {
-                  print(e);
-                }).catchError((error) {
-                  print(error);
-                });
-              },
-            ),
         ],
         title: Text(idController.text.isEmpty
             ? 'Investec - Nova Ordem'
@@ -129,7 +117,7 @@ class _PageCadastroOrdem extends State<PageCadastroOrdem> {
                           },
                         ),
                         TextFormField(
-                          controller: idCarteiraController,
+                          controller: idAtivoController,
                           readOnly: true,
                           enabled: false,
                           decoration: InputDecoration(labelText: 'ID Ativo'),
@@ -169,7 +157,8 @@ class _PageCadastroOrdem extends State<PageCadastroOrdem> {
                         ),
                         TextFormField(
                           controller: vlrOrdemController,
-                          decoration: InputDecoration(labelText: 'Valor'),
+                          decoration:
+                              InputDecoration(labelText: 'Valor Unitário'),
                           inputFormatters: [
                             FilteringTextInputFormatter.allow(
                                 RegExp(r'^(\d+)?\.?\d{0,2}')),
@@ -177,7 +166,7 @@ class _PageCadastroOrdem extends State<PageCadastroOrdem> {
                           keyboardType: TextInputType.number,
                           validator: (value) {
                             if (value.isEmpty) {
-                              return 'Informe o Valor';
+                              return 'Informe o Valor Unitário';
                             }
                             return null;
                           },

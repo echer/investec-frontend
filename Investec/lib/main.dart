@@ -1,9 +1,7 @@
 import 'dart:async';
 
 import 'package:Investec/data/service/service-locator.dart';
-import 'package:Investec/ui/pages/login/view-model.dart';
 import 'package:flutter/material.dart';
-import 'package:get_it/get_it.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';

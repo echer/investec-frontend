@@ -17,10 +17,6 @@ abstract class OrdensAPI {
   Future create(
       @Path() String carteira, @Path() String ativo, @Body() Ordem obj);
 
-  @PUT("/{carteira}/ativos/{ativo}/ordens/{id}")
-  Future update(@Path() String carteira, @Path() String ativo,
-      @Path() String id, @Body() Ordem obj);
-
   @DELETE("/{carteira}/ativos/{ativo}/ordens/{id}")
   Future delete(
       @Path() String carteira, @Path() String ativo, @Path() String id);

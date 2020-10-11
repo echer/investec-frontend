@@ -1,9 +1,12 @@
 import 'package:Investec/data/domain/ordem.dart';
+import 'package:Investec/data/service/service-locator.dart';
 import 'package:flutter/material.dart';
 
-import 'page-cadastro.dart';
+import 'view-model.dart';
 
 class ListaOrdemItem extends StatelessWidget {
+  OrdemViewModel viewModel = getIt<OrdemViewModel>();
+
   final Ordem model;
 
   final VoidCallback onCountSelected;
@@ -14,29 +17,34 @@ class ListaOrdemItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       title: Text(
-        'Ordem: ${model.id}',
-        style: TextStyle(fontWeight: FontWeight.bold),
+        'Ordem: ${model.tipoOrdem == 0 ? "COMPRA" : ""}${model.tipoOrdem == 1 ? "VENDA" : ""}',
+        style: TextStyle(fontWeight: FontWeight.w400),
         maxLines: 1,
         overflow: TextOverflow.ellipsis,
       ),
       subtitle: Text(
-        '',
+        'Quantidade: ${model.qtdOrdem} x (R\$ ${model.vlrOrdem} - R\$ ${model.taxaOrdem}) = Total: R\$ ${model.totalOrdemLiquido}',
         style: TextStyle(fontWeight: FontWeight.normal),
         maxLines: 3,
         overflow: TextOverflow.ellipsis,
       ),
       trailing: IconButton(
         icon: Icon(
-          Icons.edit,
+          Icons.delete,
           color: Colors.green,
           size: 30,
         ),
         onPressed: () async {
-          final information = await Navigator.of(context)
-              .pushNamed(PageCadastroOrdem.routeName, arguments: model);
-          if (information != null && information == "refresh") {
+          await viewModel
+              .delete(model.ativosCarteira.carteira.id, model.ativosCarteira.id,
+                  model)
+              .then((value) {
             onCountSelected();
-          }
+          }, onError: (e) {
+            print(e);
+          }).catchError((error) {
+            print(error);
+          });
         },
       ),
       onTap: () {},

@@ -14,15 +14,12 @@ class OrdemViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> createOrUpdate(Ordem obj) {
-    if (obj.id.isEmpty) {
-      obj.id = null;
-      return repository.create(obj.carteiraId, obj.ativoId, obj);
-    }
-    return repository.update(obj.carteiraId, obj.ativoId, obj);
+  Future<void> create(String carteira, String ativo, Ordem obj) {
+    obj.id = null;
+    return repository.create(carteira, ativo, obj);
   }
 
-  Future<void> delete(Ordem obj) {
-    return repository.delete(obj.carteiraId, obj.ativoId, obj);
+  Future<void> delete(String carteira, String ativo, Ordem obj) {
+    return repository.delete(carteira, ativo, obj);
   }
 }

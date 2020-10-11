@@ -14,15 +14,15 @@ class AtivosViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> createOrUpdate(Ativo obj) {
+  Future<void> createOrUpdate(String carteira, Ativo obj) {
     if (obj.id.isEmpty) {
       obj.id = null;
-      return repository.create(obj.carteiraId, obj);
+      return repository.create(carteira, obj);
     }
-    return repository.update(obj.carteiraId, obj);
+    return repository.update(carteira, obj);
   }
 
-  Future<void> delete(Ativo obj) {
-    return repository.delete(obj.carteiraId, obj);
+  Future<void> delete(String carteira, Ativo obj) {
+    return repository.delete(carteira, obj);
   }
 }

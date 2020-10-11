@@ -4,7 +4,6 @@ import 'package:Investec/data/domain/ordem.dart';
 import 'package:flutter/material.dart';
 import 'package:Investec/data/service/service-locator.dart';
 import 'package:Investec/ui/pages/shimmer/lista-shimmer.dart';
-import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 import 'lista-item.dart';
@@ -14,19 +13,12 @@ import 'view-model.dart';
 class PageOrdensAtivo extends StatefulWidget {
   static const routeName = '/carteira/ativos/ordens';
 
-  final PageOrdensAtivoArgs args;
+  final Ativo model;
 
-  PageOrdensAtivo(this.args);
+  PageOrdensAtivo(this.model);
 
   @override
   _PageOrdensAtivo createState() => _PageOrdensAtivo();
-}
-
-class PageOrdensAtivoArgs {
-  final Carteira carteira;
-  final Ativo ativo;
-
-  PageOrdensAtivoArgs(this.carteira, this.ativo);
 }
 
 class _PageOrdensAtivo extends State<PageOrdensAtivo> {
@@ -37,9 +29,7 @@ class _PageOrdensAtivo extends State<PageOrdensAtivo> {
   @override
   void initState() {
     loading = true;
-    model
-        .list(widget.args.carteira.id, widget.args.ativo.id)
-        .catchError((error) {
+    model.list(widget.model.carteira.id, widget.model.id).catchError((error) {
       print(error);
       model.notifyListeners();
     });
@@ -50,7 +40,7 @@ class _PageOrdensAtivo extends State<PageOrdensAtivo> {
   Widget build(BuildContext context) {
     VoidCallback onCountSelected = () async {
       await model
-          .list(widget.args.carteira.id, widget.args.ativo.id)
+          .list(widget.model.carteira.id, widget.model.id)
           .catchError((error) {
         print(error);
         model.notifyListeners();
@@ -64,7 +54,7 @@ class _PageOrdensAtivo extends State<PageOrdensAtivo> {
             onPressed: () {},
           ),
         ],
-        title: Text('Ordens: ${widget.args.ativo.ticker}'),
+        title: Text('Ordens: ${widget.model.ticker}'),
       ),
       body: SafeArea(
         child: ChangeNotifierProvider(
@@ -109,9 +99,9 @@ class _PageOrdensAtivo extends State<PageOrdensAtivo> {
         onPressed: () async {
           DateTime now = DateTime.now();
           Ordem obj = new Ordem(
-              carteiraId: widget.args.carteira.id,
-              ativoId: widget.args.ativo.id,
-              dtOrdem: DateFormat('dd/MM/yyyy').format(now));
+            ativosCarteira: widget.model,
+            dtOrdem: now.toIso8601String(),
+          );
           final information = await Navigator.of(context)
               .pushNamed(PageCadastroOrdem.routeName, arguments: obj);
           if (information != null && information == "refresh") {

@@ -73,7 +73,6 @@ class _PageAtivosCarteira extends State<PageAtivosCarteira> {
                           children: [
                             Card(
                               child: ListaAtivoItem(
-                                widget.carteira,
                                 model.ativos[index],
                                 onCountSelected,
                               ),
@@ -96,17 +95,21 @@ class _PageAtivosCarteira extends State<PageAtivosCarteira> {
           ),
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () async {
-          Ativo obj = new Ativo(carteiraId: widget.carteira.id);
-          final information = await Navigator.of(context)
-              .pushNamed(PageCadastroAtivo.routeName, arguments: obj);
-          if (information != null && information == "refresh") {
-            onCountSelected();
-          }
-        },
-        child: Icon(Icons.add),
-      ),
+      floatingActionButton: widget.carteira.id == 'all'
+          ? Container()
+          : FloatingActionButton(
+              onPressed: () async {
+                Ativo obj = Ativo(
+                  carteira: widget.carteira,
+                );
+                final information = await Navigator.of(context)
+                    .pushNamed(PageCadastroAtivo.routeName, arguments: obj);
+                if (information != null && information == "refresh") {
+                  onCountSelected();
+                }
+              },
+              child: Icon(Icons.add),
+            ),
     );
   }
 }

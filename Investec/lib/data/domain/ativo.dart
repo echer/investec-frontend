@@ -1,12 +1,13 @@
+import 'package:Investec/data/domain/carteira.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'ativo.g.dart';
 
-@JsonSerializable(includeIfNull: false)
+@JsonSerializable(includeIfNull: false, explicitToJson: true)
 class Ativo {
   String id;
   String ticker;
-  String carteiraId;
+  Carteira carteira;
   double pmAtivo;
   double qtdAtivo;
   double stopGain;
@@ -16,7 +17,7 @@ class Ativo {
   Ativo(
       {this.id,
       this.ticker,
-      this.carteiraId,
+      this.carteira,
       this.pmAtivo,
       this.qtdAtivo,
       this.stopGain,

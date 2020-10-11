@@ -1,4 +1,6 @@
 import 'package:Investec/LoginApp.dart';
+import 'package:Investec/data/domain/carteira.dart';
+import 'package:Investec/ui/pages/ativos/page.dart';
 import 'package:Investec/ui/pages/carteira/page.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -30,6 +32,19 @@ class PageHome extends StatelessWidget {
               title: Text('Minhas Carteiras'),
               onTap: () =>
                   {Navigator.of(context).pushNamed(PageCarteira.routeName)},
+            ),
+            ListTile(
+              leading: Icon(Icons.money_off),
+              title: Text('Minhas Ações'),
+              onTap: () => {
+                Navigator.of(context).pushNamed(
+                  PageAtivosCarteira.routeName,
+                  arguments: Carteira(
+                    id: 'all',
+                    nomeCarteira: 'Todas',
+                  ),
+                ),
+              },
             ),
             ListTile(
               leading: Icon(Icons.exit_to_app),

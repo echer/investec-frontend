@@ -61,29 +61,6 @@ class _OrdensAPI implements OrdensAPI {
   }
 
   @override
-  update(carteira, ativo, id, obj) async {
-    ArgumentError.checkNotNull(carteira, 'carteira');
-    ArgumentError.checkNotNull(ativo, 'ativo');
-    ArgumentError.checkNotNull(id, 'id');
-    ArgumentError.checkNotNull(obj, 'obj');
-    const _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{};
-    final _data = <String, dynamic>{};
-    _data.addAll(obj?.toJson() ?? <String, dynamic>{});
-    final Response _result = await _dio.request(
-        '/$carteira/ativos/$ativo/ordens/$id',
-        queryParameters: queryParameters,
-        options: RequestOptions(
-            method: 'PUT',
-            headers: <String, dynamic>{},
-            extra: _extra,
-            baseUrl: baseUrl),
-        data: _data);
-    final value = _result.data;
-    return value;
-  }
-
-  @override
   delete(carteira, ativo, id) async {
     ArgumentError.checkNotNull(carteira, 'carteira');
     ArgumentError.checkNotNull(ativo, 'ativo');

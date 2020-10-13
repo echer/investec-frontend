@@ -72,12 +72,14 @@ class _PageCadastroUsuario extends State<PageCadastroUsuario> {
                   prefs.setString("username", createOrupdate.email);
                   prefs.setString("password", createOrupdate.senha);
                   Navigator.pop(context, createOrupdate);
-                }, onError: (e) {
-                  print(e);
+                }, onError: (error) {
                   dialog.hideDialog();
+                  DialogUtils.showAlertDialog(
+                      context, "Atenção", "Ocorreu um erro: $error");
                 }).catchError((error) {
-                  print(error);
                   dialog.hideDialog();
+                  DialogUtils.showAlertDialog(
+                      context, "Atenção", "Ocorreu um erro: $error");
                 });
               }
             },
@@ -93,12 +95,14 @@ class _PageCadastroUsuario extends State<PageCadastroUsuario> {
                 await viewModel.delete().then((value) {
                   dialog.hideDialog();
                   Navigator.pop(context, 'refresh');
-                }, onError: (e) {
-                  print(e);
+                }, onError: (error) {
                   dialog.hideDialog();
+                  DialogUtils.showAlertDialog(
+                      context, "Atenção", "Ocorreu um erro: $error");
                 }).catchError((error) {
-                  print(error);
                   dialog.hideDialog();
+                  DialogUtils.showAlertDialog(
+                      context, "Atenção", "Ocorreu um erro: $error");
                 });
               },
             ),

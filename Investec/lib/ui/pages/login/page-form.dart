@@ -1,6 +1,7 @@
 import 'package:Investec/App.dart';
 import 'package:Investec/data/domain/usuario.dart';
 import 'package:Investec/data/service/service-locator.dart';
+import 'package:Investec/ui/utils/DialogUtils.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -74,32 +75,32 @@ class _LoginPageForm extends State<LoginPageForm> {
                           ElevatedButton(
                             onPressed: () async {
                               if (_formKey.currentState.validate()) {
-                                Scaffold.of(context).showSnackBar(SnackBar(
-                                    content:
-                                        Text('Realizando login aguarde...')));
+                                var dialog =
+                                    DialogUtils(new GlobalKey<State>());
+                                dialog.showLoadingDialog(context,
+                                    message: "Realizando login aguarde...");
 
                                 Usuario usuario = Usuario(
                                     email: usuarioController.value.text,
                                     senha: senhaController.value.text);
-                                var loginSuccess = await model
-                                    .login(usuario)
-                                    .catchError((error) {
-                                  print(error);
-                                  Scaffold.of(context).showSnackBar(SnackBar(
-                                      content: Text(
-                                          'Não foi possível realizar o login: $error')));
+                                await model.login(usuario).then(
+                                  (loginSuccess) {
+                                    dialog.hideDialog();
+                                    prefs.setString("logged", "S");
+                                    prefs.setString(
+                                        "token", loginSuccess.token);
+                                    runApp(App());
+                                  },
+                                  onError: (error) {
+                                    dialog.hideDialog();
+                                    DialogUtils.showAlertDialog(context,
+                                        "Atenção", "Ocorreu um erro: $error");
+                                  },
+                                ).catchError((error) {
+                                  dialog.hideDialog();
+                                  DialogUtils.showAlertDialog(context,
+                                      "Atenção", "Ocorreu um erro: $error");
                                 });
-                                if (loginSuccess != null &&
-                                    loginSuccess.token != null &&
-                                    loginSuccess.token.isNotEmpty) {
-                                  prefs.setString("logged", "S");
-                                  prefs.setString("token", loginSuccess.token);
-                                  runApp(App());
-                                } else {
-                                  Scaffold.of(context).showSnackBar(SnackBar(
-                                      content: Text(
-                                          'Não foi possível realizar o login, usuário ou senha incorretos!')));
-                                }
                               }
                             },
                             child: Text('Login'),

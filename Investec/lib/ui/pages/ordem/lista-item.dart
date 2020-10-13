@@ -44,12 +44,14 @@ class ListaOrdemItem extends StatelessWidget {
               .then((value) {
             dialog.hideDialog();
             onCountSelected();
-          }, onError: (e) {
-            print(e);
+          }, onError: (error) {
             dialog.hideDialog();
+            DialogUtils.showAlertDialog(
+                context, "Atenção", "Ocorreu um erro: $error");
           }).catchError((error) {
-            print(error);
             dialog.hideDialog();
+            DialogUtils.showAlertDialog(
+                context, "Atenção", "Ocorreu um erro: $error");
           });
         },
       ),

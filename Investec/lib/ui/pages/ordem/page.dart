@@ -31,11 +31,13 @@ class _PageOrdensAtivo extends State<PageOrdensAtivo> {
     loading = true;
     model.list(widget.model.carteira.id, widget.model.id).then(
       (value) => model.notifyListeners(),
-      onError: (e) {
-        print(e);
+      onError: (error) {
+        DialogUtils.showAlertDialog(
+            context, "Atenção", "Ocorreu um erro: $error");
       },
     ).catchError((error) {
-      print(error);
+      DialogUtils.showAlertDialog(
+          context, "Atenção", "Ocorreu um erro: $error");
     });
     super.initState();
   }
@@ -47,11 +49,13 @@ class _PageOrdensAtivo extends State<PageOrdensAtivo> {
       dialog.showLoadingDialog(context, message: "Carregando dados...");
       await model.list(widget.model.carteira.id, widget.model.id).then(
         (value) => model.notifyListeners(),
-        onError: (e) {
-          print(e);
+        onError: (error) {
+          DialogUtils.showAlertDialog(
+              context, "Atenção", "Ocorreu um erro: $error");
         },
       ).catchError((error) {
-        print(error);
+        DialogUtils.showAlertDialog(
+            context, "Atenção", "Ocorreu um erro: $error");
       }).whenComplete(
         () => dialog.hideDialog(),
       );

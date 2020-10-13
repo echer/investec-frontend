@@ -36,7 +36,8 @@ class _PageAtivosCarteira extends State<PageAtivosCarteira> {
           (value) => model.notifyListeners(),
         )
         .catchError((error) {
-      print(error);
+      DialogUtils.showAlertDialog(
+          context, "Atenção", "Ocorreu um erro: $error");
     });
     super.initState();
   }
@@ -48,11 +49,13 @@ class _PageAtivosCarteira extends State<PageAtivosCarteira> {
       dialog.showLoadingDialog(context, message: "Carregando dados...");
       await model.list(widget.carteira.id).then(
         (value) => model.notifyListeners(),
-        onError: (e) {
-          print(e);
+        onError: (error) {
+          DialogUtils.showAlertDialog(
+              context, "Atenção", "Ocorreu um erro: $error");
         },
       ).catchError((error) {
-        print(error);
+        DialogUtils.showAlertDialog(
+            context, "Atenção", "Ocorreu um erro: $error");
       }).whenComplete(
         () => dialog.hideDialog(),
       );

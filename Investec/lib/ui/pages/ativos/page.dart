@@ -1,5 +1,6 @@
 import 'package:Investec/data/domain/ativo.dart';
 import 'package:Investec/data/domain/carteira.dart';
+import 'package:Investec/ui/utils/DialogUtils.dart';
 import 'package:flutter/material.dart';
 
 import 'package:Investec/data/service/service-locator.dart';
@@ -29,9 +30,13 @@ class _PageAtivosCarteira extends State<PageAtivosCarteira> {
   @override
   void initState() {
     loading = true;
-    model.list(widget.carteira.id).catchError((error) {
+    model
+        .list(widget.carteira.id)
+        .then(
+          (value) => model.notifyListeners(),
+        )
+        .catchError((error) {
       print(error);
-      model.notifyListeners();
     });
     super.initState();
   }
@@ -39,10 +44,18 @@ class _PageAtivosCarteira extends State<PageAtivosCarteira> {
   @override
   Widget build(BuildContext context) {
     VoidCallback onCountSelected = () async {
-      await model.list(widget.carteira.id).catchError((error) {
+      var dialog = DialogUtils(new GlobalKey<State>());
+      dialog.showLoadingDialog(context, message: "Carregando dados...");
+      await model.list(widget.carteira.id).then(
+        (value) => model.notifyListeners(),
+        onError: (e) {
+          print(e);
+        },
+      ).catchError((error) {
         print(error);
-        model.notifyListeners();
-      });
+      }).whenComplete(
+        () => dialog.hideDialog(),
+      );
     };
     return Scaffold(
       appBar: AppBar(

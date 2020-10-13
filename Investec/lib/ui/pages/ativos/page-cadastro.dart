@@ -2,6 +2,7 @@ import 'package:Investec/data/domain/ativo.dart';
 import 'package:Investec/data/domain/carteira.dart';
 import 'package:Investec/data/service/service-locator.dart';
 import 'package:Investec/ui/pages/ativos/view-model.dart';
+import 'package:Investec/ui/utils/DialogUtils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -45,8 +46,9 @@ class _PageCadastroAtivo extends State<PageCadastroAtivo> {
             icon: Icon(Icons.check),
             onPressed: () async {
               if (_formKey.currentState.validate()) {
-                //Scaffold.of(context).showSnackBar(
-                //   SnackBar(content: Text('Realizando cadastro aguarde...')));
+                var dialog = DialogUtils(new GlobalKey<State>());
+                dialog.showLoadingDialog(context,
+                    message: "Realizando operação...");
 
                 Ativo createOrupdate = Ativo(
                     id: idController.text,
@@ -63,11 +65,14 @@ class _PageCadastroAtivo extends State<PageCadastroAtivo> {
                 await viewModel
                     .createOrUpdate(widget.obj.carteira.id, createOrupdate)
                     .then((value) {
+                  dialog.hideDialog();
                   Navigator.pop(context, 'refresh');
                 }, onError: (e) {
                   print(e);
+                  dialog.hideDialog();
                 }).catchError((error) {
                   print(error);
+                  dialog.hideDialog();
                 });
               }
             },
@@ -76,23 +81,29 @@ class _PageCadastroAtivo extends State<PageCadastroAtivo> {
             IconButton(
               icon: Icon(Icons.delete),
               onPressed: () async {
+                var dialog = DialogUtils(new GlobalKey<State>());
+                dialog.showLoadingDialog(context,
+                    message: "Realizando operação...");
                 Ativo obj = Ativo(
                   id: idController.text,
                 );
                 await viewModel.delete(widget.obj.carteira.id, obj).then(
                     (value) {
+                  dialog.hideDialog();
                   Navigator.pop(context, 'refresh');
                 }, onError: (e) {
                   print(e);
+                  dialog.hideDialog();
                 }).catchError((error) {
                   print(error);
+                  dialog.hideDialog();
                 });
               },
             ),
         ],
         title: Text(idController.text.isEmpty
-            ? 'Investec - Novo Ativo'
-            : 'Investec - Editar: ${idController.text}'),
+            ? 'Novo Ativo'
+            : 'Editar: ${idController.text}'),
       ),
       body: SafeArea(
         child: new SingleChildScrollView(

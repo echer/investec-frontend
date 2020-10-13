@@ -1,5 +1,6 @@
 import 'package:Investec/data/domain/usuario.dart';
 import 'package:Investec/data/service/service-locator.dart';
+import 'package:Investec/ui/utils/DialogUtils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -23,6 +24,7 @@ class _PageCadastroUsuario extends State<PageCadastroUsuario> {
   @override
   Widget build(BuildContext context) {
     LoginViewModel viewModel = getIt<LoginViewModel>();
+    SharedPreferences prefs = getIt<SharedPreferences>();
 
     TextEditingController idController =
         TextEditingController(text: widget.usuario.id);
@@ -50,9 +52,6 @@ class _PageCadastroUsuario extends State<PageCadastroUsuario> {
             icon: Icon(Icons.check),
             onPressed: () async {
               if (_formKey.currentState.validate()) {
-                //Scaffold.of(context).showSnackBar(
-                //   SnackBar(content: Text('Realizando cadastro aguarde...')));
-
                 Usuario createOrupdate = Usuario(
                     id: idController.text,
                     nome: nomeController.text,
@@ -64,15 +63,21 @@ class _PageCadastroUsuario extends State<PageCadastroUsuario> {
                     perfilInvestidor:
                         int.tryParse(perfilController.text)?.toInt());
 
+                var dialog = DialogUtils(new GlobalKey<State>());
+                dialog.showLoadingDialog(context,
+                    message: "Realizando operação...");
+
                 await viewModel.createOrUpdate(createOrupdate).then((value) {
-                  var pref = getIt<SharedPreferences>();
-                  pref.setString("username", createOrupdate.email);
-                  pref.setString("password", createOrupdate.senha);
+                  dialog.hideDialog();
+                  prefs.setString("username", createOrupdate.email);
+                  prefs.setString("password", createOrupdate.senha);
                   Navigator.pop(context, createOrupdate);
                 }, onError: (e) {
                   print(e);
+                  dialog.hideDialog();
                 }).catchError((error) {
                   print(error);
+                  dialog.hideDialog();
                 });
               }
             },
@@ -81,19 +86,26 @@ class _PageCadastroUsuario extends State<PageCadastroUsuario> {
             IconButton(
               icon: Icon(Icons.delete),
               onPressed: () async {
+                var dialog = DialogUtils(new GlobalKey<State>());
+                dialog.showLoadingDialog(context,
+                    message: "Realizando operação...");
+
                 await viewModel.delete().then((value) {
+                  dialog.hideDialog();
                   Navigator.pop(context, 'refresh');
                 }, onError: (e) {
                   print(e);
+                  dialog.hideDialog();
                 }).catchError((error) {
                   print(error);
+                  dialog.hideDialog();
                 });
               },
             ),
         ],
         title: Text(idController.text.isEmpty
-            ? 'Investec - Novo Usuário'
-            : 'Investec - Editar: ${idController.text}'),
+            ? 'Novo Usuário'
+            : 'Editar: ${idController.text}'),
       ),
       body: SafeArea(
         child: new SingleChildScrollView(

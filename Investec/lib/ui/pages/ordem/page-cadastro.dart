@@ -1,6 +1,7 @@
 import 'package:Investec/data/domain/ordem.dart';
 import 'package:Investec/data/service/service-locator.dart';
 import 'package:Investec/ui/pages/ordem/view-model.dart';
+import 'package:Investec/ui/utils/DialogUtils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -55,8 +56,9 @@ class _PageCadastroOrdem extends State<PageCadastroOrdem> {
             icon: Icon(Icons.check),
             onPressed: () async {
               if (_formKey.currentState.validate()) {
-                //Scaffold.of(context).showSnackBar(
-                //   SnackBar(content: Text('Realizando cadastro aguarde...')));
+                var dialog = DialogUtils(new GlobalKey<State>());
+                dialog.showLoadingDialog(context,
+                    message: "Realizando operação...");
 
                 Ordem create = Ordem(
                   id: idController.text,
@@ -73,19 +75,22 @@ class _PageCadastroOrdem extends State<PageCadastroOrdem> {
                     .create(widget.obj.ativosCarteira.carteira.id,
                         widget.obj.ativosCarteira.id, create)
                     .then((value) {
+                  dialog.hideDialog();
                   Navigator.pop(context, 'refresh');
                 }, onError: (e) {
                   print(e);
+                  dialog.hideDialog();
                 }).catchError((error) {
                   print(error);
+                  dialog.hideDialog();
                 });
               }
             },
           ),
         ],
         title: Text(idController.text.isEmpty
-            ? 'Investec - Nova Ordem'
-            : 'Investec - Editar: ${idController.text}'),
+            ? 'Nova Ordem'
+            : 'Editar: ${idController.text}'),
       ),
       body: SafeArea(
         child: SafeArea(

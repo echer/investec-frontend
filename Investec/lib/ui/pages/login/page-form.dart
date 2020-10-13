@@ -18,6 +18,7 @@ class _LoginPageForm extends State<LoginPageForm> {
   @override
   Widget build(BuildContext context) {
     LoginViewModel model = getIt<LoginViewModel>();
+    SharedPreferences prefs = getIt<SharedPreferences>();
 
     TextEditingController usuarioController = TextEditingController();
     TextEditingController senhaController = TextEditingController();
@@ -91,8 +92,6 @@ class _LoginPageForm extends State<LoginPageForm> {
                                 if (loginSuccess != null &&
                                     loginSuccess.token != null &&
                                     loginSuccess.token.isNotEmpty) {
-                                  SharedPreferences prefs =
-                                      await SharedPreferences.getInstance();
                                   prefs.setString("logged", "S");
                                   prefs.setString("token", loginSuccess.token);
                                   runApp(App());

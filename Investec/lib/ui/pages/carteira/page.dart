@@ -1,6 +1,7 @@
 import 'package:Investec/data/domain/carteira.dart';
 import 'package:Investec/data/service/service-locator.dart';
 import 'package:Investec/ui/pages/shimmer/lista-shimmer.dart';
+import 'package:Investec/ui/utils/DialogUtils.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -24,9 +25,13 @@ class _PageCarteira extends State<PageCarteira> {
   @override
   void initState() {
     loading = true;
-    model.list().catchError((error) {
+    model
+        .list()
+        .then(
+          (value) => model.notifyListeners(),
+        )
+        .catchError((error) {
       print(error);
-      model.notifyListeners();
     });
     super.initState();
   }
@@ -34,10 +39,18 @@ class _PageCarteira extends State<PageCarteira> {
   @override
   Widget build(BuildContext context) {
     VoidCallback onCountSelected = () async {
-      await model.list().catchError((error) {
+      var dialog = DialogUtils(new GlobalKey<State>());
+      dialog.showLoadingDialog(context, message: "Carregando dados...");
+      await model.list().then(
+        (value) => model.notifyListeners(),
+        onError: (e) {
+          print(e);
+        },
+      ).catchError((error) {
         print(error);
-        model.notifyListeners();
-      });
+      }).whenComplete(
+        () => dialog.hideDialog(),
+      );
     };
 
     return Scaffold(

@@ -1,5 +1,6 @@
 import 'package:Investec/data/domain/carteira.dart';
 import 'package:Investec/data/service/service-locator.dart';
+import 'package:Investec/ui/utils/DialogUtils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -43,8 +44,9 @@ class _PageCadastroCarteira extends State<PageCadastroCarteira> {
             icon: Icon(Icons.check),
             onPressed: () async {
               if (_formKey.currentState.validate()) {
-                //Scaffold.of(context).showSnackBar(
-                //   SnackBar(content: Text('Realizando cadastro aguarde...')));
+                var dialog = DialogUtils(new GlobalKey<State>());
+                dialog.showLoadingDialog(context,
+                    message: "Realizando operação...");
 
                 Carteira createOrupdate = Carteira(
                     id: idController.text,
@@ -58,11 +60,14 @@ class _PageCadastroCarteira extends State<PageCadastroCarteira> {
                     dtCriacao: dtCriacaoController.text);
 
                 await viewModel.createOrUpdate(createOrupdate).then((value) {
+                  dialog.hideDialog();
                   Navigator.pop(context, 'refresh');
                 }, onError: (e) {
                   print(e);
+                  dialog.hideDialog();
                 }).catchError((error) {
                   print(error);
+                  dialog.hideDialog();
                 });
               }
             },
@@ -71,21 +76,28 @@ class _PageCadastroCarteira extends State<PageCadastroCarteira> {
             IconButton(
               icon: Icon(Icons.delete),
               onPressed: () async {
+                var dialog = DialogUtils(new GlobalKey<State>());
+                dialog.showLoadingDialog(context,
+                    message: "Realizando operação...");
+
                 Carteira obj = Carteira(id: idController.text);
 
                 await viewModel.delete(obj).then((value) {
+                  dialog.hideDialog();
                   Navigator.pop(context, 'refresh');
                 }, onError: (e) {
                   print(e);
+                  dialog.hideDialog();
                 }).catchError((error) {
                   print(error);
+                  dialog.hideDialog();
                 });
               },
             ),
         ],
         title: Text(idController.text.isEmpty
-            ? 'Investec - Nova Carteira'
-            : 'Investec - Editar: ${idController.text}'),
+            ? 'Nova Carteira'
+            : 'Editar: ${idController.text}'),
       ),
       body: SafeArea(
         child: new SingleChildScrollView(

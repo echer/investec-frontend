@@ -1,5 +1,6 @@
 import 'package:Investec/LoginApp.dart';
 import 'package:Investec/data/domain/carteira.dart';
+import 'package:Investec/data/service/service-locator.dart';
 import 'package:Investec/ui/pages/ativos/page.dart';
 import 'package:Investec/ui/pages/carteira/page.dart';
 import 'package:flutter/material.dart';
@@ -12,6 +13,7 @@ class PageHome extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    SharedPreferences prefs = getIt<SharedPreferences>();
     return Scaffold(
       appBar: AppBar(
         actions: [],
@@ -50,7 +52,6 @@ class PageHome extends StatelessWidget {
               leading: Icon(Icons.exit_to_app),
               title: Text('Logout'),
               onTap: () async {
-                SharedPreferences prefs = await SharedPreferences.getInstance();
                 prefs.setString("logged", "");
                 prefs.setString("token", "");
                 runApp(LoginApp());

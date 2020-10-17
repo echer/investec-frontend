@@ -5,13 +5,16 @@ class DialogUtils {
 
   DialogUtils(this.key);
 
-  static showAlertDialog(BuildContext context, String title, String message) {
+  showAlertDialog(BuildContext context, String title, String message) {
     // set up the button
     Widget okButton = FlatButton(
       child: Text("OK"),
-      onPressed: () {},
+      onPressed: () {
+        hideDialog();
+      },
     ); // set up the AlertDialog
     AlertDialog alert = AlertDialog(
+      key: key,
       title: Text(title),
       content: Text(message),
       actions: [

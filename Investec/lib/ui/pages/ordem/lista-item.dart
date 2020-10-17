@@ -46,12 +46,12 @@ class ListaOrdemItem extends StatelessWidget {
             onCountSelected();
           }, onError: (error) {
             dialog.hideDialog();
-            DialogUtils.showAlertDialog(
-                context, "Atenção", "Ocorreu um erro: $error");
+            DialogUtils(new GlobalKey<State>())
+                .showAlertDialog(context, "Atenção", "Ocorreu um erro: $error");
           }).catchError((error) {
             dialog.hideDialog();
-            DialogUtils.showAlertDialog(
-                context, "Atenção", "Ocorreu um erro: $error");
+            DialogUtils(new GlobalKey<State>())
+                .showAlertDialog(context, "Atenção", "Ocorreu um erro: $error");
           });
         },
       ),

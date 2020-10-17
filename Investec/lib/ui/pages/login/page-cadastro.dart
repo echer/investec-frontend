@@ -74,11 +74,11 @@ class _PageCadastroUsuario extends State<PageCadastroUsuario> {
                   Navigator.pop(context, createOrupdate);
                 }, onError: (error) {
                   dialog.hideDialog();
-                  DialogUtils.showAlertDialog(
+                  DialogUtils(new GlobalKey<State>()).showAlertDialog(
                       context, "Atenção", "Ocorreu um erro: $error");
                 }).catchError((error) {
                   dialog.hideDialog();
-                  DialogUtils.showAlertDialog(
+                  DialogUtils(new GlobalKey<State>()).showAlertDialog(
                       context, "Atenção", "Ocorreu um erro: $error");
                 });
               }
@@ -97,11 +97,11 @@ class _PageCadastroUsuario extends State<PageCadastroUsuario> {
                   Navigator.pop(context, 'refresh');
                 }, onError: (error) {
                   dialog.hideDialog();
-                  DialogUtils.showAlertDialog(
+                  DialogUtils(new GlobalKey<State>()).showAlertDialog(
                       context, "Atenção", "Ocorreu um erro: $error");
                 }).catchError((error) {
                   dialog.hideDialog();
-                  DialogUtils.showAlertDialog(
+                  DialogUtils(new GlobalKey<State>()).showAlertDialog(
                       context, "Atenção", "Ocorreu um erro: $error");
                 });
               },

@@ -24,36 +24,36 @@ class _PageCarteira extends State<PageCarteira> {
 
   @override
   void initState() {
-    loading = true;
-    model
-        .list()
-        .then(
-          (value) => model.notifyListeners(),
-        )
-        .catchError((error) {
-      DialogUtils.showAlertDialog(
-          context, "Atenção", "Ocorreu um erro: $error");
-    });
+    loadData();
     super.initState();
+  }
+
+  Future<void> loadData() async {
+    loading = true;
+    var dialog = DialogUtils(new GlobalKey<State>());
+    dialog.showLoadingDialog(context, message: "Carregando dados...");
+    await model.list().then(
+      (value) {},
+      onError: (error) {
+        DialogUtils(new GlobalKey<State>())
+            .showAlertDialog(context, "Atenção", "Ocorreu um erro: $error");
+      },
+    ).catchError((error) {
+      DialogUtils(new GlobalKey<State>())
+          .showAlertDialog(context, "Atenção", "Ocorreu um erro: $error");
+    }).whenComplete(
+      () {
+        loading = false;
+        model.notify();
+        dialog.hideDialog();
+      },
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     VoidCallback onCountSelected = () async {
-      var dialog = DialogUtils(new GlobalKey<State>());
-      dialog.showLoadingDialog(context, message: "Carregando dados...");
-      await model.list().then(
-        (value) => model.notifyListeners(),
-        onError: (error) {
-          DialogUtils.showAlertDialog(
-              context, "Atenção", "Ocorreu um erro: $error");
-        },
-      ).catchError((error) {
-        DialogUtils.showAlertDialog(
-            context, "Atenção", "Ocorreu um erro: $error");
-      }).whenComplete(
-        () => dialog.hideDialog(),
-      );
+      loadData();
     };
 
     return Scaffold(

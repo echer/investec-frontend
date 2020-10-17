@@ -22,4 +22,8 @@ class OrdemViewModel extends ChangeNotifier {
   Future<void> delete(String carteira, String ativo, Ordem obj) {
     return repository.delete(carteira, ativo, obj);
   }
+
+  void notify() {
+    notifyListeners();
+  }
 }

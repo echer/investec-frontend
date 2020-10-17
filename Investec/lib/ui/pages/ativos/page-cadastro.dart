@@ -1,5 +1,4 @@
 import 'package:Investec/data/domain/ativo.dart';
-import 'package:Investec/data/domain/carteira.dart';
 import 'package:Investec/data/service/service-locator.dart';
 import 'package:Investec/ui/pages/ativos/view-model.dart';
 import 'package:Investec/ui/utils/DialogUtils.dart';
@@ -69,11 +68,11 @@ class _PageCadastroAtivo extends State<PageCadastroAtivo> {
                   Navigator.pop(context, 'refresh');
                 }, onError: (error) {
                   dialog.hideDialog();
-                  DialogUtils.showAlertDialog(
+                  DialogUtils(new GlobalKey<State>()).showAlertDialog(
                       context, "Atenção", "Ocorreu um erro: $error");
                 }).catchError((error) {
                   dialog.hideDialog();
-                  DialogUtils.showAlertDialog(
+                  DialogUtils(new GlobalKey<State>()).showAlertDialog(
                       context, "Atenção", "Ocorreu um erro: $error");
                 });
               }
@@ -95,11 +94,11 @@ class _PageCadastroAtivo extends State<PageCadastroAtivo> {
                   Navigator.pop(context, 'refresh');
                 }, onError: (error) {
                   dialog.hideDialog();
-                  DialogUtils.showAlertDialog(
+                  DialogUtils(new GlobalKey<State>()).showAlertDialog(
                       context, "Atenção", "Ocorreu um erro: $error");
                 }).catchError((error) {
                   dialog.hideDialog();
-                  DialogUtils.showAlertDialog(
+                  DialogUtils(new GlobalKey<State>()).showAlertDialog(
                       context, "Atenção", "Ocorreu um erro: $error");
                 });
               },

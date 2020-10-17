@@ -25,4 +25,8 @@ class AtivosViewModel extends ChangeNotifier {
   Future<void> delete(String carteira, Ativo obj) {
     return repository.delete(carteira, obj);
   }
+
+  void notify() {
+    notifyListeners();
+  }
 }

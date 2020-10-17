@@ -25,4 +25,8 @@ class CarteiraViewModel extends ChangeNotifier {
   Future<void> delete(Carteira obj) {
     return repository.delete(obj);
   }
+
+  void notify() {
+    notifyListeners();
+  }
 }

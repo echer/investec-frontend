@@ -2,6 +2,7 @@ import 'package:Investec/data/domain/ordem.dart';
 import 'package:Investec/data/service/service-locator.dart';
 import 'package:Investec/ui/pages/ordem/view-model.dart';
 import 'package:Investec/ui/utils/DialogUtils.dart';
+import 'package:finance/finance.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -94,125 +95,157 @@ class _PageCadastroOrdem extends State<PageCadastroOrdem> {
             ? 'Nova Ordem'
             : 'Editar: ${idController.text}'),
       ),
-      body: SafeArea(
-        child: SafeArea(
-          child: new SingleChildScrollView(
-            child: new Column(
-              children: <Widget>[
-                Form(
-                  key: _formKey,
-                  child: Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Column(
-                      children: <Widget>[
-                        TextFormField(
-                          controller: idController,
-                          readOnly: true,
-                          enabled: false,
-                          decoration: InputDecoration(labelText: 'ID'),
+      body: FutureBuilder(
+        future: Future<bool>.delayed(Duration(milliseconds: 1), () async {
+          var name = widget.obj.ativosCarteira.ticker.toUpperCase();
+          final Map<String, Map<String, dynamic>> quotePrice =
+              await Finance.downloadQuotePrice(
+                  QuoteProvider.yahoo, <String>['$name.SA']);
+
+          if (quotePrice != null &&
+              quotePrice.keys != null &&
+              quotePrice.keys.length > 0) {
+            var ticket = quotePrice["$name.SA"];
+            if (ticket != null &&
+                ticket.keys != null &&
+                ticket.keys.length > 0) {
+              if (ticket["price"] != null) {
+                vlrOrdemController.text =
+                    double.tryParse(ticket["price"])?.toDouble().toString();
+              }
+            }
+          }
+          return true;
+        }),
+        builder: (context, AsyncSnapshot<bool> snapshot) {
+          if (!snapshot.hasData || !snapshot.data) {
+            return CircularProgressIndicator();
+          } else {
+            return SafeArea(
+              child: SafeArea(
+                child: new SingleChildScrollView(
+                  child: new Column(
+                    children: <Widget>[
+                      Form(
+                        key: _formKey,
+                        child: Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: Column(
+                            children: <Widget>[
+                              TextFormField(
+                                controller: idController,
+                                readOnly: true,
+                                enabled: false,
+                                decoration: InputDecoration(labelText: 'ID'),
+                              ),
+                              TextFormField(
+                                controller: idCarteiraController,
+                                readOnly: true,
+                                enabled: false,
+                                decoration:
+                                    InputDecoration(labelText: 'ID Carteira'),
+                                validator: (value) {
+                                  if (value.isEmpty) {
+                                    return 'Informe o ID Carteira';
+                                  }
+                                  return null;
+                                },
+                              ),
+                              TextFormField(
+                                controller: idAtivoController,
+                                readOnly: true,
+                                enabled: false,
+                                decoration:
+                                    InputDecoration(labelText: 'ID Ativo'),
+                                validator: (value) {
+                                  if (value.isEmpty) {
+                                    return 'Informe o ID Ativo';
+                                  }
+                                  return null;
+                                },
+                              ),
+                              TextFormField(
+                                controller: tipoOrdemController,
+                                decoration: InputDecoration(
+                                    labelText: 'Tipo: 0 = COMPRA / 1 = VENDA'),
+                                maxLength: 1,
+                                validator: (value) {
+                                  if (value.isEmpty) {
+                                    return 'Informe o Tipo';
+                                  }
+                                  return null;
+                                },
+                              ),
+                              TextFormField(
+                                controller: qtdOrdemController,
+                                decoration:
+                                    InputDecoration(labelText: 'Quantidade'),
+                                inputFormatters: [
+                                  FilteringTextInputFormatter.allow(
+                                      RegExp(r'^(\d+)?')),
+                                ],
+                                keyboardType: TextInputType.number,
+                                validator: (value) {
+                                  if (value.isEmpty) {
+                                    return 'Informe a quantidade';
+                                  }
+                                  return null;
+                                },
+                              ),
+                              TextFormField(
+                                controller: vlrOrdemController,
+                                decoration: InputDecoration(
+                                    labelText: 'Valor Unitário'),
+                                inputFormatters: [
+                                  FilteringTextInputFormatter.allow(
+                                      RegExp(r'^(\d+)?\.?\d{0,2}')),
+                                ],
+                                keyboardType: TextInputType.number,
+                                validator: (value) {
+                                  if (value.isEmpty) {
+                                    return 'Informe o Valor Unitário';
+                                  }
+                                  return null;
+                                },
+                              ),
+                              TextFormField(
+                                controller: taxaOrdemController,
+                                decoration: InputDecoration(labelText: 'Taxa'),
+                                inputFormatters: [
+                                  FilteringTextInputFormatter.allow(
+                                      RegExp(r'^(\d+)?\.?\d{0,2}')),
+                                ],
+                                keyboardType: TextInputType.number,
+                                validator: (value) {
+                                  if (value.isEmpty) {
+                                    return 'Informe a taxa';
+                                  }
+                                  return null;
+                                },
+                              ),
+                              TextFormField(
+                                controller: dtOrdemController,
+                                decoration: InputDecoration(labelText: 'Data'),
+                                readOnly: true,
+                                enabled: false,
+                                validator: (value) {
+                                  if (value.isEmpty) {
+                                    return 'Informe a data';
+                                  }
+                                  return null;
+                                },
+                              ),
+                            ],
+                          ),
                         ),
-                        TextFormField(
-                          controller: idCarteiraController,
-                          readOnly: true,
-                          enabled: false,
-                          decoration: InputDecoration(labelText: 'ID Carteira'),
-                          validator: (value) {
-                            if (value.isEmpty) {
-                              return 'Informe o ID Carteira';
-                            }
-                            return null;
-                          },
-                        ),
-                        TextFormField(
-                          controller: idAtivoController,
-                          readOnly: true,
-                          enabled: false,
-                          decoration: InputDecoration(labelText: 'ID Ativo'),
-                          validator: (value) {
-                            if (value.isEmpty) {
-                              return 'Informe o ID Ativo';
-                            }
-                            return null;
-                          },
-                        ),
-                        TextFormField(
-                          controller: tipoOrdemController,
-                          decoration: InputDecoration(
-                              labelText: 'Tipo: 0 = COMPRA / 1 = VENDA'),
-                          maxLength: 1,
-                          validator: (value) {
-                            if (value.isEmpty) {
-                              return 'Informe o Tipo';
-                            }
-                            return null;
-                          },
-                        ),
-                        TextFormField(
-                          controller: qtdOrdemController,
-                          decoration: InputDecoration(labelText: 'Quantidade'),
-                          inputFormatters: [
-                            FilteringTextInputFormatter.allow(
-                                RegExp(r'^(\d+)?')),
-                          ],
-                          keyboardType: TextInputType.number,
-                          validator: (value) {
-                            if (value.isEmpty) {
-                              return 'Informe a quantidade';
-                            }
-                            return null;
-                          },
-                        ),
-                        TextFormField(
-                          controller: vlrOrdemController,
-                          decoration:
-                              InputDecoration(labelText: 'Valor Unitário'),
-                          inputFormatters: [
-                            FilteringTextInputFormatter.allow(
-                                RegExp(r'^(\d+)?\.?\d{0,2}')),
-                          ],
-                          keyboardType: TextInputType.number,
-                          validator: (value) {
-                            if (value.isEmpty) {
-                              return 'Informe o Valor Unitário';
-                            }
-                            return null;
-                          },
-                        ),
-                        TextFormField(
-                          controller: taxaOrdemController,
-                          decoration: InputDecoration(labelText: 'Taxa'),
-                          inputFormatters: [
-                            FilteringTextInputFormatter.allow(
-                                RegExp(r'^(\d+)?\.?\d{0,2}')),
-                          ],
-                          keyboardType: TextInputType.number,
-                          validator: (value) {
-                            if (value.isEmpty) {
-                              return 'Informe a taxa';
-                            }
-                            return null;
-                          },
-                        ),
-                        TextFormField(
-                          controller: dtOrdemController,
-                          decoration: InputDecoration(labelText: 'Data'),
-                          readOnly: true,
-                          enabled: false,
-                          validator: (value) {
-                            if (value.isEmpty) {
-                              return 'Informe a data';
-                            }
-                            return null;
-                          },
-                        ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
-              ],
-            ),
-          ),
-        ),
+              ),
+            );
+          }
+        },
       ),
     );
   }

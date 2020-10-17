@@ -2,6 +2,7 @@ import 'package:Investec/data/domain/ativo.dart';
 import 'package:Investec/data/service/service-locator.dart';
 import 'package:Investec/ui/pages/ativos/view-model.dart';
 import 'package:Investec/ui/utils/DialogUtils.dart';
+import 'package:Investec/ui/utils/UpperCaseTextFormatter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -133,6 +134,7 @@ class _PageCadastroAtivo extends State<PageCadastroAtivo> {
                       TextFormField(
                         controller: ticketController,
                         decoration: InputDecoration(labelText: 'Ticket'),
+                        inputFormatters: [UpperCaseTextFormatter()],
                         validator: (value) {
                           if (value.isEmpty) {
                             return 'Informe o Ticket do ativo';

@@ -1,4 +1,5 @@
 import 'package:Investec/data/domain/ativo.dart';
+import 'package:Investec/data/domain/ativoprecovm.dart';
 import 'package:dio/dio.dart';
 import 'package:retrofit/retrofit.dart';
 
@@ -11,7 +12,7 @@ abstract class AtivosAPI {
   }
 
   @GET("/{carteira}/ativos")
-  Future<List<Ativo>> list(@Path() String carteira);
+  Future<List<AtivoPrecoVM>> list(@Path() String carteira);
 
   @POST("/{carteira}/ativos")
   Future create(@Path() String carteira, @Body() Ativo obj);

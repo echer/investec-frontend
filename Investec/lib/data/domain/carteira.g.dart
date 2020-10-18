@@ -10,10 +10,9 @@ Carteira _$CarteiraFromJson(Map<String, dynamic> json) {
   return Carteira(
     id: json['id'] as String,
     nomeCarteira: json['nomeCarteira'] as String,
-    dtCriacao: json['dtCriacao'] as String,
     metaCarteira: (json['metaCarteira'] as num)?.toDouble(),
-    saldoCarteira: (json['saldoCarteira'] as num)?.toDouble(),
-    varCarteira: (json['varCarteira'] as num)?.toDouble(),
+    createdOn: json['createdOn'] as String,
+    modifiedOn: json['modifiedOn'] as String,
   );
 }
 
@@ -28,9 +27,8 @@ Map<String, dynamic> _$CarteiraToJson(Carteira instance) {
 
   writeNotNull('id', instance.id);
   writeNotNull('nomeCarteira', instance.nomeCarteira);
-  writeNotNull('dtCriacao', instance.dtCriacao);
   writeNotNull('metaCarteira', instance.metaCarteira);
-  writeNotNull('saldoCarteira', instance.saldoCarteira);
-  writeNotNull('varCarteira', instance.varCarteira);
+  writeNotNull('createdOn', instance.createdOn);
+  writeNotNull('modifiedOn', instance.modifiedOn);
   return val;
 }

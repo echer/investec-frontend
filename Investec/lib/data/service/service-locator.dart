@@ -94,7 +94,7 @@ Future<SharedPreferences> provideSharedPref() async {
 
 Future<Dio> provideDio() async {
   Dio dio = Dio();
-  dio.options = BaseOptions(receiveTimeout: 5000, connectTimeout: 5000);
+  dio.options = BaseOptions(receiveTimeout: 50000, connectTimeout: 50000);
   dio.interceptors.add(PrettyDioLogger(
       requestHeader: true,
       requestBody: true,

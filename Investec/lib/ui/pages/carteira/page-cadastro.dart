@@ -30,12 +30,8 @@ class _PageCadastroCarteira extends State<PageCadastroCarteira> {
         TextEditingController(text: widget.obj.nomeCarteira);
     TextEditingController metaController =
         TextEditingController(text: widget.obj.metaCarteira?.toString());
-    TextEditingController variacaoController =
-        TextEditingController(text: widget.obj.varCarteira?.toString());
-    TextEditingController saldoController =
-        TextEditingController(text: widget.obj.saldoCarteira?.toString());
     TextEditingController dtCriacaoController =
-        TextEditingController(text: widget.obj.dtCriacao);
+        TextEditingController(text: widget.obj.createdOn);
 
     return Scaffold(
       appBar: AppBar(
@@ -53,11 +49,7 @@ class _PageCadastroCarteira extends State<PageCadastroCarteira> {
                     nomeCarteira: nomeController.text,
                     metaCarteira:
                         double.tryParse(metaController.text)?.toDouble(),
-                    varCarteira:
-                        double.tryParse(variacaoController.text)?.toDouble(),
-                    saldoCarteira:
-                        double.tryParse(saldoController.text)?.toDouble(),
-                    dtCriacao: dtCriacaoController.text);
+                    createdOn: dtCriacaoController.text);
 
                 await viewModel.createOrUpdate(createOrupdate).then((value) {
                   dialog.hideDialog();
@@ -143,20 +135,6 @@ class _PageCadastroCarteira extends State<PageCadastroCarteira> {
                           }
                           return null;
                         },
-                      ),
-                      TextFormField(
-                        controller: variacaoController,
-                        readOnly: true,
-                        enabled: false,
-                        decoration:
-                            InputDecoration(labelText: 'Variação da Carteira'),
-                      ),
-                      TextFormField(
-                        controller: saldoController,
-                        readOnly: true,
-                        enabled: false,
-                        decoration:
-                            InputDecoration(labelText: 'Saldo da Carteira'),
                       ),
                       TextFormField(
                         controller: dtCriacaoController,

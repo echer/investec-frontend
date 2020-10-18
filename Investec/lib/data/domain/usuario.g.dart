@@ -16,6 +16,8 @@ Usuario _$UsuarioFromJson(Map<String, dynamic> json) {
     fone: json['fone'] as String,
     dtNascimento: json['dtNascimento'] as String,
     perfilInvestidor: json['perfilInvestidor'] as int,
+    createdOn: json['createdOn'] as String,
+    modifiedOn: json['modifiedOn'] as String,
   );
 }
 
@@ -36,5 +38,7 @@ Map<String, dynamic> _$UsuarioToJson(Usuario instance) {
   writeNotNull('fone', instance.fone);
   writeNotNull('dtNascimento', instance.dtNascimento);
   writeNotNull('perfilInvestidor', instance.perfilInvestidor);
+  writeNotNull('createdOn', instance.createdOn);
+  writeNotNull('modifiedOn', instance.modifiedOn);
   return val;
 }

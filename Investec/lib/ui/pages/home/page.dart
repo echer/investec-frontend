@@ -1,5 +1,6 @@
 import 'package:Investec/LoginApp.dart';
 import 'package:Investec/data/domain/carteira.dart';
+import 'package:Investec/data/domain/carteiraprecovm.dart';
 import 'package:Investec/data/service/service-locator.dart';
 import 'package:Investec/ui/pages/ativos/page.dart';
 import 'package:Investec/ui/pages/carteira/page.dart';
@@ -41,10 +42,11 @@ class PageHome extends StatelessWidget {
               onTap: () => {
                 Navigator.of(context).pushNamed(
                   PageAtivosCarteira.routeName,
-                  arguments: Carteira(
+                  arguments: CarteiraPrecoVM(
+                      carteira: Carteira(
                     id: 'all',
                     nomeCarteira: 'Todas',
-                  ),
+                  )),
                 ),
               },
             ),

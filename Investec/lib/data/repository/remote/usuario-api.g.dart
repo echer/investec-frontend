@@ -9,7 +9,7 @@ part of 'usuario-api.dart';
 class _UsuarioAPI implements UsuarioAPI {
   _UsuarioAPI(this._dio, {this.baseUrl}) {
     ArgumentError.checkNotNull(_dio, '_dio');
-    this.baseUrl ??= 'https://investec-backend.herokuapp.com/v1/usuario';
+    baseUrl ??= 'https://investec-backend.herokuapp.com/v1/usuario';
   }
 
   final Dio _dio;
@@ -17,13 +17,14 @@ class _UsuarioAPI implements UsuarioAPI {
   String baseUrl;
 
   @override
-  login(obj) async {
+  Future<Login> login(obj) async {
     ArgumentError.checkNotNull(obj, 'obj');
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _data = <String, dynamic>{};
     _data.addAll(obj?.toJson() ?? <String, dynamic>{});
-    final Response<Map<String, dynamic>> _result = await _dio.request('/login',
+    _data.removeWhere((k, v) => v == null);
+    final _result = await _dio.request<Map<String, dynamic>>('/login',
         queryParameters: queryParameters,
         options: RequestOptions(
             method: 'POST',
@@ -36,13 +37,14 @@ class _UsuarioAPI implements UsuarioAPI {
   }
 
   @override
-  create(obj) async {
+  Future<dynamic> create(obj) async {
     ArgumentError.checkNotNull(obj, 'obj');
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _data = <String, dynamic>{};
     _data.addAll(obj?.toJson() ?? <String, dynamic>{});
-    final Response _result = await _dio.request('/',
+    _data.removeWhere((k, v) => v == null);
+    final _result = await _dio.request('/',
         queryParameters: queryParameters,
         options: RequestOptions(
             method: 'POST',
@@ -55,13 +57,14 @@ class _UsuarioAPI implements UsuarioAPI {
   }
 
   @override
-  update(obj) async {
+  Future<dynamic> update(obj) async {
     ArgumentError.checkNotNull(obj, 'obj');
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _data = <String, dynamic>{};
     _data.addAll(obj?.toJson() ?? <String, dynamic>{});
-    final Response _result = await _dio.request('/',
+    _data.removeWhere((k, v) => v == null);
+    final _result = await _dio.request('/',
         queryParameters: queryParameters,
         options: RequestOptions(
             method: 'PUT',
@@ -74,11 +77,11 @@ class _UsuarioAPI implements UsuarioAPI {
   }
 
   @override
-  delete() async {
+  Future<dynamic> delete() async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _data = <String, dynamic>{};
-    final Response _result = await _dio.request('/',
+    final _result = await _dio.request('/',
         queryParameters: queryParameters,
         options: RequestOptions(
             method: 'PUT',

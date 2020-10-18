@@ -1,5 +1,6 @@
 import 'package:Investec/data/domain/ativo.dart';
-import 'package:Investec/data/domain/carteira.dart';
+import 'package:Investec/data/domain/ativoprecovm.dart';
+import 'package:Investec/data/domain/carteiraprecovm.dart';
 import 'package:Investec/ui/utils/DialogUtils.dart';
 import 'package:flutter/material.dart';
 
@@ -14,9 +15,9 @@ import 'view-model.dart';
 class PageAtivosCarteira extends StatefulWidget {
   static const routeName = '/carteira/ativos';
 
-  final Carteira carteira;
+  final CarteiraPrecoVM model;
 
-  PageAtivosCarteira(this.carteira);
+  PageAtivosCarteira(this.model);
 
   @override
   _PageAtivosCarteira createState() => _PageAtivosCarteira();
@@ -36,7 +37,7 @@ class _PageAtivosCarteira extends State<PageAtivosCarteira> {
   Future<void> loadData() async {
     var dialog = DialogUtils(new GlobalKey<State>());
     dialog.showLoadingDialog(context, message: "Carregando dados...");
-    await model.list(widget.carteira.id).then(
+    await model.list(widget.model.carteira.id).then(
       (value) {},
       onError: (error) {
         DialogUtils(new GlobalKey<State>())
@@ -67,7 +68,7 @@ class _PageAtivosCarteira extends State<PageAtivosCarteira> {
             onPressed: () {},
           ),
         ],
-        title: Text('Ativos: ${widget.carteira.nomeCarteira}'),
+        title: Text('Ativos: ${widget.model.carteira.nomeCarteira}'),
       ),
       body: SafeArea(
         child: ChangeNotifierProvider(
@@ -110,12 +111,12 @@ class _PageAtivosCarteira extends State<PageAtivosCarteira> {
           ),
         ),
       ),
-      floatingActionButton: widget.carteira.id == 'all'
+      floatingActionButton: widget.model.carteira.id == 'all'
           ? Container()
           : FloatingActionButton(
               onPressed: () async {
                 Ativo obj = Ativo(
-                  carteira: widget.carteira,
+                  carteira: widget.model.carteira,
                 );
                 final information = await Navigator.of(context)
                     .pushNamed(PageCadastroAtivo.routeName, arguments: obj);

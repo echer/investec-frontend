@@ -6,18 +6,17 @@ part 'carteira.g.dart';
 class Carteira {
   String id;
   String nomeCarteira;
-  String dtCriacao;
   double metaCarteira;
-  double saldoCarteira;
-  double varCarteira;
+  String createdOn;
+  String modifiedOn;
 
-  Carteira(
-      {this.id,
-      this.nomeCarteira,
-      this.dtCriacao,
-      this.metaCarteira,
-      this.saldoCarteira,
-      this.varCarteira});
+  Carteira({
+    this.id,
+    this.nomeCarteira,
+    this.metaCarteira,
+    this.createdOn,
+    this.modifiedOn,
+  });
 
   factory Carteira.fromJson(Map<String, dynamic> json) =>
       _$CarteiraFromJson(json);

@@ -19,6 +19,8 @@ Ordem _$OrdemFromJson(Map<String, dynamic> json) {
     taxaOrdem: (json['taxaOrdem'] as num)?.toDouble(),
     totalOrdem: (json['totalOrdem'] as num)?.toDouble(),
     totalOrdemLiquido: (json['totalOrdemLiquido'] as num)?.toDouble(),
+    createdOn: json['createdOn'] as String,
+    modifiedOn: json['modifiedOn'] as String,
   );
 }
 
@@ -40,5 +42,7 @@ Map<String, dynamic> _$OrdemToJson(Ordem instance) {
   writeNotNull('taxaOrdem', instance.taxaOrdem);
   writeNotNull('totalOrdem', instance.totalOrdem);
   writeNotNull('totalOrdemLiquido', instance.totalOrdemLiquido);
+  writeNotNull('createdOn', instance.createdOn);
+  writeNotNull('modifiedOn', instance.modifiedOn);
   return val;
 }

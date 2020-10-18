@@ -1,4 +1,5 @@
 import 'package:Investec/data/domain/carteira.dart';
+import 'package:Investec/data/domain/carteiraprecovm.dart';
 import 'package:Investec/data/repository/carteira-repository.dart';
 import 'package:flutter/material.dart';
 
@@ -7,7 +8,7 @@ class CarteiraViewModel extends ChangeNotifier {
 
   final CarteiraRepository repository;
 
-  List<Carteira> carteiras = List<Carteira>();
+  List<CarteiraPrecoVM> carteiras = List<CarteiraPrecoVM>();
 
   Future<void> list() async {
     this.carteiras = await repository.list();

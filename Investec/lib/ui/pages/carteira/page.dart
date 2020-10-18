@@ -1,4 +1,5 @@
 import 'package:Investec/data/domain/carteira.dart';
+import 'package:Investec/data/domain/carteiraprecovm.dart';
 import 'package:Investec/data/service/service-locator.dart';
 import 'package:Investec/ui/pages/shimmer/lista-shimmer.dart';
 import 'package:Investec/ui/utils/DialogUtils.dart';
@@ -110,8 +111,7 @@ class _PageCarteira extends State<PageCarteira> {
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
           DateTime now = DateTime.now();
-          Carteira obj =
-              Carteira(dtCriacao: DateFormat('dd/MM/yyyy').format(now));
+          Carteira obj = Carteira(createdOn: now.toIso8601String());
           final information = await Navigator.of(context)
               .pushNamed(PageCadastroCarteira.routeName, arguments: obj);
           if (information != null && information == "refresh") {

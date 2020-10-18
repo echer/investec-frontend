@@ -1,4 +1,5 @@
 import 'package:Investec/data/domain/ativo.dart';
+import 'package:Investec/data/domain/ativoprecovm.dart';
 import 'package:Investec/data/repository/remote/ativos-api.dart';
 
 abstract class AtivosRepository {
@@ -6,7 +7,7 @@ abstract class AtivosRepository {
     return _AtivosRepository(api);
   }
 
-  Future<List<Ativo>> list(String carteira);
+  Future<List<AtivoPrecoVM>> list(String carteira);
 
   Future create(String carteira, Ativo obj);
 
@@ -20,7 +21,7 @@ class _AtivosRepository implements AtivosRepository {
 
   _AtivosRepository(this.api);
 
-  Future<List<Ativo>> list(String carteira) async {
+  Future<List<AtivoPrecoVM>> list(String carteira) async {
     return api.list(carteira);
   }
 

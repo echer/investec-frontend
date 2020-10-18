@@ -12,16 +12,21 @@ class Usuario {
   String fone;
   String dtNascimento;
   int perfilInvestidor;
+  String createdOn;
+  String modifiedOn;
 
-  Usuario(
-      {this.id,
-      this.nome,
-      this.email,
-      this.cpf,
-      this.senha,
-      this.fone,
-      this.dtNascimento,
-      this.perfilInvestidor});
+  Usuario({
+    this.id,
+    this.nome,
+    this.email,
+    this.cpf,
+    this.senha,
+    this.fone,
+    this.dtNascimento,
+    this.perfilInvestidor,
+    this.createdOn,
+    this.modifiedOn,
+  });
 
   factory Usuario.fromJson(Map<String, dynamic> json) =>
       _$UsuarioFromJson(json);

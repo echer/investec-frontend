@@ -9,7 +9,7 @@ part of 'ordens-api.dart';
 class _OrdensAPI implements OrdensAPI {
   _OrdensAPI(this._dio, {this.baseUrl}) {
     ArgumentError.checkNotNull(_dio, '_dio');
-    this.baseUrl ??= 'https://investec-backend.herokuapp.com/v1/carteira';
+    baseUrl ??= 'https://investec-backend.herokuapp.com/v1/carteira';
   }
 
   final Dio _dio;
@@ -17,13 +17,13 @@ class _OrdensAPI implements OrdensAPI {
   String baseUrl;
 
   @override
-  list(carteira, ativo) async {
+  Future<List<Ordem>> list(carteira, ativo) async {
     ArgumentError.checkNotNull(carteira, 'carteira');
     ArgumentError.checkNotNull(ativo, 'ativo');
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _data = <String, dynamic>{};
-    final Response<List<dynamic>> _result = await _dio.request(
+    final _result = await _dio.request<List<dynamic>>(
         '/$carteira/ativos/$ativo/ordens',
         queryParameters: queryParameters,
         options: RequestOptions(
@@ -39,7 +39,7 @@ class _OrdensAPI implements OrdensAPI {
   }
 
   @override
-  create(carteira, ativo, obj) async {
+  Future<dynamic> create(carteira, ativo, obj) async {
     ArgumentError.checkNotNull(carteira, 'carteira');
     ArgumentError.checkNotNull(ativo, 'ativo');
     ArgumentError.checkNotNull(obj, 'obj');
@@ -47,8 +47,8 @@ class _OrdensAPI implements OrdensAPI {
     final queryParameters = <String, dynamic>{};
     final _data = <String, dynamic>{};
     _data.addAll(obj?.toJson() ?? <String, dynamic>{});
-    final Response _result = await _dio.request(
-        '/$carteira/ativos/$ativo/ordens',
+    _data.removeWhere((k, v) => v == null);
+    final _result = await _dio.request('/$carteira/ativos/$ativo/ordens',
         queryParameters: queryParameters,
         options: RequestOptions(
             method: 'POST',
@@ -61,15 +61,14 @@ class _OrdensAPI implements OrdensAPI {
   }
 
   @override
-  delete(carteira, ativo, id) async {
+  Future<dynamic> delete(carteira, ativo, id) async {
     ArgumentError.checkNotNull(carteira, 'carteira');
     ArgumentError.checkNotNull(ativo, 'ativo');
     ArgumentError.checkNotNull(id, 'id');
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _data = <String, dynamic>{};
-    final Response _result = await _dio.request(
-        '/$carteira/ativos/$ativo/ordens/$id',
+    final _result = await _dio.request('/$carteira/ativos/$ativo/ordens/$id',
         queryParameters: queryParameters,
         options: RequestOptions(
             method: 'DELETE',

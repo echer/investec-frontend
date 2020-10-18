@@ -1,4 +1,5 @@
 import 'package:Investec/data/domain/carteira.dart';
+import 'package:Investec/data/domain/carteiraprecovm.dart';
 import 'package:Investec/data/repository/remote/carteira-api.dart';
 
 abstract class CarteiraRepository {
@@ -6,7 +7,7 @@ abstract class CarteiraRepository {
     return _CarteiraRepository(api);
   }
 
-  Future<List<Carteira>> list();
+  Future<List<CarteiraPrecoVM>> list();
 
   Future create(Carteira obj);
 
@@ -20,7 +21,7 @@ class _CarteiraRepository implements CarteiraRepository {
 
   _CarteiraRepository(this.api);
 
-  Future<List<Carteira>> list() async {
+  Future<List<CarteiraPrecoVM>> list() async {
     return api.list();
   }
 

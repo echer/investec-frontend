@@ -1,4 +1,5 @@
 import 'package:Investec/data/domain/carteira.dart';
+import 'package:Investec/data/domain/carteiraprecovm.dart';
 import 'package:dio/dio.dart';
 import 'package:retrofit/retrofit.dart';
 
@@ -10,7 +11,7 @@ abstract class CarteiraAPI {
     return _CarteiraAPI(dio, baseUrl: baseUrl);
   }
   @GET("/")
-  Future<List<Carteira>> list();
+  Future<List<CarteiraPrecoVM>> list();
 
   @POST("/")
   Future create(@Body() Carteira obj);

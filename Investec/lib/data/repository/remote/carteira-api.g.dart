@@ -9,7 +9,7 @@ part of 'carteira-api.dart';
 class _CarteiraAPI implements CarteiraAPI {
   _CarteiraAPI(this._dio, {this.baseUrl}) {
     ArgumentError.checkNotNull(_dio, '_dio');
-    this.baseUrl ??= 'https://investec-backend.herokuapp.com/v1/carteira';
+    baseUrl ??= 'https://investec-backend.herokuapp.com/v1/carteira';
   }
 
   final Dio _dio;
@@ -17,11 +17,11 @@ class _CarteiraAPI implements CarteiraAPI {
   String baseUrl;
 
   @override
-  list() async {
+  Future<List<CarteiraPrecoVM>> list() async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _data = <String, dynamic>{};
-    final Response<List<dynamic>> _result = await _dio.request('/',
+    final _result = await _dio.request<List<dynamic>>('/',
         queryParameters: queryParameters,
         options: RequestOptions(
             method: 'GET',
@@ -30,19 +30,20 @@ class _CarteiraAPI implements CarteiraAPI {
             baseUrl: baseUrl),
         data: _data);
     var value = _result.data
-        .map((dynamic i) => Carteira.fromJson(i as Map<String, dynamic>))
+        .map((dynamic i) => CarteiraPrecoVM.fromJson(i as Map<String, dynamic>))
         .toList();
     return value;
   }
 
   @override
-  create(obj) async {
+  Future<dynamic> create(obj) async {
     ArgumentError.checkNotNull(obj, 'obj');
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _data = <String, dynamic>{};
     _data.addAll(obj?.toJson() ?? <String, dynamic>{});
-    final Response _result = await _dio.request('/',
+    _data.removeWhere((k, v) => v == null);
+    final _result = await _dio.request('/',
         queryParameters: queryParameters,
         options: RequestOptions(
             method: 'POST',
@@ -55,14 +56,15 @@ class _CarteiraAPI implements CarteiraAPI {
   }
 
   @override
-  update(id, obj) async {
+  Future<dynamic> update(id, obj) async {
     ArgumentError.checkNotNull(id, 'id');
     ArgumentError.checkNotNull(obj, 'obj');
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _data = <String, dynamic>{};
     _data.addAll(obj?.toJson() ?? <String, dynamic>{});
-    final Response _result = await _dio.request('/$id',
+    _data.removeWhere((k, v) => v == null);
+    final _result = await _dio.request('/$id',
         queryParameters: queryParameters,
         options: RequestOptions(
             method: 'PUT',
@@ -75,12 +77,12 @@ class _CarteiraAPI implements CarteiraAPI {
   }
 
   @override
-  delete(id) async {
+  Future<dynamic> delete(id) async {
     ArgumentError.checkNotNull(id, 'id');
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _data = <String, dynamic>{};
-    final Response _result = await _dio.request('/$id',
+    final _result = await _dio.request('/$id',
         queryParameters: queryParameters,
         options: RequestOptions(
             method: 'DELETE',

@@ -18,6 +18,8 @@ Ativo _$AtivoFromJson(Map<String, dynamic> json) {
     stopGain: (json['stopGain'] as num)?.toDouble(),
     stopLoss: (json['stopLoss'] as num)?.toDouble(),
     vlrInvestido: (json['vlrInvestido'] as num)?.toDouble(),
+    createdOn: json['createdOn'] as String,
+    modifiedOn: json['modifiedOn'] as String,
   );
 }
 
@@ -38,5 +40,7 @@ Map<String, dynamic> _$AtivoToJson(Ativo instance) {
   writeNotNull('stopGain', instance.stopGain);
   writeNotNull('stopLoss', instance.stopLoss);
   writeNotNull('vlrInvestido', instance.vlrInvestido);
+  writeNotNull('createdOn', instance.createdOn);
+  writeNotNull('modifiedOn', instance.modifiedOn);
   return val;
 }

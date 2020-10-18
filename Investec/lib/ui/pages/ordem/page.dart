@@ -1,4 +1,4 @@
-import 'package:Investec/data/domain/ativo.dart';
+import 'package:Investec/data/domain/ativoprecovm.dart';
 import 'package:Investec/data/domain/ordem.dart';
 import 'package:Investec/ui/utils/DialogUtils.dart';
 import 'package:flutter/material.dart';
@@ -13,7 +13,7 @@ import 'view-model.dart';
 class PageOrdensAtivo extends StatefulWidget {
   static const routeName = '/carteira/ativos/ordens';
 
-  final Ativo model;
+  final AtivoPrecoVM model;
 
   PageOrdensAtivo(this.model);
 
@@ -36,7 +36,9 @@ class _PageOrdensAtivo extends State<PageOrdensAtivo> {
     loading = true;
     var dialog = DialogUtils(new GlobalKey<State>());
     dialog.showLoadingDialog(context, message: "Carregando dados...");
-    await model.list(widget.model.carteira.id, widget.model.id).then(
+    await model
+        .list(widget.model.ativo.carteira.id, widget.model.ativo.id)
+        .then(
       (value) {},
       onError: (error) {
         DialogUtils(new GlobalKey<State>())
@@ -67,7 +69,7 @@ class _PageOrdensAtivo extends State<PageOrdensAtivo> {
             onPressed: () {},
           ),
         ],
-        title: Text('Ordens: ${widget.model.ticker}'),
+        title: Text('Ordens: ${widget.model.ativo.ticker}'),
       ),
       body: SafeArea(
         child: ChangeNotifierProvider(
@@ -112,7 +114,7 @@ class _PageOrdensAtivo extends State<PageOrdensAtivo> {
         onPressed: () async {
           DateTime now = DateTime.now();
           Ordem obj = new Ordem(
-            ativosCarteira: widget.model,
+            ativosCarteira: widget.model.ativo,
             dtOrdem: now.toIso8601String(),
           );
           final information = await Navigator.of(context)

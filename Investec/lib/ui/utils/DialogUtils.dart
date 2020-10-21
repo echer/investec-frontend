@@ -30,7 +30,8 @@ class DialogUtils {
   }
 
   void hideDialog() {
-    Navigator.of(key.currentContext, rootNavigator: true).pop();
+    if (key != null && key.currentContext != null)
+      Navigator.of(key.currentContext, rootNavigator: true).pop();
   }
 
   Future<void> showLoadingDialog(BuildContext context,

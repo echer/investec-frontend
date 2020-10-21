@@ -1,5 +1,6 @@
 import 'package:Investec/data/domain/ativoprecovm.dart';
 import 'package:Investec/data/domain/ordem.dart';
+import 'package:Investec/ui/custom/fancy-fab.dart';
 import 'package:Investec/ui/utils/DialogUtils.dart';
 import 'package:flutter/material.dart';
 import 'package:Investec/data/service/service-locator.dart';
@@ -110,20 +111,52 @@ class _PageOrdensAtivo extends State<PageOrdensAtivo> {
           ),
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () async {
-          DateTime now = DateTime.now();
-          Ordem obj = new Ordem(
-            ativosCarteira: widget.model.ativo,
-            dtOrdem: now.toIso8601String(),
-          );
-          final information = await Navigator.of(context)
-              .pushNamed(PageCadastroOrdem.routeName, arguments: obj);
-          if (information != null && information == "refresh") {
-            onCountSelected();
-          }
-        },
-        child: Icon(Icons.add),
+      floatingActionButton: FancyFab(
+        <Widget>[
+          Container(
+            margin: const EdgeInsets.only(bottom: 5),
+            child: FloatingActionButton(
+              onPressed: () async {
+                DateTime now = DateTime.now();
+                Ordem obj = new Ordem(
+                  ativosCarteira: widget.model.ativo,
+                  tipoOrdem: 0,
+                  dtOrdem: now.toIso8601String(),
+                );
+                final information = await Navigator.of(context)
+                    .pushNamed(PageCadastroOrdem.routeName, arguments: obj);
+                if (information != null && information == "refresh") {
+                  onCountSelected();
+                }
+              },
+              tooltip: 'Comprar',
+              heroTag: null,
+              child: Icon(Icons.add),
+            ),
+          ),
+          Container(
+            child: FloatingActionButton(
+              onPressed: () async {
+                DateTime now = DateTime.now();
+                Ordem obj = new Ordem(
+                  ativosCarteira: widget.model.ativo,
+                  tipoOrdem: 1,
+                  dtOrdem: now.toIso8601String(),
+                );
+                final information = await Navigator.of(context)
+                    .pushNamed(PageCadastroOrdem.routeName, arguments: obj);
+                if (information != null && information == "refresh") {
+                  onCountSelected();
+                }
+              },
+              tooltip: 'Vender',
+              heroTag: null,
+              child: Icon(
+                Icons.remove,
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

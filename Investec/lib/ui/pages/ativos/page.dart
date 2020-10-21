@@ -1,5 +1,4 @@
 import 'package:Investec/data/domain/ativo.dart';
-import 'package:Investec/data/domain/ativoprecovm.dart';
 import 'package:Investec/data/domain/carteiraprecovm.dart';
 import 'package:Investec/ui/utils/DialogUtils.dart';
 import 'package:flutter/material.dart';

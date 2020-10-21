@@ -166,6 +166,8 @@ class _PageCadastroOrdem extends State<PageCadastroOrdem> {
                               ),
                               TextFormField(
                                 controller: tipoOrdemController,
+                                readOnly: true,
+                                enabled: false,
                                 decoration: InputDecoration(
                                     labelText: 'Tipo: 0 = COMPRA / 1 = VENDA'),
                                 maxLength: 1,

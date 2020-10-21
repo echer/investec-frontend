@@ -1,10 +1,8 @@
 import 'package:Investec/data/domain/carteira.dart';
-import 'package:Investec/data/domain/carteiraprecovm.dart';
 import 'package:Investec/data/service/service-locator.dart';
 import 'package:Investec/ui/pages/shimmer/lista-shimmer.dart';
 import 'package:Investec/ui/utils/DialogUtils.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 import 'lista-item.dart';

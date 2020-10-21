@@ -34,6 +34,7 @@ class _PageAtivosCarteira extends State<PageAtivosCarteira> {
   }
 
   Future<void> loadData() async {
+    loading = true;
     var dialog = DialogUtils(new GlobalKey<State>());
     dialog.showLoadingDialog(context, message: "Carregando dados...");
     await model.list(widget.model.carteira.id).then(

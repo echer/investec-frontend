@@ -93,9 +93,6 @@ class _PageAtivosCarteira extends State<PageAtivosCarteira> {
                                 onCountSelected,
                               ),
                             ),
-                            Divider(
-                              color: Colors.grey,
-                            ),
                           ],
                         );
                       },

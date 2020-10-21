@@ -93,9 +93,6 @@ class _PageOrdensAtivo extends State<PageOrdensAtivo> {
                               child: ListaOrdemItem(
                                   model.ativos[index], onCountSelected),
                             ),
-                            Divider(
-                              color: Colors.grey,
-                            ),
                           ],
                         );
                       },

@@ -88,9 +88,6 @@ class _PageCarteira extends State<PageCarteira> {
                                 onCountSelected,
                               ),
                             ),
-                            Divider(
-                              color: Colors.grey,
-                            ),
                           ],
                         );
                       },

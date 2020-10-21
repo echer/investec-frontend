@@ -43,10 +43,11 @@ class PageHome extends StatelessWidget {
                 Navigator.of(context).pushNamed(
                   PageAtivosCarteira.routeName,
                   arguments: CarteiraPrecoVM(
-                      carteira: Carteira(
-                    id: 'all',
-                    nomeCarteira: 'Todas',
-                  )),
+                    carteira: Carteira(
+                      id: 'all',
+                      nomeCarteira: 'Todas',
+                    ),
+                  ),
                 ),
               },
             ),

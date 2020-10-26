@@ -1,7 +1,7 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:Investec/data/service/service-locator.dart';
-import 'package:finance/finance.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
@@ -9,7 +9,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'App.dart';
 import 'LoginApp.dart';
+import 'data/domain/usuario.dart';
 import 'ui/pages/carteira/view-model.dart';
+import 'ui/pages/login/view-model.dart';
 
 Future<void> main() async {
   Intl.defaultLocale = 'pt_BR';
@@ -25,7 +27,11 @@ Future<void> main() async {
     if (!prefs.containsKey("logged") ||
         prefs.getString("logged").isEmpty ||
         !prefs.containsKey("token") ||
-        prefs.getString("token").isEmpty) {
+        prefs.getString("token").isEmpty ||
+        !prefs.containsKey("usuario") ||
+        prefs.getString("usuario").isEmpty ||
+        !prefs.containsKey("senha") ||
+        prefs.getString("senha").isEmpty) {
       runApp(LoginApp());
       return;
     }
@@ -34,11 +40,31 @@ Future<void> main() async {
       runApp(LoginApp());
       return;
     }
-    runApp(App());
+
+    LoginViewModel model = getIt<LoginViewModel>();
+
+    Usuario usuario = Usuario(
+      email: prefs.getString("username"),
+      senha: prefs.getString("password"),
+    );
+    await model.login(usuario).then(
+      (loginSuccess) {
+        runApp(App(loginSuccess.usuario));
+      },
+      onError: (error) {
+        print(error);
+        exit(0);
+      },
+    ).catchError((error) {
+      print(error);
+      exit(0);
+    });
+
     return;
   }, (error, stack) {
     print(stack);
     print(error);
+    exit(0);
   });
 }
 

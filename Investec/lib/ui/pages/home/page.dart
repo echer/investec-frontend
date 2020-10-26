@@ -1,11 +1,12 @@
 import 'package:Investec/LoginApp.dart';
 import 'package:Investec/data/domain/carteira.dart';
 import 'package:Investec/data/domain/carteiraprecovm.dart';
+import 'package:Investec/data/domain/usuario.dart';
 import 'package:Investec/data/service/service-locator.dart';
 import 'package:Investec/ui/pages/ativos/page.dart';
 import 'package:Investec/ui/pages/carteira/page.dart';
 import 'package:Investec/ui/pages/carteira/view-model.dart';
-import 'package:Investec/ui/pages/home/grafico-pizza-carteira.dart';
+import 'package:Investec/ui/pages/grafico-carteira/grafico-pizza-carteira.dart';
 import 'package:Investec/ui/pages/shimmer/lista-shimmer.dart';
 import 'package:Investec/ui/utils/DialogUtils.dart';
 import 'package:flutter/material.dart';
@@ -14,6 +15,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class PageHome extends StatefulWidget {
   static const routeName = '/';
+  final Usuario usuario;
+
+  const PageHome(this.usuario);
 
   @override
   _PageHome createState() => _PageHome();
@@ -59,6 +63,29 @@ class _PageHome extends State<PageHome> {
     };
 
     SharedPreferences prefs = getIt<SharedPreferences>();
+
+    var userAccountDrawer = UserAccountsDrawerHeader(
+      accountName: Text("${widget.usuario.nome}"),
+      accountEmail: Text("${widget.usuario.email}"),
+      currentAccountPicture: CircleAvatar(
+        backgroundColor: Colors.white,
+        child: Text(
+          "${widget.usuario.nome.substring(0, 1)}",
+          style: TextStyle(fontSize: 40.0),
+        ),
+      ),
+    );
+    var hasProfileImage = false;
+    if (hasProfileImage) {
+      userAccountDrawer = UserAccountsDrawerHeader(
+        accountName: Text("${widget.usuario.nome}"),
+        accountEmail: Text("${widget.usuario.email}"),
+        currentAccountPicture: new CircleAvatar(
+          backgroundImage:
+              NetworkImage("http://tineye.com/images/widgets/mona.jpg"),
+        ),
+      );
+    }
     return Scaffold(
       appBar: AppBar(
         actions: [
@@ -69,47 +96,64 @@ class _PageHome extends State<PageHome> {
             },
           ),
         ],
-        title: Text('Investec - Home Page'),
+        title: Text('Desempenho Carteira'),
         centerTitle: true,
       ),
       drawer: Drawer(
         child: ListView(
           children: [
-            DrawerHeader(
-              decoration: BoxDecoration(
-                color: Theme.of(context).primaryColor,
-              ),
-              child: Text('Investec'),
-            ),
-            ListTile(
-              leading: Icon(Icons.money_off),
-              title: Text('Minhas Carteiras'),
-              onTap: () =>
-                  {Navigator.of(context).pushNamed(PageCarteira.routeName)},
-            ),
-            ListTile(
-              leading: Icon(Icons.money_off),
-              title: Text('Minhas Ações'),
-              onTap: () => {
-                Navigator.of(context).pushNamed(
-                  PageAtivosCarteira.routeName,
-                  arguments: CarteiraPrecoVM(
-                    carteira: Carteira(
-                      id: 'all',
-                      nomeCarteira: 'Todas',
-                    ),
-                  ),
+            userAccountDrawer,
+            ExpansionTile(
+              initiallyExpanded: true,
+              title: Text("Meus Cadastros"),
+              children: <Widget>[
+                ListTile(
+                  leading: Icon(Icons.account_balance_wallet_outlined),
+                  title: Text('Minhas Carteiras'),
+                  onTap: () =>
+                      {Navigator.of(context).pushNamed(PageCarteira.routeName)},
                 ),
-              },
+                ListTile(
+                  leading: Icon(Icons.attach_money_outlined),
+                  title: Text('Minhas Ações'),
+                  onTap: () => {
+                    Navigator.of(context).pushNamed(
+                      PageAtivosCarteira.routeName,
+                      arguments: CarteiraPrecoVM(
+                        carteira: Carteira(
+                          id: 'all',
+                          nomeCarteira: 'Todas',
+                        ),
+                      ),
+                    ),
+                  },
+                ),
+              ],
             ),
-            ListTile(
-              leading: Icon(Icons.exit_to_app),
-              title: Text('Logout'),
-              onTap: () async {
-                prefs.setString("logged", "");
-                prefs.setString("token", "");
-                runApp(LoginApp());
-              },
+            ExpansionTile(
+              initiallyExpanded: true,
+              title: Text("Meu Desempenho"),
+              children: <Widget>[],
+            ),
+            ExpansionTile(
+              initiallyExpanded: true,
+              title: Text("Minha Conta"),
+              children: <Widget>[
+                ListTile(
+                  leading: Icon(Icons.account_circle_outlined),
+                  title: Text('Editar Perfil (TODO)'),
+                  onTap: () {},
+                ),
+                ListTile(
+                  leading: Icon(Icons.exit_to_app),
+                  title: Text('Logout'),
+                  onTap: () async {
+                    prefs.setString("logged", "");
+                    prefs.setString("token", "");
+                    runApp(LoginApp());
+                  },
+                ),
+              ],
             ),
           ],
         ),

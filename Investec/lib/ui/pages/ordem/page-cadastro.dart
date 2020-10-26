@@ -2,7 +2,6 @@ import 'package:Investec/data/domain/ordem.dart';
 import 'package:Investec/data/service/service-locator.dart';
 import 'package:Investec/ui/pages/ordem/view-model.dart';
 import 'package:Investec/ui/utils/DialogUtils.dart';
-import 'package:finance/finance.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -97,24 +96,6 @@ class _PageCadastroOrdem extends State<PageCadastroOrdem> {
       ),
       body: FutureBuilder(
         future: Future<bool>.delayed(Duration(milliseconds: 1), () async {
-          var name = widget.obj.ativosCarteira.ticker.toUpperCase();
-          final Map<String, Map<String, dynamic>> quotePrice =
-              await Finance.downloadQuotePrice(
-                  QuoteProvider.yahoo, <String>['$name.SA']);
-
-          if (quotePrice != null &&
-              quotePrice.keys != null &&
-              quotePrice.keys.length > 0) {
-            var ticket = quotePrice["$name.SA"];
-            if (ticket != null &&
-                ticket.keys != null &&
-                ticket.keys.length > 0) {
-              if (ticket["price"] != null) {
-                vlrOrdemController.text =
-                    double.tryParse(ticket["price"])?.toDouble().toString();
-              }
-            }
-          }
           return true;
         }),
         builder: (context, AsyncSnapshot<bool> snapshot) {

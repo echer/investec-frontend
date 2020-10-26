@@ -6,9 +6,14 @@ import 'package:Investec/ui/pages/ordem/page-cadastro.dart';
 import 'package:Investec/ui/pages/ordem/page.dart';
 import 'package:flutter/material.dart';
 
+import 'data/domain/usuario.dart';
 import 'ui/pages/ativos/page.dart';
 
 class App extends StatelessWidget {
+  final Usuario usuario;
+
+  App(this.usuario);
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -21,7 +26,7 @@ class App extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       onGenerateRoute: (RouteSettings settings) {
         var routes = {
-          PageHome.routeName: (context) => PageHome(),
+          PageHome.routeName: (context) => PageHome(usuario),
           PageCarteira.routeName: (context) => PageCarteira(),
           PageAtivosCarteira.routeName: (context) =>
               PageAtivosCarteira(settings.arguments),

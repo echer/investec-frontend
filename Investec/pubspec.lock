@@ -218,13 +218,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "5.2.1"
-  finance:
-    dependency: "direct main"
-    description:
-      name: finance
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.0.2"
   fixnum:
     dependency: transitive
     description:

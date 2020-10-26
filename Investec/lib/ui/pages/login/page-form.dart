@@ -31,10 +31,14 @@ class _LoginPageForm extends State<LoginPageForm> {
           if (prefs.getString("username") != null &&
               prefs.getString("username").isNotEmpty) {
             usuarioController.text = prefs.getString("username");
+          } else {
+            usuarioController.text = "mongo@gmail.com";
           }
           if (prefs.getString("password") != null &&
               prefs.getString("password").isNotEmpty) {
             senhaController.text = prefs.getString("password");
+          } else {
+            senhaController.text = "123";
           }
           return true;
         }),
@@ -89,7 +93,7 @@ class _LoginPageForm extends State<LoginPageForm> {
                                     prefs.setString("logged", "S");
                                     prefs.setString(
                                         "token", loginSuccess.token);
-                                    runApp(App());
+                                    runApp(App(loginSuccess.usuario));
                                   },
                                   onError: (error) {
                                     dialog.hideDialog();

@@ -29,14 +29,17 @@ class _PageOrdensAtivo extends State<PageOrdensAtivo> {
 
   @override
   void initState() {
-    loadData();
     super.initState();
+    loadData(false);
   }
 
-  Future<void> loadData() async {
+  Future<void> loadData(bool showDialog) async {
     loading = true;
-    var dialog = DialogUtils(new GlobalKey<State>());
-    dialog.showLoadingDialog(context, message: "Carregando dados...");
+    var dialog;
+    if (showDialog) {
+      dialog = DialogUtils(new GlobalKey<State>());
+      dialog.showLoadingDialog(context, message: "Carregando dados...");
+    }
     await model
         .list(widget.model.ativo.carteira.id, widget.model.ativo.id)
         .then(
@@ -52,7 +55,9 @@ class _PageOrdensAtivo extends State<PageOrdensAtivo> {
       () {
         loading = false;
         model.notify();
-        dialog.hideDialog();
+        if (showDialog) {
+          dialog.hideDialog();
+        }
       },
     );
   }
@@ -60,7 +65,7 @@ class _PageOrdensAtivo extends State<PageOrdensAtivo> {
   @override
   Widget build(BuildContext context) {
     VoidCallback onCountSelected = () async {
-      loadData();
+      loadData(true);
     };
     return Scaffold(
       appBar: AppBar(

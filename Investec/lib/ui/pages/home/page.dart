@@ -30,14 +30,17 @@ class _PageHome extends State<PageHome> {
 
   @override
   void initState() {
-    loadData();
     super.initState();
+    loadData(false);
   }
 
-  Future<void> loadData() async {
+  Future<void> loadData(bool showDialog) async {
     loading = true;
-    var dialog = DialogUtils(new GlobalKey<State>());
-    dialog.showLoadingDialog(context, message: "Carregando dados...");
+    var dialog;
+    if (showDialog) {
+      dialog = DialogUtils(new GlobalKey<State>());
+      dialog.showLoadingDialog(context, message: "Carregando dados...");
+    }
     await model.list().then(
       (value) {},
       onError: (error) {
@@ -51,7 +54,9 @@ class _PageHome extends State<PageHome> {
       () {
         loading = false;
         model.notify();
-        dialog.hideDialog();
+        if (showDialog) {
+          dialog.hideDialog();
+        }
       },
     );
   }
@@ -59,7 +64,7 @@ class _PageHome extends State<PageHome> {
   @override
   Widget build(BuildContext context) {
     VoidCallback onCountSelected = () async {
-      loadData();
+      loadData(true);
     };
 
     SharedPreferences prefs = getIt<SharedPreferences>();
@@ -70,7 +75,7 @@ class _PageHome extends State<PageHome> {
       currentAccountPicture: CircleAvatar(
         backgroundColor: Colors.white,
         child: Text(
-          "${widget.usuario.nome.substring(0, 1)}",
+          "${widget.usuario.nome.substring(0, 1).toUpperCase()}",
           style: TextStyle(fontSize: 40.0),
         ),
       ),

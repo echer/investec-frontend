@@ -1,6 +1,7 @@
 import 'package:Investec/data/domain/ordem.dart';
 import 'package:Investec/data/service/service-locator.dart';
 import 'package:Investec/ui/utils/CurrencyPtBrInputFormatter.dart';
+import 'package:Investec/ui/utils/DateUtils.dart';
 import 'package:Investec/ui/utils/DialogUtils.dart';
 import 'package:flutter/material.dart';
 
@@ -25,7 +26,7 @@ class ListaOrdemItem extends StatelessWidget {
         overflow: TextOverflow.ellipsis,
       ),
       subtitle: Text(
-        'Quantidade: ${model.qtdOrdem} x (${CurrencyPtBrInputFormatter.doubleToStr(model.vlrOrdem)} - ${CurrencyPtBrInputFormatter.doubleToStr(model.taxaOrdem)}) \nTotal: ${CurrencyPtBrInputFormatter.doubleToStr(model.totalOrdem)}',
+        'Quantidade: ${model.qtdOrdem} x (${CurrencyPtBrInputFormatter.doubleToStr(model.vlrOrdem)} - ${CurrencyPtBrInputFormatter.doubleToStr(model.taxaOrdem)}) \nTotal: ${CurrencyPtBrInputFormatter.doubleToStr(model.totalOrdem)} \nData: ${DateUtils.strIso8601ToStr(model.createdOn)}',
         style: TextStyle(fontWeight: FontWeight.normal),
         maxLines: 3,
         overflow: TextOverflow.ellipsis,

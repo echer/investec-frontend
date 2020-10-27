@@ -1,6 +1,7 @@
 import 'package:Investec/data/domain/carteira.dart';
 import 'package:Investec/data/service/service-locator.dart';
 import 'package:Investec/ui/utils/CurrencyPtBrInputFormatter.dart';
+import 'package:Investec/ui/utils/DateUtils.dart';
 import 'package:Investec/ui/utils/DialogUtils.dart';
 import 'package:Investec/ui/utils/UpperCaseTextFormatter.dart';
 import 'package:flutter/material.dart';
@@ -51,7 +52,8 @@ class _PageCadastroCarteira extends State<PageCadastroCarteira> {
                     nomeCarteira: nomeController.text,
                     metaCarteira: CurrencyPtBrInputFormatter.strToDouble(
                         metaController.text),
-                    createdOn: dtCriacaoController.text);
+                    createdOn:
+                        DateUtils.strToDateIso8601(dtCriacaoController.text));
 
                 await viewModel.createOrUpdate(createOrupdate).then((value) {
                   dialog.hideDialog();

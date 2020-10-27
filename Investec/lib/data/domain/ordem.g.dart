@@ -13,7 +13,6 @@ Ordem _$OrdemFromJson(Map<String, dynamic> json) {
         ? null
         : Ativo.fromJson(json['ativosCarteira'] as Map<String, dynamic>),
     tipoOrdem: json['tipoOrdem'] as int,
-    dtOrdem: json['dtOrdem'] as String,
     qtdOrdem: json['qtdOrdem'] as int,
     vlrOrdem: (json['vlrOrdem'] as num)?.toDouble(),
     taxaOrdem: (json['taxaOrdem'] as num)?.toDouble(),
@@ -36,7 +35,6 @@ Map<String, dynamic> _$OrdemToJson(Ordem instance) {
   writeNotNull('id', instance.id);
   writeNotNull('ativosCarteira', instance.ativosCarteira?.toJson());
   writeNotNull('tipoOrdem', instance.tipoOrdem);
-  writeNotNull('dtOrdem', instance.dtOrdem);
   writeNotNull('qtdOrdem', instance.qtdOrdem);
   writeNotNull('vlrOrdem', instance.vlrOrdem);
   writeNotNull('taxaOrdem', instance.taxaOrdem);

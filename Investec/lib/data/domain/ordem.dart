@@ -1,4 +1,3 @@
-import 'package:Investec/data/domain/ativoprecovm.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 import 'ativo.dart';
@@ -10,7 +9,6 @@ class Ordem {
   String id;
   Ativo ativosCarteira;
   int tipoOrdem;
-  String dtOrdem;
   int qtdOrdem;
   double vlrOrdem;
   double taxaOrdem;
@@ -23,7 +21,6 @@ class Ordem {
     this.id,
     this.ativosCarteira,
     this.tipoOrdem,
-    this.dtOrdem,
     this.qtdOrdem,
     this.vlrOrdem,
     this.taxaOrdem,

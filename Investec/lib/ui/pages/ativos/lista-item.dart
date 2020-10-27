@@ -1,6 +1,7 @@
 import 'package:Investec/data/domain/ativoprecovm.dart';
 import 'package:Investec/ui/pages/ordem/page.dart';
 import 'package:Investec/ui/utils/CurrencyPtBrInputFormatter.dart';
+import 'package:Investec/ui/utils/DateUtils.dart';
 import 'package:flutter/material.dart';
 
 import 'page-cadastro.dart';
@@ -22,7 +23,7 @@ class ListaAtivoItem extends StatelessWidget {
         overflow: TextOverflow.ellipsis,
       ),
       subtitle: Text(
-        'Quantidade: ${model.ativo.qtdAtivo} x Valor: ${CurrencyPtBrInputFormatter.doubleToStr(model.ativo.pmAtivo)} = Total: ${CurrencyPtBrInputFormatter.doubleToStr(model.ativo.vlrInvestido)}',
+        'Quantidade: ${model.ativo.qtdAtivo} x Valor: ${CurrencyPtBrInputFormatter.doubleToStr(model.ativo.pmAtivo)} = Total: ${CurrencyPtBrInputFormatter.doubleToStr(model.ativo.vlrInvestido)} \nData: ${DateUtils.strIso8601ToStr(model.ativo.createdOn)}',
         style: TextStyle(fontWeight: FontWeight.normal),
         maxLines: 3,
         overflow: TextOverflow.ellipsis,

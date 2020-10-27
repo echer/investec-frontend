@@ -2,6 +2,7 @@ import 'package:Investec/data/domain/ordem.dart';
 import 'package:Investec/data/service/service-locator.dart';
 import 'package:Investec/ui/pages/ordem/view-model.dart';
 import 'package:Investec/ui/utils/CurrencyPtBrInputFormatter.dart';
+import 'package:Investec/ui/utils/DateUtils.dart';
 import 'package:Investec/ui/utils/DialogUtils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -38,19 +39,15 @@ class _PageCadastroOrdem extends State<PageCadastroOrdem> {
         text: widget.obj.tipoOrdem != null
             ? widget.obj.tipoOrdem.toString()
             : "");
-    TextEditingController dtOrdemController = TextEditingController(
-        text: widget.obj.dtOrdem != null ? widget.obj.dtOrdem : "");
+    TextEditingController dtOrdemController =
+        TextEditingController(text: widget.obj.createdOn);
     TextEditingController qtdOrdemController = TextEditingController(
         text:
             widget.obj.qtdOrdem != null ? widget.obj.qtdOrdem.toString() : "");
     TextEditingController vlrOrdemController = TextEditingController(
-        text: widget.obj.vlrOrdem != null
-            ? CurrencyPtBrInputFormatter.doubleToStr(widget.obj.vlrOrdem)
-            : "R\$ 0.00");
+        text: CurrencyPtBrInputFormatter.doubleToStr(widget.obj.vlrOrdem));
     TextEditingController taxaOrdemController = TextEditingController(
-        text: widget.obj.taxaOrdem != null
-            ? CurrencyPtBrInputFormatter.doubleToStr(widget.obj.taxaOrdem)
-            : "R\$ 0.00");
+        text: CurrencyPtBrInputFormatter.doubleToStr(widget.obj.taxaOrdem));
     return Scaffold(
       appBar: AppBar(
         actions: [
@@ -64,7 +61,7 @@ class _PageCadastroOrdem extends State<PageCadastroOrdem> {
 
                 Ordem create = Ordem(
                   id: idController.text,
-                  dtOrdem: dtOrdemController.text,
+                  createdOn: DateUtils.strToDateIso8601(dtOrdemController.text),
                   qtdOrdem: int.tryParse(qtdOrdemController.text)?.toInt(),
                   taxaOrdem: CurrencyPtBrInputFormatter.strToDouble(
                       taxaOrdemController.text),

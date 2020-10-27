@@ -1,6 +1,7 @@
 import 'package:Investec/data/domain/ativoprecovm.dart';
 import 'package:Investec/data/domain/ordem.dart';
 import 'package:Investec/ui/custom/fancy-fab.dart';
+import 'package:Investec/ui/utils/DateUtils.dart';
 import 'package:Investec/ui/utils/DialogUtils.dart';
 import 'package:flutter/material.dart';
 import 'package:Investec/data/service/service-locator.dart';
@@ -119,11 +120,10 @@ class _PageOrdensAtivo extends State<PageOrdensAtivo> {
             margin: const EdgeInsets.only(bottom: 5),
             child: FloatingActionButton(
               onPressed: () async {
-                DateTime now = DateTime.now();
                 Ordem obj = new Ordem(
                   ativosCarteira: widget.model.ativo,
                   tipoOrdem: 0,
-                  dtOrdem: now.toIso8601String(),
+                  createdOn: DateUtils.dateToStr(DateTime.now()),
                 );
                 final information = await Navigator.of(context)
                     .pushNamed(PageCadastroOrdem.routeName, arguments: obj);
@@ -139,11 +139,10 @@ class _PageOrdensAtivo extends State<PageOrdensAtivo> {
           Container(
             child: FloatingActionButton(
               onPressed: () async {
-                DateTime now = DateTime.now();
                 Ordem obj = new Ordem(
                   ativosCarteira: widget.model.ativo,
                   tipoOrdem: 1,
-                  dtOrdem: now.toIso8601String(),
+                  createdOn: DateUtils.dateToStr(DateTime.now()),
                 );
                 final information = await Navigator.of(context)
                     .pushNamed(PageCadastroOrdem.routeName, arguments: obj);

@@ -1,6 +1,7 @@
 import 'package:Investec/data/domain/ativo.dart';
 import 'package:Investec/data/service/service-locator.dart';
 import 'package:Investec/ui/pages/ativos/view-model.dart';
+import 'package:Investec/ui/utils/CurrencyPtBrInputFormatter.dart';
 import 'package:Investec/ui/utils/DialogUtils.dart';
 import 'package:Investec/ui/utils/UpperCaseTextFormatter.dart';
 import 'package:flutter/material.dart';
@@ -29,16 +30,16 @@ class _PageCadastroAtivo extends State<PageCadastroAtivo> {
         TextEditingController(text: widget.obj.carteira.id);
     TextEditingController ticketController =
         TextEditingController(text: widget.obj.ticker);
-    TextEditingController pmController =
-        TextEditingController(text: widget.obj.pmAtivo?.toString());
+    TextEditingController pmController = TextEditingController(
+        text: CurrencyPtBrInputFormatter.doubleToStr(widget.obj.pmAtivo));
     TextEditingController qtdController =
         TextEditingController(text: widget.obj.qtdAtivo?.toString());
-    TextEditingController stopGainController =
-        TextEditingController(text: widget.obj.stopGain?.toString());
-    TextEditingController stopLossController =
-        TextEditingController(text: widget.obj.stopLoss?.toString());
-    TextEditingController vlrInvestidoController =
-        TextEditingController(text: widget.obj.vlrInvestido?.toString());
+    TextEditingController stopGainController = TextEditingController(
+        text: CurrencyPtBrInputFormatter.doubleToStr(widget.obj.stopGain));
+    TextEditingController stopLossController = TextEditingController(
+        text: CurrencyPtBrInputFormatter.doubleToStr(widget.obj.stopLoss));
+    TextEditingController vlrInvestidoController = TextEditingController(
+        text: CurrencyPtBrInputFormatter.doubleToStr(widget.obj.vlrInvestido));
     return Scaffold(
       appBar: AppBar(
         actions: [
@@ -52,15 +53,16 @@ class _PageCadastroAtivo extends State<PageCadastroAtivo> {
 
                 Ativo createOrupdate = Ativo(
                     id: idController.text,
-                    pmAtivo: double.tryParse(pmController.text)?.toDouble(),
+                    pmAtivo: CurrencyPtBrInputFormatter.strToDouble(
+                        pmController.text),
                     qtdAtivo: double.tryParse(qtdController.text)?.toDouble(),
-                    stopGain:
-                        double.tryParse(stopGainController.text)?.toDouble(),
-                    stopLoss:
-                        double.tryParse(stopLossController.text)?.toDouble(),
+                    stopGain: CurrencyPtBrInputFormatter.strToDouble(
+                        stopGainController.text),
+                    stopLoss: CurrencyPtBrInputFormatter.strToDouble(
+                        stopLossController.text),
                     ticker: ticketController.text,
-                    vlrInvestido: double.tryParse(vlrInvestidoController.text)
-                        ?.toDouble());
+                    vlrInvestido: CurrencyPtBrInputFormatter.strToDouble(
+                        vlrInvestidoController.text));
 
                 await viewModel
                     .createOrUpdate(widget.obj.carteira.id, createOrupdate)
@@ -125,11 +127,14 @@ class _PageCadastroAtivo extends State<PageCadastroAtivo> {
                         enabled: false,
                         decoration: InputDecoration(labelText: 'ID'),
                       ),
-                      TextFormField(
-                        controller: idCarteiraController,
-                        readOnly: true,
-                        enabled: false,
-                        decoration: InputDecoration(labelText: 'ID Carteira'),
+                      Visibility(
+                        child: TextFormField(
+                          controller: idCarteiraController,
+                          readOnly: true,
+                          enabled: false,
+                          decoration: InputDecoration(labelText: 'ID Carteira'),
+                        ),
+                        visible: false,
                       ),
                       TextFormField(
                         controller: ticketController,
@@ -142,40 +147,54 @@ class _PageCadastroAtivo extends State<PageCadastroAtivo> {
                           return null;
                         },
                       ),
-                      TextFormField(
-                        controller: pmController,
-                        decoration: InputDecoration(labelText: 'Preço'),
-                        inputFormatters: [
-                          FilteringTextInputFormatter.allow(
-                              RegExp(r'^(\d+)?\.?\d{0,2}')),
-                        ],
-                        keyboardType: TextInputType.number,
-                        readOnly: true,
-                        enabled: false,
+                      Visibility(
+                        child: TextFormField(
+                          controller: pmController,
+                          decoration: InputDecoration(labelText: 'Preço'),
+                          inputFormatters: [
+                            FilteringTextInputFormatter.digitsOnly,
+                            CurrencyPtBrInputFormatter(maxDigits: 20)
+                          ],
+                          keyboardType: TextInputType.number,
+                          readOnly: true,
+                          enabled: false,
+                        ),
+                        visible: false,
                       ),
-                      TextFormField(
-                        controller: qtdController,
-                        decoration: InputDecoration(labelText: 'Quantidade'),
-                        inputFormatters: [
-                          FilteringTextInputFormatter.allow(
-                              RegExp(r'^(\d+)?\.?\d{0,2}')),
-                        ],
-                        keyboardType: TextInputType.number,
-                        readOnly: true,
-                        enabled: false,
+                      Visibility(
+                        child: TextFormField(
+                          controller: qtdController,
+                          decoration: InputDecoration(labelText: 'Quantidade'),
+                          inputFormatters: [
+                            FilteringTextInputFormatter.allow(
+                                RegExp(r'^(\d+)?\.?\d{0,2}')),
+                          ],
+                          keyboardType: TextInputType.number,
+                          readOnly: true,
+                          enabled: false,
+                        ),
+                        visible: false,
                       ),
-                      TextFormField(
-                        controller: vlrInvestidoController,
-                        readOnly: true,
-                        enabled: false,
-                        decoration: InputDecoration(labelText: 'Total'),
+                      Visibility(
+                        child: TextFormField(
+                          controller: vlrInvestidoController,
+                          readOnly: true,
+                          enabled: false,
+                          inputFormatters: [
+                            FilteringTextInputFormatter.digitsOnly,
+                            CurrencyPtBrInputFormatter(maxDigits: 20)
+                          ],
+                          keyboardType: TextInputType.number,
+                          decoration: InputDecoration(labelText: 'Total'),
+                        ),
+                        visible: false,
                       ),
                       TextFormField(
                         controller: stopLossController,
                         decoration: InputDecoration(labelText: 'Stop Loss'),
                         inputFormatters: [
-                          FilteringTextInputFormatter.allow(
-                              RegExp(r'^(\d+)?\.?\d{0,2}')),
+                          FilteringTextInputFormatter.digitsOnly,
+                          CurrencyPtBrInputFormatter(maxDigits: 20)
                         ],
                         keyboardType: TextInputType.number,
                       ),
@@ -183,8 +202,8 @@ class _PageCadastroAtivo extends State<PageCadastroAtivo> {
                         controller: stopGainController,
                         decoration: InputDecoration(labelText: 'Stop Gain'),
                         inputFormatters: [
-                          FilteringTextInputFormatter.allow(
-                              RegExp(r'^(\d+)?\.?\d{0,2}')),
+                          FilteringTextInputFormatter.digitsOnly,
+                          CurrencyPtBrInputFormatter(maxDigits: 20)
                         ],
                         keyboardType: TextInputType.number,
                       ),

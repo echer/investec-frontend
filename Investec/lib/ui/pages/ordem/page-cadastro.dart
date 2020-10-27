@@ -1,6 +1,7 @@
 import 'package:Investec/data/domain/ordem.dart';
 import 'package:Investec/data/service/service-locator.dart';
 import 'package:Investec/ui/pages/ordem/view-model.dart';
+import 'package:Investec/ui/utils/CurrencyPtBrInputFormatter.dart';
 import 'package:Investec/ui/utils/DialogUtils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -43,12 +44,13 @@ class _PageCadastroOrdem extends State<PageCadastroOrdem> {
         text:
             widget.obj.qtdOrdem != null ? widget.obj.qtdOrdem.toString() : "");
     TextEditingController vlrOrdemController = TextEditingController(
-        text:
-            widget.obj.vlrOrdem != null ? widget.obj.vlrOrdem.toString() : "");
+        text: widget.obj.vlrOrdem != null
+            ? CurrencyPtBrInputFormatter.doubleToStr(widget.obj.vlrOrdem)
+            : "R\$ 0.00");
     TextEditingController taxaOrdemController = TextEditingController(
         text: widget.obj.taxaOrdem != null
-            ? widget.obj.taxaOrdem.toString()
-            : "");
+            ? CurrencyPtBrInputFormatter.doubleToStr(widget.obj.taxaOrdem)
+            : "R\$ 0.00");
     return Scaffold(
       appBar: AppBar(
         actions: [
@@ -64,11 +66,11 @@ class _PageCadastroOrdem extends State<PageCadastroOrdem> {
                   id: idController.text,
                   dtOrdem: dtOrdemController.text,
                   qtdOrdem: int.tryParse(qtdOrdemController.text)?.toInt(),
-                  taxaOrdem:
-                      double.tryParse(taxaOrdemController.text)?.toDouble(),
+                  taxaOrdem: CurrencyPtBrInputFormatter.strToDouble(
+                      taxaOrdemController.text),
                   tipoOrdem: int.tryParse(tipoOrdemController.text)?.toInt(),
-                  vlrOrdem:
-                      double.tryParse(vlrOrdemController.text)?.toDouble(),
+                  vlrOrdem: CurrencyPtBrInputFormatter.strToDouble(
+                      vlrOrdemController.text),
                 );
 
                 await viewModel
@@ -119,45 +121,55 @@ class _PageCadastroOrdem extends State<PageCadastroOrdem> {
                                 enabled: false,
                                 decoration: InputDecoration(labelText: 'ID'),
                               ),
-                              TextFormField(
-                                controller: idCarteiraController,
-                                readOnly: true,
-                                enabled: false,
-                                decoration:
-                                    InputDecoration(labelText: 'ID Carteira'),
-                                validator: (value) {
-                                  if (value.isEmpty) {
-                                    return 'Informe o ID Carteira';
-                                  }
-                                  return null;
-                                },
+                              Visibility(
+                                child: TextFormField(
+                                  controller: idCarteiraController,
+                                  readOnly: true,
+                                  enabled: false,
+                                  decoration:
+                                      InputDecoration(labelText: 'ID Carteira'),
+                                  validator: (value) {
+                                    if (value.isEmpty) {
+                                      return 'Informe o ID Carteira';
+                                    }
+                                    return null;
+                                  },
+                                ),
+                                visible: false,
                               ),
-                              TextFormField(
-                                controller: idAtivoController,
-                                readOnly: true,
-                                enabled: false,
-                                decoration:
-                                    InputDecoration(labelText: 'ID Ativo'),
-                                validator: (value) {
-                                  if (value.isEmpty) {
-                                    return 'Informe o ID Ativo';
-                                  }
-                                  return null;
-                                },
+                              Visibility(
+                                child: TextFormField(
+                                  controller: idAtivoController,
+                                  readOnly: true,
+                                  enabled: false,
+                                  decoration:
+                                      InputDecoration(labelText: 'ID Ativo'),
+                                  validator: (value) {
+                                    if (value.isEmpty) {
+                                      return 'Informe o ID Ativo';
+                                    }
+                                    return null;
+                                  },
+                                ),
+                                visible: false,
                               ),
-                              TextFormField(
-                                controller: tipoOrdemController,
-                                readOnly: true,
-                                enabled: false,
-                                decoration: InputDecoration(
-                                    labelText: 'Tipo: 0 = COMPRA / 1 = VENDA'),
-                                maxLength: 1,
-                                validator: (value) {
-                                  if (value.isEmpty) {
-                                    return 'Informe o Tipo';
-                                  }
-                                  return null;
-                                },
+                              Visibility(
+                                child: TextFormField(
+                                  controller: tipoOrdemController,
+                                  readOnly: true,
+                                  enabled: false,
+                                  decoration: InputDecoration(
+                                      labelText:
+                                          'Tipo: 0 = COMPRA / 1 = VENDA'),
+                                  maxLength: 1,
+                                  validator: (value) {
+                                    if (value.isEmpty) {
+                                      return 'Informe o Tipo';
+                                    }
+                                    return null;
+                                  },
+                                ),
+                                visible: false,
                               ),
                               TextFormField(
                                 controller: qtdOrdemController,
@@ -180,14 +192,20 @@ class _PageCadastroOrdem extends State<PageCadastroOrdem> {
                                 decoration: InputDecoration(
                                     labelText: 'Valor Unitário'),
                                 inputFormatters: [
-                                  FilteringTextInputFormatter.allow(
-                                      RegExp(r'^(\d+)?\.?\d{0,2}')),
+                                  FilteringTextInputFormatter.digitsOnly,
+                                  CurrencyPtBrInputFormatter(maxDigits: 20)
                                 ],
                                 keyboardType: TextInputType.number,
                                 validator: (value) {
                                   if (value.isEmpty) {
                                     return 'Informe o Valor Unitário';
                                   }
+                                  if (CurrencyPtBrInputFormatter.strToDouble(
+                                          value) <=
+                                      0) {
+                                    return "Informe um Valor válido!";
+                                  }
+
                                   return null;
                                 },
                               ),
@@ -195,8 +213,8 @@ class _PageCadastroOrdem extends State<PageCadastroOrdem> {
                                 controller: taxaOrdemController,
                                 decoration: InputDecoration(labelText: 'Taxa'),
                                 inputFormatters: [
-                                  FilteringTextInputFormatter.allow(
-                                      RegExp(r'^(\d+)?\.?\d{0,2}')),
+                                  FilteringTextInputFormatter.digitsOnly,
+                                  CurrencyPtBrInputFormatter(maxDigits: 20)
                                 ],
                                 keyboardType: TextInputType.number,
                                 validator: (value) {

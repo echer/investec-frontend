@@ -1,5 +1,6 @@
 import 'package:Investec/data/domain/carteiraprecovm.dart';
 import 'package:Investec/ui/pages/ativos/page.dart';
+import 'package:Investec/ui/utils/CurrencyPtBrInputFormatter.dart';
 import 'package:flutter/material.dart';
 
 import 'page-cadastro.dart';
@@ -20,7 +21,7 @@ class ListaCarteiraItem extends StatelessWidget {
         overflow: TextOverflow.ellipsis,
       ),
       subtitle: Text(
-        'Saldo: R\$ ${model.saldoAtual} \nVariação: ${model.variacao}% \nMeta: R\$ ${model.carteira.metaCarteira} \nData: ${model.carteira.createdOn}',
+        'Saldo: ${CurrencyPtBrInputFormatter.doubleToStr(model.saldoAtual)} \nVariação: ${model.variacao}% \nMeta: ${CurrencyPtBrInputFormatter.doubleToStr(model.carteira.metaCarteira)} \nData: ${model.carteira.createdOn}',
         style: TextStyle(fontWeight: FontWeight.normal),
       ),
       trailing: IconButton(

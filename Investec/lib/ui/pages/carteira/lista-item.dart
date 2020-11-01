@@ -14,6 +14,7 @@ class ListaCarteiraItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    model.mostraCarteira = false;
     return ListTile(
       title: Text(
         '${model.carteira.nomeCarteira}',

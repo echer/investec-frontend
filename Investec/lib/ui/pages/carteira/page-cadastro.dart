@@ -33,8 +33,8 @@ class _PageCadastroCarteira extends State<PageCadastroCarteira> {
         TextEditingController(text: widget.obj.nomeCarteira);
     TextEditingController metaController = TextEditingController(
         text: CurrencyPtBrInputFormatter.doubleToStr(widget.obj.metaCarteira));
-    TextEditingController dtCriacaoController =
-        TextEditingController(text: widget.obj.createdOn);
+    TextEditingController dtCriacaoController = TextEditingController(
+        text: DateUtils.strIso8601ToStr(widget.obj.createdOn));
 
     return Scaffold(
       appBar: AppBar(
@@ -73,25 +73,31 @@ class _PageCadastroCarteira extends State<PageCadastroCarteira> {
           if (idController.text.isNotEmpty)
             IconButton(
               icon: Icon(Icons.delete),
-              onPressed: () async {
-                var dialog = DialogUtils(new GlobalKey<State>());
-                dialog.showLoadingDialog(context,
-                    message: "Realizando operação...");
+              onPressed: () {
+                DialogUtils(new GlobalKey<State>()).showExclusionDialog(
+                  context,
+                  () async {
+                    var dialog = DialogUtils(new GlobalKey<State>());
+                    dialog.showLoadingDialog(context,
+                        message: "Realizando operação...");
 
-                Carteira obj = Carteira(id: idController.text);
+                    Carteira obj = Carteira(id: idController.text);
 
-                await viewModel.delete(obj).then((value) {
-                  dialog.hideDialog();
-                  Navigator.pop(context, 'refresh');
-                }, onError: (error) {
-                  dialog.hideDialog();
-                  DialogUtils(new GlobalKey<State>()).showAlertDialog(
-                      context, "Atenção", "Ocorreu um erro: $error");
-                }).catchError((error) {
-                  dialog.hideDialog();
-                  DialogUtils(new GlobalKey<State>()).showAlertDialog(
-                      context, "Atenção", "Ocorreu um erro: $error");
-                });
+                    await viewModel.delete(obj).then((value) {
+                      dialog.hideDialog();
+                      Navigator.pop(context, 'refresh');
+                    }, onError: (error) {
+                      dialog.hideDialog();
+                      DialogUtils(new GlobalKey<State>()).showAlertDialog(
+                          context, "Atenção", "Ocorreu um erro: $error");
+                    }).catchError((error) {
+                      dialog.hideDialog();
+                      DialogUtils(new GlobalKey<State>()).showAlertDialog(
+                          context, "Atenção", "Ocorreu um erro: $error");
+                    });
+                  },
+                  () {},
+                );
               },
             ),
         ],

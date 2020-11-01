@@ -12,6 +12,9 @@ class AtivoPrecoVM {
 
   AtivoPrecoVM({
     this.ativo,
+    this.precoAtual,
+    this.variacao,
+    this.saldoAtual,
   });
 
   factory AtivoPrecoVM.fromJson(Map<String, dynamic> json) =>

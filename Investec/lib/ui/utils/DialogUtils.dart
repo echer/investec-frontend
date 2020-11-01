@@ -5,6 +5,49 @@ class DialogUtils {
 
   DialogUtils(this.key);
 
+  showExclusionDialog(BuildContext context, VoidCallback confirmCallback,
+      VoidCallback cancelCallback) {
+    showAlertConfirmationDialog(
+        context,
+        "Esta operação é irreversível, tem certeza que deseja excluir?",
+        confirmCallback,
+        cancelCallback);
+  }
+
+  showAlertConfirmationDialog(BuildContext context, String message,
+      VoidCallback confirmCallback, VoidCallback cancelCallback) {
+    // set up the button
+    Widget okButton = FlatButton(
+      child: Text("Confirmar"),
+      onPressed: () {
+        hideDialog();
+        confirmCallback();
+      },
+    );
+    Widget cancelButton = FlatButton(
+      child: Text("Cancelar"),
+      onPressed: () {
+        hideDialog();
+        cancelCallback();
+      },
+    );
+    AlertDialog alert = AlertDialog(
+      key: key,
+      title: Text("Atenção"),
+      content: Text(message),
+      actions: [
+        okButton,
+        cancelButton,
+      ],
+    ); // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
   showAlertDialog(BuildContext context, String title, String message) {
     // set up the button
     Widget okButton = FlatButton(

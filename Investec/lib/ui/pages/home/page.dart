@@ -22,7 +22,7 @@ class PageHome extends StatefulWidget {
   const PageHome(this.usuario);
 
   @override
-  _PageHome createState() => _PageHome();
+  _PageHome createState() => _PageHome(this.usuario);
 }
 
 class _PageHome extends State<PageHome> {
@@ -31,8 +31,8 @@ class _PageHome extends State<PageHome> {
   bool loading = false;
   Usuario usuarioUpdated;
 
-  _PageHome() {
-    usuarioUpdated = widget.usuario;
+  _PageHome(Usuario usuario) {
+    usuarioUpdated = usuario;
   }
 
   @override
@@ -132,6 +132,7 @@ class _PageHome extends State<PageHome> {
                     Navigator.of(context).pushNamed(
                       PageAtivosCarteira.routeName,
                       arguments: CarteiraPrecoVM(
+                        mostraCarteira: true,
                         carteira: Carteira(
                           id: 'all',
                           nomeCarteira: 'Todas',

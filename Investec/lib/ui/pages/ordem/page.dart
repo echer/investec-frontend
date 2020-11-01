@@ -123,7 +123,7 @@ class _PageOrdensAtivo extends State<PageOrdensAtivo> {
                 Ordem obj = new Ordem(
                   ativosCarteira: widget.model.ativo,
                   tipoOrdem: 0,
-                  createdOn: DateUtils.dateToStr(DateTime.now()),
+                  createdOn: DateTime.now().toIso8601String(),
                 );
                 final information = await Navigator.of(context)
                     .pushNamed(PageCadastroOrdem.routeName, arguments: obj);
@@ -142,7 +142,7 @@ class _PageOrdensAtivo extends State<PageOrdensAtivo> {
                 Ordem obj = new Ordem(
                   ativosCarteira: widget.model.ativo,
                   tipoOrdem: 1,
-                  createdOn: DateUtils.dateToStr(DateTime.now()),
+                  createdOn: DateTime.now().toIso8601String(),
                 );
                 final information = await Navigator.of(context)
                     .pushNamed(PageCadastroOrdem.routeName, arguments: obj);

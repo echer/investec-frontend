@@ -8,16 +8,19 @@ import 'page-cadastro.dart';
 
 class ListaAtivoItem extends StatelessWidget {
   final AtivoPrecoVM model;
+  final bool mostraCarteira;
 
   final VoidCallback onCountSelected;
 
-  ListaAtivoItem(this.model, this.onCountSelected);
+  ListaAtivoItem(this.model, this.mostraCarteira, this.onCountSelected);
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
       title: Text(
-        '${model.ativo.ticker} (${model.ativo.carteira.nomeCarteira})',
+        mostraCarteira
+            ? '${model.ativo.carteira.nomeCarteira} \n${model.ativo.ticker}'
+            : '${model.ativo.ticker}',
         style: TextStyle(fontWeight: FontWeight.w400),
         maxLines: 2,
         overflow: TextOverflow.ellipsis,

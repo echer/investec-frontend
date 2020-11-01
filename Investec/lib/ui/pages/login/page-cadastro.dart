@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:Investec/data/domain/usuario.dart';
 import 'package:Investec/data/service/service-locator.dart';
 import 'package:Investec/ui/utils/DialogUtils.dart';
@@ -87,23 +89,29 @@ class _PageCadastroUsuario extends State<PageCadastroUsuario> {
           if (idController.text.isNotEmpty)
             IconButton(
               icon: Icon(Icons.delete),
-              onPressed: () async {
-                var dialog = DialogUtils(new GlobalKey<State>());
-                dialog.showLoadingDialog(context,
-                    message: "Realizando operação...");
+              onPressed: () {
+                DialogUtils(new GlobalKey<State>()).showExclusionDialog(
+                  context,
+                  () async {
+                    var dialog = DialogUtils(new GlobalKey<State>());
+                    dialog.showLoadingDialog(context,
+                        message: "Realizando operação...");
 
-                await viewModel.delete().then((value) {
-                  dialog.hideDialog();
-                  Navigator.pop(context, 'refresh');
-                }, onError: (error) {
-                  dialog.hideDialog();
-                  DialogUtils(new GlobalKey<State>()).showAlertDialog(
-                      context, "Atenção", "Ocorreu um erro: $error");
-                }).catchError((error) {
-                  dialog.hideDialog();
-                  DialogUtils(new GlobalKey<State>()).showAlertDialog(
-                      context, "Atenção", "Ocorreu um erro: $error");
-                });
+                    await viewModel.delete().then((value) {
+                      dialog.hideDialog();
+                      exit(0);
+                    }, onError: (error) {
+                      dialog.hideDialog();
+                      DialogUtils(new GlobalKey<State>()).showAlertDialog(
+                          context, "Atenção", "Ocorreu um erro: $error");
+                    }).catchError((error) {
+                      dialog.hideDialog();
+                      DialogUtils(new GlobalKey<State>()).showAlertDialog(
+                          context, "Atenção", "Ocorreu um erro: $error");
+                    });
+                  },
+                  () {},
+                );
               },
             ),
         ],

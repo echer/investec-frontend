@@ -111,8 +111,7 @@ class _PageCarteira extends State<PageCarteira> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
-          Carteira obj =
-              Carteira(createdOn: DateUtils.dateToStr(DateTime.now()));
+          Carteira obj = Carteira(createdOn: DateTime.now().toIso8601String());
           final information = await Navigator.of(context)
               .pushNamed(PageCadastroCarteira.routeName, arguments: obj);
           if (information != null && information == "refresh") {

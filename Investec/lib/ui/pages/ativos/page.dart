@@ -95,6 +95,7 @@ class _PageAtivosCarteira extends State<PageAtivosCarteira> {
                             Card(
                               child: ListaAtivoItem(
                                 model.ativos[index],
+                                widget.model.mostraCarteira,
                                 onCountSelected,
                               ),
                             ),

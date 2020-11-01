@@ -11,10 +11,10 @@ AtivoPrecoVM _$AtivoPrecoVMFromJson(Map<String, dynamic> json) {
     ativo: json['ativo'] == null
         ? null
         : Ativo.fromJson(json['ativo'] as Map<String, dynamic>),
-  )
-    ..precoAtual = (json['precoAtual'] as num)?.toDouble()
-    ..variacao = (json['variacao'] as num)?.toDouble()
-    ..saldoAtual = (json['saldoAtual'] as num)?.toDouble();
+    precoAtual: (json['precoAtual'] as num)?.toDouble(),
+    variacao: (json['variacao'] as num)?.toDouble(),
+    saldoAtual: (json['saldoAtual'] as num)?.toDouble(),
+  );
 }
 
 Map<String, dynamic> _$AtivoPrecoVMToJson(AtivoPrecoVM instance) {

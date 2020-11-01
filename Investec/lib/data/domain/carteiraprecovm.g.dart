@@ -11,10 +11,11 @@ CarteiraPrecoVM _$CarteiraPrecoVMFromJson(Map<String, dynamic> json) {
     carteira: json['carteira'] == null
         ? null
         : Carteira.fromJson(json['carteira'] as Map<String, dynamic>),
-  )
-    ..variacao = (json['variacao'] as num)?.toDouble()
-    ..saldoAtual = (json['saldoAtual'] as num)?.toDouble()
-    ..vlrInvestido = (json['vlrInvestido'] as num)?.toDouble();
+    variacao: (json['variacao'] as num)?.toDouble(),
+    saldoAtual: (json['saldoAtual'] as num)?.toDouble(),
+    vlrInvestido: (json['vlrInvestido'] as num)?.toDouble(),
+    mostraCarteira: json['mostraCarteira'] as bool,
+  );
 }
 
 Map<String, dynamic> _$CarteiraPrecoVMToJson(CarteiraPrecoVM instance) {
@@ -30,5 +31,6 @@ Map<String, dynamic> _$CarteiraPrecoVMToJson(CarteiraPrecoVM instance) {
   writeNotNull('variacao', instance.variacao);
   writeNotNull('saldoAtual', instance.saldoAtual);
   writeNotNull('vlrInvestido', instance.vlrInvestido);
+  writeNotNull('mostraCarteira', instance.mostraCarteira);
   return val;
 }

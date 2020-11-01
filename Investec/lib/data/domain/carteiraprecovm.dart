@@ -10,8 +10,15 @@ class CarteiraPrecoVM {
   double variacao;
   double saldoAtual;
   double vlrInvestido;
+  bool mostraCarteira;
 
-  CarteiraPrecoVM({this.carteira});
+  CarteiraPrecoVM({
+    this.carteira,
+    this.variacao,
+    this.saldoAtual,
+    this.vlrInvestido,
+    this.mostraCarteira,
+  });
 
   factory CarteiraPrecoVM.fromJson(Map<String, dynamic> json) =>
       _$CarteiraPrecoVMFromJson(json);

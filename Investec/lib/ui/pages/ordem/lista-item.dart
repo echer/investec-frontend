@@ -37,24 +37,31 @@ class ListaOrdemItem extends StatelessWidget {
           color: Colors.green,
           size: 30,
         ),
-        onPressed: () async {
-          var dialog = DialogUtils(new GlobalKey<State>());
-          dialog.showLoadingDialog(context, message: "Realizando operação...");
-          await viewModel
-              .delete(model.ativosCarteira.carteira.id, model.ativosCarteira.id,
-                  model)
-              .then((value) {
-            dialog.hideDialog();
-            onCountSelected();
-          }, onError: (error) {
-            dialog.hideDialog();
-            DialogUtils(new GlobalKey<State>())
-                .showAlertDialog(context, "Atenção", "Ocorreu um erro: $error");
-          }).catchError((error) {
-            dialog.hideDialog();
-            DialogUtils(new GlobalKey<State>())
-                .showAlertDialog(context, "Atenção", "Ocorreu um erro: $error");
-          });
+        onPressed: () {
+          DialogUtils(new GlobalKey<State>()).showExclusionDialog(
+            context,
+            () async {
+              var dialog = DialogUtils(new GlobalKey<State>());
+              dialog.showLoadingDialog(context,
+                  message: "Realizando operação...");
+              await viewModel
+                  .delete(model.ativosCarteira.carteira.id,
+                      model.ativosCarteira.id, model)
+                  .then((value) {
+                dialog.hideDialog();
+                onCountSelected();
+              }, onError: (error) {
+                dialog.hideDialog();
+                DialogUtils(new GlobalKey<State>()).showAlertDialog(
+                    context, "Atenção", "Ocorreu um erro: $error");
+              }).catchError((error) {
+                dialog.hideDialog();
+                DialogUtils(new GlobalKey<State>()).showAlertDialog(
+                    context, "Atenção", "Ocorreu um erro: $error");
+              });
+            },
+            () {},
+          );
         },
       ),
       onTap: () {},

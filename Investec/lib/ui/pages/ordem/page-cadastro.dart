@@ -39,8 +39,8 @@ class _PageCadastroOrdem extends State<PageCadastroOrdem> {
         text: widget.obj.tipoOrdem != null
             ? widget.obj.tipoOrdem.toString()
             : "");
-    TextEditingController dtOrdemController =
-        TextEditingController(text: widget.obj.createdOn);
+    TextEditingController dtOrdemController = TextEditingController(
+        text: DateUtils.strIso8601ToStr(widget.obj.createdOn));
     TextEditingController qtdOrdemController = TextEditingController(
         text:
             widget.obj.qtdOrdem != null ? widget.obj.qtdOrdem.toString() : "");

@@ -17,7 +17,7 @@ class ListaAtivoItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       title: Text(
-        '${model.ativo.ticker} (Carteira: ${model.ativo.carteira.nomeCarteira})',
+        '${model.ativo.ticker} (${model.ativo.carteira.nomeCarteira})',
         style: TextStyle(fontWeight: FontWeight.w400),
         maxLines: 2,
         overflow: TextOverflow.ellipsis,

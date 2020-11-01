@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:Investec/data/service/service-locator.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -32,12 +33,20 @@ Future<void> main() async {
         prefs.getString("usuario").isEmpty ||
         !prefs.containsKey("senha") ||
         prefs.getString("senha").isEmpty) {
-      runApp(LoginApp());
+      runApp(
+        Phoenix(
+          child: LoginApp(),
+        ),
+      );
       return;
     }
     var valid = await validKey(prefs.getString("token"));
     if (!valid) {
-      runApp(LoginApp());
+      runApp(
+        Phoenix(
+          child: LoginApp(),
+        ),
+      );
       return;
     }
 
@@ -49,7 +58,13 @@ Future<void> main() async {
     );
     await model.login(usuario).then(
       (loginSuccess) {
-        runApp(App(loginSuccess.usuario));
+        runApp(
+          Phoenix(
+            child: App(
+              loginSuccess.usuario,
+            ),
+          ),
+        );
       },
       onError: (error) {
         print(error);

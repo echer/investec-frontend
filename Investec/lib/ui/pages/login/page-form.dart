@@ -3,6 +3,7 @@ import 'package:Investec/data/domain/usuario.dart';
 import 'package:Investec/data/service/service-locator.dart';
 import 'package:Investec/ui/utils/DialogUtils.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'page-cadastro.dart';
@@ -93,7 +94,11 @@ class _LoginPageForm extends State<LoginPageForm> {
                                     prefs.setString("logged", "S");
                                     prefs.setString(
                                         "token", loginSuccess.token);
-                                    runApp(App(loginSuccess.usuario));
+                                    runApp(
+                                      Phoenix(
+                                        child: App(loginSuccess.usuario),
+                                      ),
+                                    );
                                   },
                                   onError: (error) {
                                     dialog.hideDialog();

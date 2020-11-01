@@ -7,9 +7,11 @@ import 'package:Investec/ui/pages/ativos/page.dart';
 import 'package:Investec/ui/pages/carteira/page.dart';
 import 'package:Investec/ui/pages/carteira/view-model.dart';
 import 'package:Investec/ui/pages/grafico-carteira/grafico-pizza-carteira.dart';
+import 'package:Investec/ui/pages/login/page-cadastro.dart';
 import 'package:Investec/ui/pages/shimmer/lista-shimmer.dart';
 import 'package:Investec/ui/utils/DialogUtils.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -27,6 +29,11 @@ class _PageHome extends State<PageHome> {
   CarteiraViewModel model = getIt<CarteiraViewModel>();
 
   bool loading = false;
+  Usuario usuarioUpdated;
+
+  _PageHome() {
+    usuarioUpdated = widget.usuario;
+  }
 
   @override
   void initState() {
@@ -70,12 +77,12 @@ class _PageHome extends State<PageHome> {
     SharedPreferences prefs = getIt<SharedPreferences>();
 
     var userAccountDrawer = UserAccountsDrawerHeader(
-      accountName: Text("${widget.usuario.nome}"),
-      accountEmail: Text("${widget.usuario.email}"),
+      accountName: Text("${usuarioUpdated.nome}"),
+      accountEmail: Text("${usuarioUpdated.email}"),
       currentAccountPicture: CircleAvatar(
         backgroundColor: Colors.white,
         child: Text(
-          "${widget.usuario.nome.substring(0, 1).toUpperCase()}",
+          "${usuarioUpdated.nome.substring(0, 1).toUpperCase()}",
           style: TextStyle(fontSize: 40.0),
         ),
       ),
@@ -83,8 +90,8 @@ class _PageHome extends State<PageHome> {
     var hasProfileImage = false;
     if (hasProfileImage) {
       userAccountDrawer = UserAccountsDrawerHeader(
-        accountName: Text("${widget.usuario.nome}"),
-        accountEmail: Text("${widget.usuario.email}"),
+        accountName: Text("${usuarioUpdated.nome}"),
+        accountEmail: Text("${usuarioUpdated.email}"),
         currentAccountPicture: new CircleAvatar(
           backgroundImage:
               NetworkImage("http://tineye.com/images/widgets/mona.jpg"),
@@ -146,8 +153,16 @@ class _PageHome extends State<PageHome> {
               children: <Widget>[
                 ListTile(
                   leading: Icon(Icons.account_circle_outlined),
-                  title: Text('Editar Perfil (TODO)'),
-                  onTap: () {},
+                  title: Text('Editar Perfil'),
+                  onTap: () async {
+                    var usuarioAtualizado = await Navigator.of(context)
+                        .pushNamed(PageCadastroUsuario.routeName,
+                            arguments: usuarioUpdated);
+                    if (usuarioAtualizado != null) {
+                      usuarioUpdated = usuarioAtualizado;
+                      Phoenix.rebirth(context);
+                    }
+                  },
                 ),
                 ListTile(
                   leading: Icon(Icons.exit_to_app),
@@ -155,7 +170,11 @@ class _PageHome extends State<PageHome> {
                   onTap: () async {
                     prefs.setString("logged", "");
                     prefs.setString("token", "");
-                    runApp(LoginApp());
+                    runApp(
+                      Phoenix(
+                        child: LoginApp(),
+                      ),
+                    );
                   },
                 ),
               ],

@@ -139,6 +139,8 @@ class _PageCadastroUsuario extends State<PageCadastroUsuario> {
                       ),
                       TextFormField(
                         controller: cpfController,
+                        readOnly: idController.text.isNotEmpty,
+                        enabled: idController.text.isEmpty,
                         decoration: InputDecoration(labelText: 'CPF'),
                         validator: (value) {
                           if (value.isEmpty) {
@@ -149,6 +151,8 @@ class _PageCadastroUsuario extends State<PageCadastroUsuario> {
                       ),
                       TextFormField(
                         controller: emailController,
+                        readOnly: idController.text.isNotEmpty,
+                        enabled: idController.text.isEmpty,
                         decoration: InputDecoration(labelText: 'E-mail'),
                         validator: (value) {
                           if (value.isEmpty) {

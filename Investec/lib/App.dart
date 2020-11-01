@@ -2,6 +2,7 @@ import 'package:Investec/ui/pages/ativos/page-cadastro.dart';
 import 'package:Investec/ui/pages/carteira/page-cadastro.dart';
 import 'package:Investec/ui/pages/carteira/page.dart';
 import 'package:Investec/ui/pages/home/page.dart';
+import 'package:Investec/ui/pages/login/page-cadastro.dart';
 import 'package:Investec/ui/pages/ordem/page-cadastro.dart';
 import 'package:Investec/ui/pages/ordem/page.dart';
 import 'package:flutter/material.dart';
@@ -36,6 +37,8 @@ class App extends StatelessWidget {
               PageCadastroCarteira(settings.arguments),
           PageCadastroAtivo.routeName: (context) =>
               PageCadastroAtivo(settings.arguments),
+          PageCadastroUsuario.routeName: (context) =>
+              PageCadastroUsuario(settings.arguments),
           PageCadastroOrdem.routeName: (context) =>
               PageCadastroOrdem(settings.arguments),
         };

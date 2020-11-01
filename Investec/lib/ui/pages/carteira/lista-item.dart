@@ -16,9 +16,9 @@ class ListaCarteiraItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       title: Text(
-        'Carteira: ${model.carteira.nomeCarteira}',
+        '${model.carteira.nomeCarteira}',
         style: TextStyle(fontWeight: FontWeight.w400),
-        maxLines: 1,
+        maxLines: 2,
         overflow: TextOverflow.ellipsis,
       ),
       subtitle: Text(

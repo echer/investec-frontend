@@ -63,12 +63,6 @@ class _PageCarteira extends State<PageCarteira> {
 
     return Scaffold(
       appBar: AppBar(
-        actions: [
-          IconButton(
-            icon: Icon(Icons.more_vert),
-            onPressed: () {},
-          ),
-        ],
         title: Text('Carteiras'),
       ),
       body: SafeArea(

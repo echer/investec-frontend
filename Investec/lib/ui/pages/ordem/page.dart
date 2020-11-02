@@ -70,12 +70,6 @@ class _PageOrdensAtivo extends State<PageOrdensAtivo> {
     };
     return Scaffold(
       appBar: AppBar(
-        actions: [
-          IconButton(
-            icon: Icon(Icons.more_vert),
-            onPressed: () {},
-          ),
-        ],
         title: Text('Ordens: ${widget.model.ativo.ticker}'),
       ),
       body: SafeArea(

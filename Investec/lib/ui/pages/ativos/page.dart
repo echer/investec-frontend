@@ -67,12 +67,6 @@ class _PageAtivosCarteira extends State<PageAtivosCarteira> {
     };
     return Scaffold(
       appBar: AppBar(
-        actions: [
-          IconButton(
-            icon: Icon(Icons.more_vert),
-            onPressed: () {},
-          ),
-        ],
         title: Text('Ativos: ${widget.model.carteira.nomeCarteira}'),
       ),
       body: SafeArea(

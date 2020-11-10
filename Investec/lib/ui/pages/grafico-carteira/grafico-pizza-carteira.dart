@@ -37,7 +37,7 @@ class GraficoPizzaCarteira extends StatelessWidget {
       //          insideLabelStyleSpec: new charts.TextStyleSpec(...),
       //          outsideLabelStyleSpec: new charts.TextStyleSpec(...)),
       defaultRenderer: new charts.ArcRendererConfig(
-        arcWidth: 60,
+        arcWidth: 110,
         arcRendererDecorators: [
           new charts.ArcLabelDecorator(
             showLeaderLines: true,

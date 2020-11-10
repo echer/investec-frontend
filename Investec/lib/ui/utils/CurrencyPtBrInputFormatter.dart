@@ -12,9 +12,13 @@ class CurrencyPtBrInputFormatter extends TextInputFormatter {
   }
 
   static doubleToStr(double value) {
-    if (value == null) return "R\$ 0.00";
+    return "R\$ " + doubleToStrNoCurrency(value);
+  }
+
+  static doubleToStrNoCurrency(double value) {
+    if (value == null) return "0.00";
     final formatter = new NumberFormat("#,##0.00", "pt_BR");
-    String newText = "R\$ " + formatter.format(value);
+    String newText = formatter.format(value);
     return newText;
   }
 

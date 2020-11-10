@@ -23,7 +23,7 @@ class ListaCarteiraItem extends StatelessWidget {
         overflow: TextOverflow.ellipsis,
       ),
       subtitle: Text(
-        'Saldo: ${CurrencyPtBrInputFormatter.doubleToStr(model.saldoAtual)} \nVariação: ${model.variacao}% \nMeta: ${CurrencyPtBrInputFormatter.doubleToStr(model.carteira.metaCarteira)} \nData: ${DateUtils.strIso8601ToStr(model.carteira.createdOn)}',
+        'Saldo: ${CurrencyPtBrInputFormatter.doubleToStr(model.saldoAtual)} \nVariação: ${CurrencyPtBrInputFormatter.doubleToStrNoCurrency(model.variacao)}% \nMeta: ${CurrencyPtBrInputFormatter.doubleToStr(model.carteira.metaCarteira)} \nData: ${DateUtils.strIso8601ToStr(model.carteira.createdOn)}',
         style: TextStyle(fontWeight: FontWeight.normal),
       ),
       trailing: IconButton(
